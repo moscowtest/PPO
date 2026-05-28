@@ -215,10 +215,12 @@
       gap: 18px;
       padding: 24px;
       align-items: flex-end;
+      position: relative;
     }
     .field {
       flex: 1;
       min-width: 130px;
+      position: relative;
     }
     .field label {
       display: block;
@@ -237,6 +239,31 @@
       font-family: inherit;
       font-size: 0.9rem;
       outline: none;
+    }
+    /* Стили для выпадающего списка автоподстановки */
+    .autocomplete-list {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: rgba(20, 20, 40, 0.95);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      max-height: 200px;
+      overflow-y: auto;
+      z-index: 100;
+      margin-top: 4px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+    .autocomplete-list div {
+      padding: 10px 16px;
+      cursor: pointer;
+      transition: 0.1s;
+      border-radius: 16px;
+      margin: 2px 4px;
+    }
+    .autocomplete-list div:hover {
+      background: rgba(255,255,255,0.15);
     }
     button {
       background: rgba(100, 108, 255, 0.8);
@@ -405,14 +432,14 @@
             </div>
             <h3>🏠 Дома</h3>
             <div class="tags-list">
-              123<br>123<br>123<br>123<br>123
+              Коттедж<br>Особняк<br>Таунхаус<br>Частный дом
             </div>
           </div>
           <div class="legend-col">
             <h3>👔 Бренды</h3>
-            <div class="tags-list">Бренд1 · Бренд2 ·  ·  ·  ·  ·  ·  ·  · </div>
+            <div class="tags-list">Gucci · LV · Nike · Adidas · Versace · Balenciaga</div>
             <h3>🚗 Марки авто</h3>
-            <div class="tags-list">Приора ·  ·  ·  ·  ·  ·  ·  ·  · </div>
+            <div class="tags-list">BMW · Mercedes · Audi · Toyota · Lexus · Porsche · Lada · Приора</div>
           </div>
         </div>
       </div>
@@ -446,9 +473,13 @@
       <div class="constructor-panel">
         <div class="field"><label>Действие</label><select id="constructorAction"><option>Куплю</option><option>Продам</option></select></div>
         <div class="field"><label>Тип</label><select id="constructorType"><option>а/м</option><option>квартиру</option><option>дом</option><option>мотоцикл</option></select></div>
-        <div class="field"><label>Модель/Название</label><input id="constructorModel" placeholder="BMW X6, ЖК Центральный, особняк"></div>
-        <div class="field"><label>Тюнинг/Опции</label><select id="constructorTuning"><option value="">—</option><option>FT</option><option>ET</option><option>DT</option><option>Размер склада NхN</option><option>Размер склада NхN</option><option>г/м</option></select></div>
-        <div class="field"><label>Цена/Бюджет</label><input id="constructorPrice" placeholder="1.000.000 рублей."></div>
+        <div class="field" style="position: relative;">
+          <label>Модель/Название</label>
+          <input id="constructorModel" placeholder="BMW X6, ЖК Центральный, особняк" autocomplete="off">
+          <div id="autocompleteList" class="autocomplete-list" style="display: none;"></div>
+        </div>
+        <div class="field"><label>Тюнинг/Опции</label><select id="constructorTuning"><option value="">—</option><option>FT</option><option>ET</option><option>DT</option><option>Размер склада 5х36</option><option>Размер склада 10х50</option><option>г/м</option></select></div>
+        <div class="field"><label>Цена/Бюджет</label><input id="constructorPrice" placeholder="1.000.000"></div>
         <div class="field"><label>Торг/Обмен</label><select id="constructorTrade"><option value="">—</option><option>Возможен торг</option><option>Возможен обмен</option></select></div>
       </div>
       <div class="result-block" id="constructedText">📋 Соберите объявление</div>
@@ -551,16 +582,69 @@
 
   // ========== ОБЪЯВЛЕНИЯ ==========
   const adsCatalog = {
-    "auto-buy":   [""],
-    "auto-sell":  [""],
-    "home-buy":   [""],
-    "home-sell":  [""],
-    "cloth-buy":  [""],
-    "cloth-sell": [""],
-    "moto-buy":   [""],
-    "service":    [""],
-    "hello":      ["Привет фракции Уральск Лайв!","123"]
+    "auto-buy":   ["Куплю BMW X6", "Куплю Mercedes G-Class", "Куплю Audi RS6", "Куплю Toyota Land Cruiser"],
+    "auto-sell":  ["Продам Lada Priora", "Продам BMW M5", "Продам Lexus RX350", "Продам Porsche 911"],
+    "home-buy":   ["Куплю ЖК Центральный", "Куплю особняк", "Куплю квартиру в центре"],
+    "home-sell":  ["Продам ЖК Московский", "Продам таунхаус", "Продам частный дом"],
+    "cloth-buy":  ["Куплю Gucci свитер", "Куплю Nike кроссовки"],
+    "cloth-sell": ["Продам Adidas худи", "Продам LV сумку"],
+    "moto-buy":   ["Куплю Harley Davidson", "Куплю Yamaha R1"],
+    "service":    ["Услуги механика", "Ремонт авто"],
+    "hello":      ["Привет фракции Уральск Лайв!", "Всем привет от старичков!"]
   };
+  
+  // Собираем все названия моделей для автоподстановки
+  function getAllModelNames() {
+    const models = [];
+    for (const [key, arr] of Object.entries(adsCatalog)) {
+      for (const text of arr) {
+        // Извлекаем ключевые слова из объявлений
+        const words = text.split(' ');
+        for (const word of words) {
+          if (word.length > 2 && !['Куплю', 'Продам', 'а/м', 'квартиру', 'дом', 'мотоцикл'].includes(word)) {
+            models.push(word.replace(/[.,!?;:]/g, ''));
+          }
+        }
+      }
+    }
+    // Добавляем справочные названия
+    const refModels = ['BMW', 'Mercedes', 'Audi', 'Toyota', 'Lexus', 'Porsche', 'Lada', 'Priora', 
+                       'ЖК Центральный', 'ЖК Московский', 'ЖК Речной', 'особняк', 'таунхаус', 
+                       'квартиру', 'дом', 'мотоцикл', 'Harley', 'Yamaha', 'Gucci', 'Nike', 'Adidas'];
+    return [...new Set([...models, ...refModels])];
+  }
+  
+  const modelSuggestions = getAllModelNames();
+  
+  // Автоподстановка
+  const modelInput = document.getElementById('constructorModel');
+  const autocompleteList = document.getElementById('autocompleteList');
+  
+  modelInput.addEventListener('input', (e) => {
+    const value = e.target.value.toLowerCase().trim();
+    if (value.length < 2) {
+      autocompleteList.style.display = 'none';
+      return;
+    }
+    const filtered = modelSuggestions.filter(s => s.toLowerCase().includes(value));
+    if (filtered.length > 0) {
+      autocompleteList.innerHTML = filtered.map(s => `<div onclick="selectModel('${s.replace(/'/g, "\\'")}')">${s}</div>`).join('');
+      autocompleteList.style.display = 'block';
+    } else {
+      autocompleteList.style.display = 'none';
+    }
+  });
+  
+  window.selectModel = (model) => {
+    modelInput.value = model;
+    autocompleteList.style.display = 'none';
+  };
+  
+  document.addEventListener('click', (e) => {
+    if (e.target !== modelInput) {
+      autocompleteList.style.display = 'none';
+    }
+  });
   
   function renderAllAds() {
     for (const [key, arr] of Object.entries(adsCatalog)) {
@@ -574,7 +658,7 @@
   renderAllAds();
 
   // ========== ПОИСК ==========
-  const searchBase = [];
+  const searchBase = ['BMW - Бумер', 'Mercedes - МБ', 'Audi - Аудитор', 'FT - полный тюнинг', 'Gucci - Гуччи'];
   const searchInput = document.getElementById('globalSearch');
   const resultDiv = document.getElementById('searchResultList');
   searchInput.addEventListener('input', (e) => {
@@ -587,18 +671,32 @@
     } else resultDiv.innerHTML = '<div style="padding: 12px;">❌ Не найдено</div>';
   });
 
-  // ========== КОНСТРУКТОР (С ТОЧКАМИ) ==========
+  // ========== КОНСТРУКТОР (С ТОЧКАМИ И РУБЛЯМИ) ==========
   const genBtn = document.getElementById('generateConstructBtn');
   const copyConstruct = document.getElementById('copyConstructBtn');
   const constructedDivElem = document.getElementById('constructedText');
+  const actionSelect = document.getElementById('constructorAction');
   
   function isAnyModel(model) {
     const anyWords = ['любой', 'любую', 'любая', 'любое', 'любого'];
     return anyWords.some(word => model.toLowerCase().includes(word));
   }
   
+  function formatPrice(price, action) {
+    if (!price) return '';
+    // Если цена — это число или содержит цифры
+    if (/\d/.test(price)) {
+      if (action === 'Продам') {
+        return `Цена: ${price} рублей.`;
+      } else {
+        return `Бюджет: ${price} рублей.`;
+      }
+    }
+    return `Цена: ${price}.`;
+  }
+  
   genBtn.addEventListener('click', () => {
-    const action = document.getElementById('constructorAction').value;
+    const action = actionSelect.value;
     const type = document.getElementById('constructorType').value;
     let model = document.getElementById('constructorModel').value.trim();
     const tuning = document.getElementById('constructorTuning').value;
@@ -617,12 +715,12 @@
       parts.push(tuning + '.');
     }
     
-    // Цена/бюджет с точкой в конце
+    // Цена/бюджет с точкой в конце (с рублей для Продам)
     if(price) {
       if(isAnyModel(model)) {
         parts.push(`Цена: Договорная.`);
       } else {
-        parts.push(`Цена: ${price}.`);
+        parts.push(formatPrice(price, action));
       }
     } else if(isAnyModel(model)) {
       parts.push(`Бюджет: Свободный.`);
