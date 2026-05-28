@@ -343,17 +343,23 @@
       padding: 10px 24px;
       border-radius: 40px;
       font-size: 1rem;
+      cursor: pointer;
     }
     .dropdown-list {
       display: none;
       position: absolute;
       right: 0;
+      top: 100%;
+      margin-top: 8px;
       background: rgba(20, 20, 40, 0.95);
       backdrop-filter: blur(12px);
       border-radius: 28px;
       min-width: 210px;
       padding: 8px;
       z-index: 101;
+    }
+    .dropdown-list.show {
+      display: block;
     }
     .dropdown-list a {
       display: block;
@@ -500,16 +506,36 @@
   });
   applyTheme(localStorage.getItem('site-theme') || 'dark');
 
-  // ========== НАВИГАЦИЯ ==========
+  // ========== НАВИГАЦИЯ (ИСПРАВЛЕНО) ==========
   const tabs = ['table1', 'table2', 'table3'];
   function showTab(tabId) {
     tabs.forEach(t => document.getElementById(`tab-${t}`).classList.add('hidden-section'));
     document.getElementById(`tab-${tabId}`).classList.remove('hidden-section');
   }
+  
+  // Открытие/закрытие выпадающего меню
+  const mainMenuBtn = document.getElementById('mainMenuBtn');
+  const mainMenuList = document.getElementById('mainMenuList');
+  
+  mainMenuBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    mainMenuList.classList.toggle('show');
+  });
+  
+  // Закрытие меню при клике вне его
+  document.addEventListener('click', (e) => {
+    if (!mainMenuBtn.contains(e.target) && !mainMenuList.contains(e.target)) {
+      mainMenuList.classList.remove('show');
+    }
+  });
+  
+  // Обработка кликов по пунктам меню
   document.querySelectorAll('#mainMenuList a').forEach(link => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
-      showTab(link.getAttribute('data-tab'));
+      const tabId = link.getAttribute('data-tab');
+      showTab(tabId);
+      mainMenuList.classList.remove('show'); // закрываем меню после выбора
     });
   });
   
