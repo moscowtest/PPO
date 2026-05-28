@@ -392,22 +392,41 @@
       </div>
       <div id="legendBlock" style="display: none;">
         <div class="legend-grid">
-          <div class="legend-col"><h3>📌 Сокращения</h3>а/м — Автомобиль<br>г/н — Госномер<br>г/м — Гаражное место<br><h3>⚙️ Тюнинг</h3>FT — Полный<br>ET — Элементы<br>DT — Сток</div>
-          <div class="legend-col"><h3>👔 Бренды</h3><div class="tags-list"></div></div>
-          <div class="legend-col"><h3>🚗 Марки авто</h3><div class="tags-list"></div></div>
+          <div class="legend-col">
+            <h3>📌 Сокращения</h3>
+            а/м — Автомобиль<br>г/н — Госномер<br>г/м — Гаражное место<br>Склад 5х36 — Размер склада<br>
+            <h3>⚙️ Тюнинг / Опции</h3>
+            FT — Полный<br>ET — Элементы<br>DT — Сток<br>Размер склада: 5х36, 10х50<br>г/м — Гаражное место
+          </div>
+          <div class="legend-col">
+            <h3>🏢 Жилые комплексы (ЖК)</h3>
+            <div class="tags-list">
+              ЖК «Центральный»<br>ЖК «Московский»<br>ЖК «Речной»<br>ЖК «Лесной»<br>ЖК «Солнечный»<br>ЖК «Парковый»<br>ЖК «Академический»<br>ЖК «Европейский»
+            </div>
+            <h3>🏠 Дома</h3>
+            <div class="tags-list">
+              123<br>123<br>123<br>123<br>123
+            </div>
+          </div>
+          <div class="legend-col">
+            <h3>👔 Бренды</h3>
+            <div class="tags-list">Бренд1 · Бренд2 ·  ·  ·  ·  ·  ·  ·  · </div>
+            <h3>🚗 Марки авто</h3>
+            <div class="tags-list">Приора ·  ·  ·  ·  ·  ·  ·  ·  · </div>
+          </div>
         </div>
       </div>
     </div>
 
     <div class="glass-card"><div class="section-header">💰 Куплю автомобиль</div><div class="items" id="cat-auto-buy"></div></div>
     <div class="glass-card"><div class="section-header">💸 Продам автомобиль</div><div class="items" id="cat-auto-sell"></div></div>
-    <div class="glass-card"><div class="section-header">🏠 Недвижимость (Куплю)</div><div class="items" id="cat-home-buy"></div></div>
-    <div class="glass-card"><div class="section-header">🏡 Недвижимость (Продам)</div><div class="items" id="cat-home-sell"></div></div>
+    <div class="glass-card"><div class="section-header">🏠 Куплю квартиру/дом</div><div class="items" id="cat-home-buy"></div></div>
+    <div class="glass-card"><div class="section-header">🏡 Продам квартиру/дом</div><div class="items" id="cat-home-sell"></div></div>
     <div class="glass-card"><div class="section-header">👕 Одежда (Куплю)</div><div class="items" id="cat-cloth-buy"></div></div>
     <div class="glass-card"><div class="section-header">👚 Одежда (Продам)</div><div class="items" id="cat-cloth-sell"></div></div>
     <div class="glass-card"><div class="section-header">🏍 Мото/вело</div><div class="items" id="cat-moto-buy"></div></div>
     <div class="glass-card"><div class="section-header">🔧 Услуги</div><div class="items" id="cat-service"></div></div>
-    <div class="glass-card"><div class="section-header">📢 Приветы фракциям</div><div class="items" id="cat-hello"></div></div>
+    <div class="glass-card"><div class="section-header">📢 Приветы</div><div class="items" id="cat-hello"></div></div>
   </div>
 
   <!-- ПОИСК -->
@@ -426,11 +445,11 @@
     <div class="glass-card">
       <div class="constructor-panel">
         <div class="field"><label>Действие</label><select id="constructorAction"><option>Куплю</option><option>Продам</option></select></div>
-        <div class="field"><label>Тип</label><select id="constructorType"><option>а/м</option><option>недвижимость</option><option>одежду</option><option>мотоцикл</option></select></div>
-        <div class="field"><label>Модель</label><input id="constructorModel" placeholder="BMW X6, Жигуль 2105, любая"></div>
-        <div class="field"><label>Тюнинг</label><select id="constructorTuning"><option value="">—</option><option>FT</option><option>ET</option><option>DT</option></select></div>
+        <div class="field"><label>Тип</label><select id="constructorType"><option>а/м</option><option>квартиру</option><option>дом</option><option>мотоцикл</option></select></div>
+        <div class="field"><label>Модель/Название</label><input id="constructorModel" placeholder="BMW X6, ЖК Центральный, особняк"></div>
+        <div class="field"><label>Тюнинг/Опции</label><select id="constructorTuning"><option value="">—</option><option>FT</option><option>ET</option><option>DT</option><option>Размер склада NхN</option><option>Размер склада NхN</option><option>г/м</option></select></div>
         <div class="field"><label>Цена/Бюджет</label><input id="constructorPrice" placeholder="1.000.000"></div>
-        <div class="field"><label>Торг/Обмен</label><select id="constructorTrade"><option value="">—</option><option>Возможен торг</option><option>Обмен</option></select></div>
+        <div class="field"><label>Торг/Обмен</label><select id="constructorTrade"><option value="">—</option><option>Возможен торг</option><option>Возможен обмен</option></select></div>
       </div>
       <div class="result-block" id="constructedText">📋 Соберите объявление</div>
       <div style="display: flex; justify-content: center; gap: 20px; padding-bottom: 24px;">
@@ -540,7 +559,7 @@
     "cloth-sell": [""],
     "moto-buy":   [""],
     "service":    [""],
-    "hello":      ["Привет фракции Уральск Лайв!"]
+    "hello":      ["Привет фракции Уральск Лайв!","123"]
   };
   
   function renderAllAds() {
@@ -568,7 +587,7 @@
     } else resultDiv.innerHTML = '<div style="padding: 12px;">❌ Не найдено</div>';
   });
 
-  // ========== КОНСТРУКТОР (ОБНОВЛЁННАЯ ЛОГИКА) ==========
+  // ========== КОНСТРУКТОР (С ТОЧКАМИ) ==========
   const genBtn = document.getElementById('generateConstructBtn');
   const copyConstruct = document.getElementById('copyConstructBtn');
   const constructedDivElem = document.getElementById('constructedText');
@@ -593,25 +612,25 @@
       parts.push(model);
     }
     
-    // Тюнинг (без скобок)
+    // Тюнинг с точкой в конце
     if(tuning && tuning !== '—') {
-      parts.push(tuning);
+      parts.push(tuning + '.');
     }
     
-    // Цена/бюджет (логика)
+    // Цена/бюджет с точкой в конце
     if(price) {
       if(isAnyModel(model)) {
-        parts.push(`Цена: договорная`);
+        parts.push(`Цена: договорная.`);
       } else {
-        parts.push(`Цена: ${price}`);
+        parts.push(`Цена: ${price}.`);
       }
     } else if(isAnyModel(model)) {
-      parts.push(`Бюджет: свободный`);
+      parts.push(`Бюджет: свободный.`);
     }
     
-    // Торг/обмен (без скобок)
+    // Торг/обмен с точкой в конце
     if(trade && trade !== '—') {
-      parts.push(trade);
+      parts.push(trade + '.');
     }
     
     const final = parts.join(' ') || (action + " " + type);
