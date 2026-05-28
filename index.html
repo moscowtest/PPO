@@ -240,7 +240,6 @@
       font-size: 0.9rem;
       outline: none;
     }
-    /* Стили для выпадающего списка автоподстановки */
     .autocomplete-list {
       position: absolute;
       top: 100%;
@@ -394,6 +393,22 @@
     .dropdown-list a:hover {
       background: rgba(255,255,255,0.15);
     }
+    
+    /* Стили для результатов поиска */
+    .search-result-item {
+      background: rgba(255,255,255,0.08);
+      border-radius: 16px;
+      margin-bottom: 8px;
+      transition: 0.1s;
+    }
+    .search-result-item:hover {
+      background: rgba(255,255,255,0.15);
+    }
+    .search-category {
+      font-size: 0.7rem;
+      opacity: 0.7;
+      margin-left: 8px;
+    }
   </style>
 </head>
 <body class="dark">
@@ -456,11 +471,11 @@
     <div class="glass-card"><div class="section-header">📢 Приветы</div><div class="items" id="cat-hello"></div></div>
   </div>
 
-  <!-- ПОИСК -->
+  <!-- ПОИСК (НОВЫЙ — ИЩЕТ ПО ГОТОВЫМ ОБЪЯВЛЕНИЯМ) -->
   <div id="tab-table2" class="tab-content hidden-section">
     <div class="glass-card">
       <div class="search-area">
-        <input type="text" id="globalSearch" class="search-input" placeholder="Поиск: BMW, тюнинг, Gucci...">
+        <input type="text" id="globalSearch" class="search-input" placeholder="🔍 Поиск по объявлениям: BMW, квартира, Gucci, привет...">
         <div class="draft-box" id="draftGlobal" contenteditable="true" placeholder="Черновик объявления"></div>
       </div>
       <div id="searchResultList" class="items" style="flex-direction: column; gap: 8px;"></div>
@@ -580,25 +595,99 @@
     legendToggle.querySelector('span').innerHTML = legendVisible ? '▲' : '▼';
   });
 
-  // ========== ОБЪЯВЛЕНИЯ ==========
+  // ========== ОБЪЯВЛЕНИЯ (ДОБАВЛЯЙТЕ ЗДЕСЬ) ==========
   const adsCatalog = {
-    "auto-buy":   ["Куплю BMW X6", "Куплю Mercedes G-Class", "Куплю Audi RS6", "Куплю Toyota Land Cruiser"],
+    "auto-buy":   ["Куплю BMW X6", "Куплю Mercedes G-Class", "Куплю Audi RS6", "Куплю Toyota Land Cruiser", "Куплю Lada Priora"],
     "auto-sell":  ["Продам Lada Priora", "Продам BMW M5", "Продам Lexus RX350", "Продам Porsche 911"],
     "home-buy":   ["Куплю ЖК Центральный", "Куплю особняк", "Куплю квартиру в центре"],
     "home-sell":  ["Продам ЖК Московский", "Продам таунхаус", "Продам частный дом"],
     "cloth-buy":  ["Куплю Gucci свитер", "Куплю Nike кроссовки"],
     "cloth-sell": ["Продам Adidas худи", "Продам LV сумку"],
     "moto-buy":   ["Куплю Harley Davidson", "Куплю Yamaha R1"],
-    "service":    ["Услуги механика", "Ремонт авто"],
+    "service":    ["Услуги механика", "Ремонт авто", "Чип-тюнинг"],
     "hello":      ["Привет фракции Уральск Лайв!", "Всем привет от старичков!"]
   };
   
-  // Собираем все названия моделей для автоподстановки
+  // Названия категорий для красивого отображения
+  const categoryNames = {
+    "auto-buy": "💰 Куплю авто",
+    "auto-sell": "💸 Продам авто",
+    "home-buy": "🏠 Куплю недвижимость",
+    "home-sell": "🏡 Продам недвижимость",
+    "cloth-buy": "👕 Куплю одежду",
+    "cloth-sell": "👚 Продам одежду",
+    "moto-buy": "🏍 Мото/вело",
+    "service": "🔧 Услуги",
+    "hello": "📢 Приветы"
+  };
+  
+  // Собираем все объявления для поиска
+  function getAllAds() {
+    const allAds = [];
+    for (const [category, ads] of Object.entries(adsCatalog)) {
+      for (const ad of ads) {
+        if (ad && ad.trim() !== "") {
+          allAds.push({
+            text: ad,
+            category: category,
+            categoryName: categoryNames[category] || category
+          });
+        }
+      }
+    }
+    return allAds;
+  }
+  
+  // Поиск по объявлениям
+  function searchAds(query) {
+    if (!query.trim()) return [];
+    const lowerQuery = query.toLowerCase();
+    const allAds = getAllAds();
+    return allAds.filter(ad => ad.text.toLowerCase().includes(lowerQuery));
+  }
+  
+  function renderAllAds() {
+    for (const [key, arr] of Object.entries(adsCatalog)) {
+      const container = document.getElementById(`cat-${key}`);
+      if(container) {
+        container.innerHTML = arr.map(text => `<span class="badge">${text}</span>`).join('');
+      }
+    }
+    bindCopyToBadges();
+  }
+  renderAllAds();
+
+  // ========== НОВЫЙ ПОИСК ПО ОБЪЯВЛЕНИЯМ ==========
+  const searchInput = document.getElementById('globalSearch');
+  const resultDiv = document.getElementById('searchResultList');
+  
+  searchInput.addEventListener('input', (e) => {
+    const query = e.target.value.trim();
+    if (!query) {
+      resultDiv.innerHTML = '<div style="padding: 12px; text-align: center;">🔍 Введите слово для поиска по объявлениям<br><span style="font-size: 0.8rem; opacity: 0.7;">Например: BMW, квартира, Gucci, привет</span></div>';
+      return;
+    }
+    
+    const results = searchAds(query);
+    
+    if (results.length > 0) {
+      resultDiv.innerHTML = results.map(ad => `
+        <div class="search-result-item">
+          <span class="badge" style="display: block; width: 100%; text-align: left;">${ad.text}</span>
+          <div class="search-category">📁 ${ad.categoryName}</div>
+        </div>
+      `).join('');
+      bindCopyToBadges();
+    } else {
+      resultDiv.innerHTML = '<div style="padding: 12px; text-align: center;">❌ Ничего не найдено<br><span style="font-size: 0.8rem; opacity: 0.7;">Попробуйте другие ключевые слова</span></div>';
+    }
+  });
+
+  // ========== АВТОПОДСТАНОВКА ДЛЯ КОНСТРУКТОРА ==========
   function getAllModelNames() {
     const models = [];
     for (const [key, arr] of Object.entries(adsCatalog)) {
       for (const text of arr) {
-        // Извлекаем ключевые слова из объявлений
         const words = text.split(' ');
         for (const word of words) {
           if (word.length > 2 && !['Куплю', 'Продам', 'а/м', 'квартиру', 'дом', 'мотоцикл'].includes(word)) {
@@ -607,7 +696,6 @@
         }
       }
     }
-    // Добавляем справочные названия
     const refModels = ['BMW', 'Mercedes', 'Audi', 'Toyota', 'Lexus', 'Porsche', 'Lada', 'Priora', 
                        'ЖК Центральный', 'ЖК Московский', 'ЖК Речной', 'особняк', 'таунхаус', 
                        'квартиру', 'дом', 'мотоцикл', 'Harley', 'Yamaha', 'Gucci', 'Nike', 'Adidas'];
@@ -615,8 +703,6 @@
   }
   
   const modelSuggestions = getAllModelNames();
-  
-  // Автоподстановка
   const modelInput = document.getElementById('constructorModel');
   const autocompleteList = document.getElementById('autocompleteList');
   
@@ -645,33 +731,8 @@
       autocompleteList.style.display = 'none';
     }
   });
-  
-  function renderAllAds() {
-    for (const [key, arr] of Object.entries(adsCatalog)) {
-      const container = document.getElementById(`cat-${key}`);
-      if(container) {
-        container.innerHTML = arr.map(text => `<span class="badge">${text}</span>`).join('');
-      }
-    }
-    bindCopyToBadges();
-  }
-  renderAllAds();
 
-  // ========== ПОИСК ==========
-  const searchBase = ['BMW - Бумер', 'Mercedes - МБ', 'Audi - Аудитор', 'FT - полный тюнинг', 'Gucci - Гуччи'];
-  const searchInput = document.getElementById('globalSearch');
-  const resultDiv = document.getElementById('searchResultList');
-  searchInput.addEventListener('input', (e) => {
-    const val = e.target.value.toLowerCase().trim();
-    if(!val) { resultDiv.innerHTML = '<div style="padding: 12px;">🔍 Начните вводить — подскажет ППО</div>'; return; }
-    const filtered = searchBase.filter(term => term.toLowerCase().includes(val));
-    if(filtered.length) {
-      resultDiv.innerHTML = filtered.map(term => `<div class="badge" style="display:inline-block; width:auto;">📌 ${term}</div>`).join('');
-      bindCopyToBadges();
-    } else resultDiv.innerHTML = '<div style="padding: 12px;">❌ Не найдено</div>';
-  });
-
-  // ========== КОНСТРУКТОР (С ТОЧКАМИ И РУБЛЯМИ) ==========
+  // ========== КОНСТРУКТОР ==========
   const genBtn = document.getElementById('generateConstructBtn');
   const copyConstruct = document.getElementById('copyConstructBtn');
   const constructedDivElem = document.getElementById('constructedText');
@@ -684,7 +745,6 @@
   
   function formatPrice(price, action) {
     if (!price) return '';
-    // Если цена — это число или содержит цифры
     if (/\d/.test(price)) {
       if (action === 'Продам') {
         return `Цена: ${price} рублей.`;
@@ -705,17 +765,9 @@
     
     let parts = [action, type];
     
-    // Модель
-    if(model) {
-      parts.push(model);
-    }
+    if(model) parts.push(model);
+    if(tuning && tuning !== '—') parts.push(tuning + '.');
     
-    // Тюнинг с точкой в конце
-    if(tuning && tuning !== '—') {
-      parts.push(tuning + '.');
-    }
-    
-    // Цена/бюджет с точкой в конце (с рублей для Продам)
     if(price) {
       if(isAnyModel(model)) {
         parts.push(`Цена: Договорная.`);
@@ -726,10 +778,7 @@
       parts.push(`Бюджет: Свободный.`);
     }
     
-    // Торг/обмен с точкой в конце
-    if(trade && trade !== '—') {
-      parts.push(trade + '.');
-    }
+    if(trade && trade !== '—') parts.push(trade + '.');
     
     const final = parts.join(' ') || (action + " " + type);
     constructedDivElem.innerText = final;
