@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>Уральск Онлайн — Новая таблица ППО</title>
+  <title>Уральск Онлайн — Таблица ППО с копированием</title>
   <link rel="icon" href="https://i.postimg.cc/3w1f2h5z/App.png" type="image/png">
-  <meta name="description" content="Уральск Онлайн: свежий взгляд на таблицу ППО. Правильные названия, сокращения, удобный поиск и конструктор объявлений.">
   <style>
     * {
       margin: 0;
@@ -19,8 +18,7 @@
       padding: 24px 20px;
     }
 
-    /* ========== НОВЫЙ ДИЗАЙН ТЕМ ========== */
-    /* 1. Тёмная тема — глубокий космос с фиолетовым акцентом */
+    /* ========== НОВЫЙ ДИЗАЙН ТЕМ (сохранён с прошлого раза) ========== */
     body.dark {
       background: linear-gradient(135deg, #0a0c15 0%, #0f1222 100%);
       color: #e2e8f0;
@@ -41,7 +39,6 @@
       color: #cbd5e1;
     }
 
-    /* 2. Светлая тема — элегантный минимализм с мятным */
     body.light {
       background: linear-gradient(145deg, #f0f9f4 0%, #e6f0eb 100%);
       color: #1a3a2a;
@@ -63,7 +60,6 @@
       box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     }
 
-    /* 3. Розовая тема — неон-поп, вечеринка */
     body.pink {
       background: linear-gradient(125deg, #1a0b1a 0%, #2d1b2e 100%);
       color: #ffc0e0;
@@ -85,7 +81,6 @@
       color: #ffc0e0;
     }
 
-    /* 4. GTA тема — городской хаос, оранжево-синий градиент */
     body.gta {
       background: linear-gradient(115deg, #0b1a2a 0%, #1c2a1f 100%);
       color: #f5b642;
@@ -100,7 +95,6 @@
       background: linear-gradient(90deg, rgba(243,156,18,0.2), rgba(230,126,34,0.05));
       border-left: 4px solid #f39c12;
       font-family: 'Courier New', monospace;
-      letter-spacing: 1px;
     }
     body.gta .badge {
       background: #1e2a1a;
@@ -108,7 +102,6 @@
       color: #ffd966;
     }
 
-    /* 5. Новогодняя тема — снег, ёлка, праздник */
     body.NewYear {
       background: linear-gradient(145deg, #0a2f3a 0%, #144d5c 100%);
       color: #fff2df;
@@ -129,23 +122,17 @@
       color: #fee3b8;
     }
 
-    /* Общие компоненты */
+    /* Общие стили */
     .container {
       max-width: 1400px;
       margin: 0 auto;
     }
-
     .glass-card {
       border-radius: 32px;
       margin: 24px 0;
       overflow: hidden;
       transition: transform 0.2s, box-shadow 0.2s;
     }
-
-    .glass-card:hover {
-      transform: translateY(-2px);
-    }
-
     .section-header {
       font-size: 1.7rem;
       font-weight: 700;
@@ -155,45 +142,59 @@
       justify-content: space-between;
       align-items: center;
       user-select: none;
-      letter-spacing: -0.3px;
     }
-
     .items {
       padding: 20px 24px;
       display: flex;
       flex-wrap: wrap;
       gap: 12px;
     }
-
+    /* Стили для объявлений — курсор pointer, эффект нажатия */
     .badge {
       padding: 8px 18px;
       border-radius: 40px;
       font-size: 0.9rem;
       font-weight: 500;
-      transition: 0.1s;
-      cursor: default;
+      cursor: pointer;
+      transition: all 0.1s ease;
       backdrop-filter: blur(2px);
     }
-
-    /* сетки для справочника */
+    .badge:active {
+      transform: scale(0.96);
+    }
+    /* тултип-уведомление */
+    .copy-toast {
+      position: fixed;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #2ecc71;
+      color: white;
+      padding: 12px 28px;
+      border-radius: 60px;
+      font-weight: bold;
+      z-index: 2000;
+      animation: fadeOut 1.5s ease forwards;
+      pointer-events: none;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      font-size: 1rem;
+    }
+    @keyframes fadeOut {
+      0% { opacity: 1; transform: translateX(-50%) translateY(0); }
+      70% { opacity: 1; }
+      100% { opacity: 0; transform: translateX(-50%) translateY(-20px); visibility: hidden; }
+    }
     .legend-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 28px;
       padding: 24px;
     }
-    .legend-col h3 {
-      font-size: 1.3rem;
-      margin-bottom: 12px;
-      font-weight: 600;
-    }
     .tags-list {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
       gap: 8px;
     }
-
-    /* поиск и черновик */
     .search-area {
       display: flex;
       flex-wrap: wrap;
@@ -212,15 +213,6 @@
       color: inherit;
       outline: none;
     }
-    .search-input:focus, .draft-box:focus {
-      background: rgba(255,255,255,0.2);
-    }
-    .draft-box {
-      min-height: 80px;
-      resize: vertical;
-    }
-
-    /* конструктор */
     .constructor-panel {
       display: flex;
       flex-wrap: wrap;
@@ -261,27 +253,11 @@
       font-size: 0.95rem;
       transition: 0.1s;
     }
-    button:hover {
-      transform: scale(0.98);
-      background: rgba(80, 88, 220, 0.9);
-    }
     .result-block {
       padding: 20px 24px;
       font-size: 1.1rem;
       text-align: center;
       font-weight: 500;
-    }
-    .nav-buttons {
-      display: flex;
-      gap: 12px;
-      justify-content: flex-end;
-      margin-bottom: 20px;
-    }
-    .nav-btn {
-      background: rgba(255,255,255,0.15);
-      padding: 10px 22px;
-      border-radius: 40px;
-      font-weight: 600;
     }
     .theme-arc {
       position: fixed;
@@ -303,10 +279,6 @@
       height: 44px;
       border-radius: 50%;
       cursor: pointer;
-      transition: 0.1s;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
     }
     .hidden-section {
       display: none;
@@ -338,6 +310,7 @@
       border-radius: 30px;
       color: inherit;
       text-decoration: none;
+      cursor: pointer;
     }
     .dropdown-list a:hover {
       background: rgba(255,255,255,0.15);
@@ -347,20 +320,19 @@
 <body class="dark">
 <div class="container">
   <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 16px;">
-    <h1 style="font-size: 2rem; letter-spacing: -0.5px;">🚛 Уральск Онлайн | Новая эра ППО</h1>
+    <h1 style="font-size: 2rem;">🚛 Уральск Онлайн | ППО + копирование</h1>
     <div class="dropdown">
       <button class="dropdown-btn" id="mainMenuBtn">📌 Разделы ▼</button>
       <div class="dropdown-list" id="mainMenuList">
-        <a href="#" data-tab="table1">📖 Таблица ППО</a>
-        <a href="#" data-tab="table2">🔍 Поисковик</a>
-        <a href="#" data-tab="table3">⚡ Конструктор</a>
+        <a data-tab="table1">📖 Таблица ППО</a>
+        <a data-tab="table2">🔍 Поисковик</a>
+        <a data-tab="table3">⚡ Конструктор</a>
       </div>
     </div>
   </div>
 
-  <!-- ========= ТАБЛИЦА ППО (полная копия структуры) ========= -->
+  <!-- ТАБЛИЦА ППО -->
   <div id="tab-table1" class="tab-content">
-    <!-- Блок обозначений -->
     <div class="glass-card">
       <div class="section-header" id="legendToggleBtn">
         🧭 Справочник & Обозначения
@@ -368,64 +340,48 @@
       </div>
       <div id="legendBlock" style="display: none;">
         <div class="legend-grid">
-          <div class="legend-col">
-            <h3>📌 Сокращения</h3>
-            а/м — Автомобиль<br>г/н — Госномер<br>г/м — Гаражное место<br>Склад 5х36<br><br>
-            <h3>⚙️ Тюнинг</h3>
-            FT — Полный комплект<br>ET — С элементами<br>DT — Сток<br>CT-FT — Чип-тюнинг полный<br>на СГУ — Полицейский сигнал
-          </div>
-          <div class="legend-col">
-            <h3>🌍 Госномера стран</h3>
-            RU · KZ · BY · GE · AM · SRB
-          </div>
-          <div class="legend-col">
-            <h3>👔 Бренды (сленг)</h3>
-            <div class="tags-list">Gucci · Louis Vuitton · Nike · Adidas · Versace · Balenciaga · Off-White · Supreme · Prada · DIOR · Timberland · Moncler · Rick Owens</div>
-          </div>
-          <div class="legend-col">
-            <h3>🚗 Марки авто</h3>
-            <div class="tags-list">BMW · Mercedes · Land Rover · VW · Toyota · Lexus · Porsche · Nissan · Bentley · Ferrari · Lamborghini · Audi · Tesla · Honda · Jaguar · Lada · УАЗ · ГАЗ</div>
-          </div>
+          <div class="legend-col"><h3>📌 Сокращения</h3>а/м — Автомобиль<br>г/н — Госномер<br>г/м — Гаражное место<br><h3>⚙️ Тюнинг</h3>FT — Полный<br>ET — Элементы<br>DT — Сток</div>
+          <div class="legend-col"><h3>👔 Бренды</h3><div class="tags-list"></div></div>
+          <div class="legend-col"><h3>🚗 Марки авто</h3><div class="tags-list"></div></div>
         </div>
       </div>
     </div>
 
-    <!-- Секции для объявлений, которые вы будете наполнять через код -->
+    <!-- Секции с объявлениями (кликабельные) -->
     <div class="glass-card"><div class="section-header">💰 Куплю автомобиль</div><div class="items" id="cat-auto-buy"></div></div>
     <div class="glass-card"><div class="section-header">💸 Продам автомобиль</div><div class="items" id="cat-auto-sell"></div></div>
     <div class="glass-card"><div class="section-header">🏠 Недвижимость (Куплю)</div><div class="items" id="cat-home-buy"></div></div>
     <div class="glass-card"><div class="section-header">🏡 Недвижимость (Продам)</div><div class="items" id="cat-home-sell"></div></div>
-    <div class="glass-card"><div class="section-header">👕 Одежда/аксессуары (Куплю)</div><div class="items" id="cat-cloth-buy"></div></div>
-    <div class="glass-card"><div class="section-header">👚 Одежда/аксессуары (Продам)</div><div class="items" id="cat-cloth-sell"></div></div>
-    <div class="glass-card"><div class="section-header">🏍 Мото/вело (Куплю)</div><div class="items" id="cat-moto-buy"></div></div>
-    <div class="glass-card"><div class="section-header">🏍 Мото/вело (Продам)</div><div class="items" id="cat-moto-sell"></div></div>
-    <div class="glass-card"><div class="section-header">🔧 Услуги (Предлагаю)</div><div class="items" id="cat-service"></div></div>
+    <div class="glass-card"><div class="section-header">👕 Одежда (Куплю)</div><div class="items" id="cat-cloth-buy"></div></div>
+    <div class="glass-card"><div class="section-header">👚 Одежда (Продам)</div><div class="items" id="cat-cloth-sell"></div></div>
+    <div class="glass-card"><div class="section-header">🏍 Мото/вело</div><div class="items" id="cat-moto-buy"></div></div>
+    <div class="glass-card"><div class="section-header">🔧 Услуги</div><div class="items" id="cat-service"></div></div>
     <div class="glass-card"><div class="section-header">📢 Приветы фракциям</div><div class="items" id="cat-hello"></div></div>
   </div>
 
-  <!-- ========= ПОИСК ППО ========= -->
+  <!-- ПОИСК -->
   <div id="tab-table2" class="tab-content hidden-section">
     <div class="glass-card">
       <div class="search-area">
-        <input type="text" id="globalSearch" class="search-input" placeholder="Поиск: BMW, Gucci, тюнинг, сокращения...">
-        <div class="draft-box" id="draftGlobal" contenteditable="true" data-placeholder="Черновик объявления — пишите здесь, потом копируйте"></div>
+        <input type="text" id="globalSearch" class="search-input" placeholder="Поиск: BMW, тюнинг, Gucci...">
+        <div class="draft-box" id="draftGlobal" contenteditable="true" placeholder="Черновик объявления"></div>
       </div>
       <div id="searchResultList" class="items" style="flex-direction: column; gap: 8px;"></div>
     </div>
   </div>
 
-  <!-- ========= КОНСТРУКТОР ОБЪЯВЛЕНИЙ ========= -->
+  <!-- КОНСТРУКТОР -->
   <div id="tab-table3" class="tab-content hidden-section">
     <div class="glass-card">
       <div class="constructor-panel">
         <div class="field"><label>Действие</label><select id="constructorAction"><option>Куплю</option><option>Продам</option></select></div>
-        <div class="field"><label>Тип</label><select id="constructorType"><option>автомобиль</option><option>недвижимость</option><option>одежду</option><option>мотоцикл</option><option>услуги</option></select></div>
-        <div class="field"><label>Модель / описание</label><input id="constructorModel" placeholder="BMW X6, квартира центр..."></div>
-        <div class="field"><label>Тюнинг / свойство</label><select id="constructorTuning"><option value="">—</option><option>FT</option><option>ET</option><option>DT</option></select></div>
+        <div class="field"><label>Тип</label><select id="constructorType"><option>автомобиль</option><option>недвижимость</option><option>одежду</option></select></div>
+        <div class="field"><label>Модель</label><input id="constructorModel" placeholder="BMW X6, квартира"></div>
+        <div class="field"><label>Тюнинг</label><select id="constructorTuning"><option value="">—</option><option>FT</option><option>ET</option></select></div>
         <div class="field"><label>Цена</label><input id="constructorPrice" placeholder="2.500.000$"></div>
-        <div class="field"><label>Торг/обмен</label><select id="constructorTrade"><option value="">—</option><option>Торг</option><option>Обмен</option></select></div>
+        <div class="field"><label>Торг</label><select id="constructorTrade"><option value="">—</option><option>Торг</option><option>Обмен</option></select></div>
       </div>
-      <div class="result-block" id="constructedText">📋 Ваше объявление появится здесь</div>
+      <div class="result-block" id="constructedText">📋 Кликните «Собрать»</div>
       <div style="display: flex; justify-content: center; gap: 20px; padding-bottom: 24px;">
         <button id="generateConstructBtn">✨ Собрать</button>
         <button id="copyConstructBtn">📋 Копировать</button>
@@ -434,7 +390,6 @@
   </div>
 </div>
 
-<!-- ПЕРЕКЛЮЧАТЕЛЬ ТЕМ -->
 <div class="theme-arc">
   <button class="theme-icon" data-theme="dark">🌙</button>
   <button class="theme-icon" data-theme="light">☀️</button>
@@ -444,7 +399,41 @@
 </div>
 
 <script>
-  // ========== НОВЫЕ ТЕМЫ ==========
+  // ========== УНИВЕРСАЛЬНАЯ ФУНКЦИЯ КОПИРОВАНИЯ С УВЕДОМЛЕНИЕМ ==========
+  function copyToClipboard(text, event) {
+    navigator.clipboard.writeText(text).then(() => {
+      // Визуальный эффект на кнопке/тексте
+      if(event && event.target) {
+        const originalText = event.target.innerText;
+        event.target.style.transform = 'scale(0.96)';
+        setTimeout(() => { if(event.target) event.target.style.transform = ''; }, 120);
+      }
+      // Всплывающее уведомление
+      const toast = document.createElement('div');
+      toast.className = 'copy-toast';
+      toast.innerText = '✅ Скопировано!';
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 1500);
+    }).catch(() => {
+      alert('Не удалось скопировать');
+    });
+  }
+
+  // Привязываем копирование ко всем элементам .badge (объявлениям)
+  function bindCopyToBadges() {
+    document.querySelectorAll('.badge').forEach(badge => {
+      badge.removeEventListener('click', badge._copyHandler);
+      const handler = (e) => {
+        e.stopPropagation();
+        copyToClipboard(badge.innerText, e);
+      };
+      badge.addEventListener('click', handler);
+      badge._copyHandler = handler;
+      badge.style.cursor = 'pointer';
+    });
+  }
+
+  // ========== ТЕМЫ ==========
   const applyTheme = (theme) => {
     document.body.classList.remove('dark', 'light', 'pink', 'gta', 'NewYear');
     document.body.classList.add(theme);
@@ -453,10 +442,9 @@
   document.querySelectorAll('.theme-icon').forEach(btn => {
     btn.addEventListener('click', () => applyTheme(btn.getAttribute('data-theme')));
   });
-  const saved = localStorage.getItem('site-theme') || 'dark';
-  applyTheme(saved);
-  
-  // ========== НАВИГАЦИЯ ПО РАЗДЕЛАМ ==========
+  applyTheme(localStorage.getItem('site-theme') || 'dark');
+
+  // ========== НАВИГАЦИЯ ==========
   const tabs = ['table1', 'table2', 'table3'];
   function showTab(tabId) {
     tabs.forEach(t => document.getElementById(`tab-${t}`).classList.add('hidden-section'));
@@ -465,10 +453,10 @@
   document.querySelectorAll('#mainMenuList a').forEach(link => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
-      const target = link.getAttribute('data-tab');
-      showTab(target);
+      showTab(link.getAttribute('data-tab'));
     });
   });
+  
   // Легенда
   const legendToggle = document.getElementById('legendToggleBtn');
   const legendBlock = document.getElementById('legendBlock');
@@ -478,31 +466,32 @@
     legendBlock.style.display = legendVisible ? 'block' : 'none';
     legendToggle.querySelector('span').innerHTML = legendVisible ? '▲' : '▼';
   });
-  
-  // ========== ОБЪЯВЛЕНИЯ (ДОБАВЛЯЙТЕ СЮДА ЧЕРЕЗ КОД) ==========
-  // 🟢🟢🟢 РЕДАКТИРУЙТЕ ЭТОТ ОБЪЕКТ — ВАШИ ОБЪЯВЛЕНИЯ 🟢🟢🟢
+
+  // ========== ОБЪЯВЛЕНИЯ (ДОБАВЛЯЙТЕ ЗДЕСЬ) ==========
   const adsCatalog = {
-    "auto-buy":   ["123"],
+    "auto-buy":   [""],
     "auto-sell":  [""],
     "home-buy":   [""],
     "home-sell":  [""],
     "cloth-buy":  [""],
     "cloth-sell": [""],
     "moto-buy":   [""],
-    "moto-sell":  [""],
     "service":    [""],
     "hello":      ["Привет фракции Уральск Лайв!"]
   };
   
-  function renderCategories() {
-    for (const [key, itemsArray] of Object.entries(adsCatalog)) {
+  function renderAllAds() {
+    for (const [key, arr] of Object.entries(adsCatalog)) {
       const container = document.getElementById(`cat-${key}`);
-      if(container) container.innerHTML = itemsArray.map(text => `<span class="badge">${text}</span>`).join('');
+      if(container) {
+        container.innerHTML = arr.map(text => `<span class="badge">${text}</span>`).join('');
+      }
     }
+    bindCopyToBadges(); // после отрисовки привязываем клики
   }
-  renderCategories();
-  
-  // ========== ПОИСК ПО БАЗЕ ==========
+  renderAllAds();
+
+  // ========== ПОИСК ==========
   const searchBase = [
     
   ];
@@ -512,14 +501,16 @@
     const val = e.target.value.toLowerCase().trim();
     if(!val) { resultDiv.innerHTML = '<div style="padding: 12px;">🔍 Начните вводить — подскажет ППО</div>'; return; }
     const filtered = searchBase.filter(term => term.toLowerCase().includes(val));
-    if(filtered.length) resultDiv.innerHTML = filtered.map(term => `<div style="padding: 8px 18px; background: rgba(255,255,255,0.05); border-radius: 60px;">📌 ${term}</div>`).join('');
-    else resultDiv.innerHTML = '<div style="padding: 12px;">❌ Не найдено, попробуйте «тюнинг» или «BMW»</div>';
+    if(filtered.length) {
+      resultDiv.innerHTML = filtered.map(term => `<div class="badge" style="display:inline-block; width:auto;">📌 ${term}</div>`).join('');
+      bindCopyToBadges(); // результаты поиска тоже кликабельны
+    } else resultDiv.innerHTML = '<div style="padding: 12px;">❌ Не найдено</div>';
   });
-  
+
   // ========== КОНСТРУКТОР ==========
   const genBtn = document.getElementById('generateConstructBtn');
-  const copyBtn = document.getElementById('copyConstructBtn');
-  const constructedDiv = document.getElementById('constructedText');
+  const copyConstruct = document.getElementById('copyConstructBtn');
+  const constructedDivElem = document.getElementById('constructedText');
   genBtn.addEventListener('click', () => {
     const action = document.getElementById('constructorAction').value;
     const type = document.getElementById('constructorType').value;
@@ -532,30 +523,20 @@
     if(tuning) parts.push(`[${tuning}]`);
     if(price) parts.push(`💰 ${price}`);
     if(trade) parts.push(`(${trade})`);
-    const final = parts.join(' ') || (action + " " + type);
-    constructedDiv.innerHTML = `📢 ${final}`;
+    constructedDivElem.innerText = parts.join(' ') || (action + " " + type);
   });
-  copyBtn.addEventListener('click', () => {
-    const text = constructedDiv.innerText.replace('📢', '').trim();
-    navigator.clipboard.writeText(text);
-    alert('Скопировано в буфер!');
+  copyConstruct.addEventListener('click', () => {
+    copyToClipboard(constructedDivElem.innerText, { target: copyConstruct });
   });
-  
+
   // сворачивание секций
   document.querySelectorAll('.glass-card .section-header').forEach(header => {
-    header.addEventListener('click', (e) => {
-      if(e.target.closest('#legendToggleBtn')) return;
-      const contentBlock = header.parentElement.querySelector('.items');
-      if(contentBlock) {
-        const isVisible = contentBlock.style.display !== 'none';
-        contentBlock.style.display = isVisible ? 'none' : 'flex';
-      }
+    if(header.id === 'legendToggleBtn') return;
+    header.addEventListener('click', () => {
+      const content = header.parentElement.querySelector('.items');
+      if(content) content.style.display = content.style.display === 'none' ? 'flex' : 'none';
     });
   });
-  
-  // черновик
-  const draftField = document.getElementById('draftGlobal');
-  if(draftField) draftField.addEventListener('input', () => {});
 </script>
 </body>
 </html>
