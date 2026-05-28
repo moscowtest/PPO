@@ -259,6 +259,8 @@
       text-align: center;
       font-weight: 500;
     }
+    
+    /* ========== НОВАЯ АНИМАЦИЯ ДЛЯ ВЫБОРА ТЕМ ========== */
     .theme-arc {
       position: fixed;
       bottom: 24px;
@@ -270,7 +272,47 @@
       border-radius: 60px;
       backdrop-filter: blur(16px);
       z-index: 1000;
+      flex-direction: row;
+      align-items: center;
     }
+    
+    /* Кнопка-триггер (основная) */
+    .theme-trigger {
+      background: rgba(255,255,255,0.2);
+      border: none;
+      font-size: 24px;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .theme-trigger:hover {
+      background: rgba(255,255,255,0.35);
+      transform: scale(1.05);
+    }
+    
+    /* Контейнер с кнопками тем (по умолчанию скрыт) */
+    .themes-container {
+      display: flex;
+      gap: 8px;
+      overflow: hidden;
+      max-width: 0;
+      opacity: 0;
+      transition: max-width 0.3s ease, opacity 0.25s ease, margin 0.2s ease;
+      margin-left: 0;
+    }
+    
+    /* При наведении на .theme-arc показываем все кнопки */
+    .theme-arc:hover .themes-container {
+      max-width: 300px;
+      opacity: 1;
+      margin-left: 8px;
+    }
+    
     .theme-icon {
       background: rgba(255,255,255,0.2);
       border: none;
@@ -279,7 +321,16 @@
       height: 44px;
       border-radius: 50%;
       cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
+    .theme-icon:hover {
+      transform: scale(1.1);
+      background: rgba(255,255,255,0.35);
+    }
+    
     .hidden-section {
       display: none;
     }
@@ -390,12 +441,16 @@
   </div>
 </div>
 
+<!-- НОВАЯ СТРУКТУРА ВЫБОРА ТЕМ (с анимацией появления) -->
 <div class="theme-arc">
-  <button class="theme-icon" data-theme="dark">🌙</button>
-  <button class="theme-icon" data-theme="light">☀️</button>
-  <button class="theme-icon" data-theme="pink">🌸</button>
-  <button class="theme-icon" data-theme="gta">🔥</button>
-  <button class="theme-icon" data-theme="NewYear">❄️</button>
+  <button class="theme-trigger" id="themeTriggerBtn">🎨</button>
+  <div class="themes-container">
+    <button class="theme-icon" data-theme="dark">🌙</button>
+    <button class="theme-icon" data-theme="light">☀️</button>
+    <button class="theme-icon" data-theme="pink">🌸</button>
+    <button class="theme-icon" data-theme="gta">🔥</button>
+    <button class="theme-icon" data-theme="NewYear">❄️</button>
+  </div>
 </div>
 
 <script>
@@ -439,6 +494,7 @@
     document.body.classList.add(theme);
     localStorage.setItem('site-theme', theme);
   };
+  
   document.querySelectorAll('.theme-icon').forEach(btn => {
     btn.addEventListener('click', () => applyTheme(btn.getAttribute('data-theme')));
   });
