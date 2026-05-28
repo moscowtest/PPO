@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Уральск Онлайн — Таблица ППО</title>
+  <link rel="icon" href="https://i.postimg.cc/3w1f2h5z/App.png" type="image/png">
+  <meta name="description" content="Уральск Онлайн: гид по созданию объявлений. Правильные названия авто, одежды, сокращения.">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+    body {
+      font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      background: #0b0f1c;
+      color: #eef2ff;
+      padding: 20px;
+    }
+    body.dark { background: #0b0f1c; color: #eef2ff; }
+    body.light { background: #f4f7fc; color: #1e2a3e; }
+    body.pink { background: #ffe0f0; color: #9b2f6b; }
+    body.gta { background: #1a2a1f; color: #d4ffb0; }
+    body.NewYear { background: #0a2f2a; color: #ffdd99; }
+    
+    .container { max-width: 1400px; margin: 0 auto; }
+    .section {
+      background: rgba(0,0,0,0.25);
+      border-radius: 24px;
+      margin: 24px 0;
+      padding: 0 0 12px 0;
+      backdrop-filter: blur(2px);
+      overflow: hidden;
+    }
+    body.light .section { background: rgba(0,0,0,0.04); }
+    .section-header {
+      font-size: 1.6rem;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      background: rgba(0,0,0,0.2);
+      border-radius: 24px 24px 0 0;
+      user-select: none;
+    }
+    body.light .section-header { background: rgba(0,0,0,0.05); }
+    .items {
+      padding: 16px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .badge {
+      background: #2c3e66;
+      padding: 8px 16px;
+      border-radius: 32px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    }
+    body.light .badge { background: #cbd5e1; color: #0f172a; }
+    
+    /* Стили для обозначений и колонок */
+    .legend-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      padding: 20px;
+    }
+    .legend-col h3 { margin-bottom: 12px; font-size: 1.3rem; }
+    .brands-list, .autolist {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 8px;
+    }
+    .search-and-draft {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin: 20px;
+    }
+    .search-input, .draft-area {
+      flex: 1;
+      padding: 14px 18px;
+      border-radius: 40px;
+      border: 1px solid #4a5b7a;
+      background: #1e293b;
+      color: #eef2ff;
+      font-size: 1rem;
+      font-family: inherit;
+    }
+    body.light .search-input, body.light .draft-area {
+      background: white;
+      color: #0f172a;
+      border-color: #b9c3d4;
+    }
+    .draft-area {
+      min-height: 90px;
+      contenteditable: true;
+      line-height: 1.4;
+    }
+    .container4 {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .result-line {
+      background: rgba(255,255,255,0.08);
+      padding: 12px 20px;
+      border-radius: 40px;
+      font-family: monospace;
+      font-size: 1rem;
+    }
+    body.light .result-line { background: #e9edf2; }
+    
+    /* Конструктор выбора ППО */
+    .constructor {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      padding: 20px;
+      align-items: flex-end;
+    }
+    .constructor .field {
+      flex: 1;
+      min-width: 140px;
+    }
+    .constructor label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 6px;
+    }
+    select, input {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 28px;
+      background: #1e293b;
+      border: 1px solid #4a5b7a;
+      color: white;
+      font-size: 0.9rem;
+    }
+    body.light select, body.light input {
+      background: white;
+      color: #0f172a;
+    }
+    .sww-button {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      margin: 20px;
+    }
+    button {
+      background: #3b4e7a;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 40px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    .theme-arc {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #000000aa;
+      padding: 8px 12px;
+      border-radius: 50px;
+      display: flex;
+      gap: 8px;
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+    }
+    .theme-option, .theme-toggle {
+      background: #2c3e66;
+      border: none;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .dropdown { position: relative; display: inline-block; margin: 10px 0; }
+    .dropdown-button {
+      background: #2c3e66;
+      padding: 8px 20px;
+      font-size: 1.2rem;
+      border-radius: 40px;
+    }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background: #1e293b;
+      min-width: 200px;
+      border-radius: 20px;
+      padding: 10px;
+      z-index: 99;
+    }
+    body.light .dropdown-content { background: #e2e8f0; }
+    .dropdown-content a {
+      display: block;
+      padding: 8px 15px;
+      color: inherit;
+      text-decoration: none;
+      border-radius: 30px;
+    }
+    .dropdown-content a:hover { background: #3b4e7a; color: white; }
+    .hidden-section { display: none; }
+    .legend-content { display: none; padding: 0 20px 20px 20px; }
+    .legend-icon { font-size: 1.2rem; }
+    .toggle-legend { cursor: pointer; }
+  </style>
+</head>
+<body class="dark">
+<div class="container">
+  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 10px;">
+    <h1 style="font-size: 1.8rem;">🚛 Уральск Онлайн — Таблица ППО</h1>
+    <div class="dropdown">
+      <button class="dropdown-button" id="mainDropdownBtn">📋 Навигация ▼</button>
+      <div class="dropdown-content" id="mainDropdown">
+        <a href="#" data-section="table1">Таблица ППО</a>
+        <a href="#" data-section="table2">Поиск ППО</a>
+        <a href="#" data-section="table3">Поиск ППО 2.0</a>
+        <a href="#" data-section="table4">Выбор ППО</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= ТАБЛИЦА ППО (основная) ================= -->
+  <div id="section-table1" class="sectionTWO">
+    <!-- Обозначения с раскрытием -->
+    <div class="section" id="legend-section">
+      <div class="section-header toggle-legend" id="legend-header">
+        Обозначения и справочник
+        <span class="legend-icon">▲</span>
+      </div>
+      <div id="legend-content" class="legend-content">
+        <div class="legend-grid">
+          <div class="legend-col">
+            <h3>📌 Сокращения:</h3>
+            а/м - Автомобиль<br>г/н - Государственный номер<br>г/м - Гаражное место<br>Склад 5х36 - размер склада<br><br>
+            <h3>⚙️ Тюнинг:</h3>
+            FT - Полная комплектация<br>ET - С элементами<br>DT - Без тюнинга<br>CT-FT - Полный чип-тюнинг<br>на СГУ - полицейский гудок
+          </div>
+          <div class="legend-col">
+            <h3>🌍 Страны г/н:</h3>
+            RU - Россия (А777АА/77)<br>KZ - Казахстан<br>BY - Беларусь<br>GE - Грузия<br>AM - Армения<br>SRB - Сербия
+          </div>
+          <div class="legend-col">
+            <h3>👔 Бренды (сленг):</h3>
+            <div class="brands-list">
+              Gucci - ГЧ, G<br>Louis Vuitton - ЛВ<br>Nike - Чаечка<br>Adidas - Три полоски<br>Versace - MEDUSA<br>Balenciaga - Баленсия<br>Off-White - Уайты<br>Supreme - SUP<br>Prada - Прадик<br>DIOR - DEOR<br>Timberland - Тимберы<br>Moncler - Монклер
+            </div>
+          </div>
+          <div class="legend-col">
+            <h3>🚗 Марки авто:</h3>
+            <div class="autolist">
+              BMW - Бумер<br>Mercedes - МБ<br>Land Rover - Ровер<br>Volkswagen - Фолькс<br>Toyota - Тойода<br>Lexus - Лекс<br>Porsche - Поршак<br>Nissan - Ниса<br>Bentley - Бент<br>Ferrari - Ферра<br>Lamborghini - Ламба<br>Audi - Аудитор<br>Tesla - Т<br>Honda - Хонд<br>Jaguar - Ягуар<br>Maserati - Мазер<br>Jeep - Ранглер<br>Lada - Лада<br>УАЗ - Буханка<br>ГАЗ - Газелька
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- СЕКЦИИ ОБЪЯВЛЕНИЙ (добавляются через код) -->
+    <!-- ================================================= -->
+    <!-- 👇👇👇 СЮДА ДОБАВЛЯЙТЕ НОВЫЕ ОБЪЯВЛЕНИЯ В ФОРМАТЕ <span class="badge">ТЕКСТ ОБЪЯВЛЕНИЯ</span> 👇👇👇 -->
+    <div class="section"><div class="section-header">🚗 Куплю автомобиль</div><div class="items" id="auto-buy"></div></div>
+    <div class="section"><div class="section-header">💰 Продам автомобиль</div><div class="items" id="auto-sell"></div></div>
+    <div class="section"><div class="section-header">🏠 Куплю недвижимость</div><div class="items" id="home-buy"></div></div>
+    <div class="section"><div class="section-header">📦 Продам недвижимость</div><div class="items" id="home-sell"></div></div>
+    <div class="section"><div class="section-header">🏍 Куплю мото/вело</div><div class="items" id="moto-buy"></div></div>
+    <div class="section"><div class="section-header">🏍 Продам мото/вело</div><div class="items" id="moto-sell"></div></div>
+    <div class="section"><div class="section-header">👕 Куплю одежду</div><div class="items" id="cloth-buy"></div></div>
+    <div class="section"><div class="section-header">👚 Продам одежду</div><div class="items" id="cloth-sell"></div></div>
+    <div class="section"><div class="section-header">🔧 Предоставляю услуги</div><div class="items" id="service"></div></div>
+    <div class="section"><div class="section-header">📢 Передаю привет фракции</div><div class="items" id="hello"></div></div>
+    <!-- ========= ВЫ МОЖЕТЕ ДОБАВЛЯТЬ НОВЫЕ СЕКЦИИ ПО АНАЛОГИИ ========= -->
+  </div>
+
+  <!-- ================= ПОИСК ППО ================= -->
+  <div id="section-table2" class="sectionTWO hidden-section">
+    <div class="search-and-draft">
+      <textarea class="search-input" id="searchInput1" placeholder="Поиск по названиям (авто, бренды, сокращения)..."></textarea>
+      <div class="draft-area" id="draft1" contenteditable="true" data-placeholder="Черновик объявления — можно писать и копировать"></div>
+    </div>
+    <div class="container4" id="searchContainer1"></div>
+  </div>
+
+  <!-- ================= ПОИСК ППО 2.0 ================= -->
+  <div id="section-table3" class="sectionTWO hidden-section">
+    <div class="search-and-draft">
+      <textarea class="search-input" id="searchInput2" placeholder="Поиск ППО 2.0 (расширенный)..."></textarea>
+      <div class="draft-area" id="draft2" contenteditable="true" data-placeholder="Черновик"></div>
+    </div>
+    <div class="container4" id="searchContainer2"></div>
+  </div>
+
+  <!-- ================= ВЫБОР ППО (конструктор) ================= -->
+  <div id="section-table4" class="sectionTWO hidden-section">
+    <div class="constructor">
+      <div class="field"><label>Действие</label><select id="actionSelect"><option value="">Выберите</option><option>Куплю</option><option>Продам</option></select></div>
+      <div class="field"><label>Предмет</label><select id="itemSelect"><option value="">Выберите</option><option>автомобиль</option><option>недвижимость</option><option>одежду</option><option>мотоцикл</option><option>услуги</option></select></div>
+      <div class="field"><label>Уточнение/модель</label><input type="text" id="modelInput" placeholder="BMW X5, квартира..."></div>
+      <div class="field"><label>Тюнинг/склад</label><select id="tuningSelect"><option value="">Нет</option><option>FT</option><option>ET</option><option>DT</option><option>CT-FT</option></select></div>
+      <div class="field"><label>Цена</label><input type="text" id="priceInput" placeholder="500.000$ или договорная"></div>
+      <div class="field"><label>Торг/обмен</label><select id="tradeSelect"><option value="">Нет</option><option>Торг уместен</option><option>Обмен</option><option>СМС</option></select></div>
+    </div>
+    <div class="sww-button"><button id="generatePpoBtn">Собрать объявление</button><button id="copyPpoBtn">Копировать</button></div>
+    <div id="generatedPpo" style="background:#1e293b; margin:20px; padding:16px; border-radius:28px; font-size:1.1rem; text-align:center;"></div>
+  </div>
+</div>
+
+<div class="theme-arc">
+  <button class="theme-toggle" id="themeToggleBtn">🎨</button>
+  <button class="theme-option" data-theme="light">🤍</button>
+  <button class="theme-option" data-theme="dark">🖤</button>
+  <button class="theme-option" data-theme="pink">🩷</button>
+  <button class="theme-option" data-theme="gta">𝐕</button>
+  <button class="theme-option" data-theme="NewYear">🎄</button>
+</div>
+
+<script>
+  // ========== 1. ТЕМЫ ОФОРМЛЕНИЯ ==========
+  const savedTheme = localStorage.getItem('site-theme') || 'dark';
+  document.body.classList.add(savedTheme);
+  document.querySelectorAll('.theme-option').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const theme = btn.getAttribute('data-theme');
+      document.body.classList.remove('dark','light','pink','gta','NewYear');
+      document.body.classList.add(theme);
+      localStorage.setItem('site-theme', theme);
+    });
+  });
+
+  // ========== 2. НАВИГАЦИЯ МЕЖДУ ТАБЛИЦАМИ ==========
+  function showSection(sectionId) {
+    document.querySelectorAll('.sectionTWO').forEach(el => el.classList.add('hidden-section'));
+    document.getElementById(`section-${sectionId}`).classList.remove('hidden-section');
+  }
+  document.querySelectorAll('#mainDropdown a').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const section = link.getAttribute('data-section');
+      showSection(section);
+    });
+  });
+  showSection('table1');
+  
+  // легенда раскрытие
+  const legendHeader = document.querySelector('#legend-header');
+  const legendContent = document.querySelector('#legend-content');
+  if(legendHeader && legendContent) {
+    legendHeader.addEventListener('click', () => {
+      const isVisible = legendContent.style.display === 'block';
+      legendContent.style.display = isVisible ? 'none' : 'block';
+      legendHeader.querySelector('.legend-icon').innerHTML = isVisible ? '▲' : '▼';
+    });
+  }
+
+  // ========== 3. ОБЪЯВЛЕНИЯ (ДОБАВЛЯЮТСЯ ЗДЕСЬ ПРЯМО В КОДЕ) ==========
+  // 🔥🔥🔥 КОПИРУЙТЕ ЭТИ СТРОКИ И ВСТАВЛЯЙТЕ НОВЫЕ ОБЪЯВЛЕНИЯ 🔥🔥🔥
+  const adsData = {
+    "auto-buy": [
+      
+    ],
+    "auto-sell": [
+      
+    ],
+    "home-buy": [
+      
+    ],
+    "home-sell": [
+      
+    ],
+   
+  };
+  
+  function renderAds() {
+    for (const [key, list] of Object.entries(adsData)) {
+      const container = document.getElementById(key);
+      if(container) {
+        container.innerHTML = list.map(text => `<span class="badge">${text}</span>`).join('');
+      }
+    }
+  }
+  renderAds();
+  
+  // ========== 4. ПОИСК ПО СПРАВОЧНИКУ ==========
+  const dictionary = [
+    "BMW - Бумер", "Mercedes-Benz - МБ", "Land Rover - Ровер", "Volkswagen - Фолькс",
+    "Toyota - Тойода", "Lexus - Лекс", "Porsche - Поршак", "Nissan - Ниса", "Audi - Аудитор",
+    "FT - Полный тюнинг", "ET - С элементами тюнинга", "DT - Сток", "на СГУ - полицейский гудок",
+    "Gucci - ГЧ", "Louis Vuitton - ЛВ", "Nike - Чаечка", "Adidas - Три полоски",
+    "Куплю", "Продам", "г/н - госномер", "а/м - автомобиль", "г/м - гаражное место"
+  ];
+  function performSearch(searchText, containerId) {
+    const container = document.getElementById(containerId);
+    if(!container) return;
+    if(!searchText.trim()) { container.innerHTML = '<div class="result-line">🔍 Введите слово для поиска...</div>'; return; }
+    const lower = searchText.toLowerCase();
+    const results = dictionary.filter(term => term.toLowerCase().includes(lower));
+    if(results.length) container.innerHTML = results.map(r => `<div class="result-line">📌 ${r}</div>`).join('');
+    else container.innerHTML = '<div class="result-line">❌ Ничего не найдено, попробуйте "BMW" или "тюнинг"</div>';
+  }
+  document.getElementById('searchInput1').addEventListener('input', e => performSearch(e.target.value, 'searchContainer1'));
+  document.getElementById('searchInput2').addEventListener('input', e => performSearch(e.target.value, 'searchContainer2'));
+  
+  // ========== 5. КОНСТРУКТОР ВЫБОРА ППО ==========
+  document.getElementById('generatePpoBtn').addEventListener('click', () => {
+    const action = document.getElementById('actionSelect').value;
+    const item = document.getElementById('itemSelect').value;
+    const model = document.getElementById('modelInput').value;
+    const tuning = document.getElementById('tuningSelect').value;
+    const price = document.getElementById('priceInput').value;
+    const trade = document.getElementById('tradeSelect').value;
+    let parts = [];
+    if(action) parts.push(action);
+    if(item) parts.push(item);
+    if(model) parts.push(model);
+    if(tuning) parts.push(`(${tuning})`);
+    if(price) parts.push(`💰 ${price}`);
+    if(trade) parts.push(trade);
+    const final = parts.join(' ') || 'Заполните хотя бы одно поле';
+    document.getElementById('generatedPpo').innerHTML = `<strong>Ваше объявление:</strong><br> ${final}`;
+  });
+  document.getElementById('copyPpoBtn').addEventListener('click', () => {
+    const text = document.getElementById('generatedPpo').innerText.replace('Ваше объявление:', '').trim();
+    navigator.clipboard.writeText(text);
+    alert('✅ Объявление скопировано!');
+  });
+  
+  // Сворачивание секций (доп. комфорт)
+  document.querySelectorAll('.section .section-header').forEach(header => {
+    header.addEventListener('click', (e) => {
+      if(e.target.closest('.toggle-legend')) return;
+      const itemsDiv = header.parentElement.querySelector('.items');
+      if(itemsDiv) {
+        const isOpen = itemsDiv.style.display !== 'none';
+        itemsDiv.style.display = isOpen ? 'none' : 'flex';
+        header.querySelector('.toggle-icon')?.remove();
+        const span = document.createElement('span');
+        span.className = 'toggle-icon';
+        span.innerText = isOpen ? '▼' : '▲';
+        header.appendChild(span);
+      }
+    });
+  });
+  // черновики работают
+  ['draft1','draft2'].forEach(id => {
+    const draft = document.getElementById(id);
+    if(draft) draft.addEventListener('input', () => {});
+  });
+</script>
+</body>
+</html>
