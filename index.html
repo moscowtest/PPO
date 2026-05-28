@@ -18,7 +18,6 @@
       padding: 24px 20px;
     }
 
-    /* ========== НОВЫЙ ДИЗАЙН ТЕМ (сохранён с прошлого раза) ========== */
     body.dark {
       background: linear-gradient(135deg, #0a0c15 0%, #0f1222 100%);
       color: #e2e8f0;
@@ -122,7 +121,6 @@
       color: #fee3b8;
     }
 
-    /* Общие стили */
     .container {
       max-width: 1400px;
       margin: 0 auto;
@@ -149,7 +147,6 @@
       flex-wrap: wrap;
       gap: 12px;
     }
-    /* Стили для объявлений — курсор pointer, эффект нажатия */
     .badge {
       padding: 8px 18px;
       border-radius: 40px;
@@ -162,7 +159,6 @@
     .badge:active {
       transform: scale(0.96);
     }
-    /* тултип-уведомление */
     .copy-toast {
       position: fixed;
       bottom: 100px;
@@ -258,9 +254,11 @@
       font-size: 1.1rem;
       text-align: center;
       font-weight: 500;
+      background: rgba(255,255,255,0.05);
+      border-radius: 28px;
+      margin: 0 24px 20px 24px;
     }
     
-    /* ========== НОВАЯ АНИМАЦИЯ ДЛЯ ВЫБОРА ТЕМ ========== */
     .theme-arc {
       position: fixed;
       bottom: 24px;
@@ -276,7 +274,6 @@
       align-items: center;
     }
     
-    /* Кнопка-триггер (основная) */
     .theme-trigger {
       background: rgba(255,255,255,0.2);
       border: none;
@@ -295,7 +292,6 @@
       transform: scale(1.05);
     }
     
-    /* Контейнер с кнопками тем (по умолчанию скрыт) */
     .themes-container {
       display: flex;
       gap: 8px;
@@ -306,7 +302,6 @@
       margin-left: 0;
     }
     
-    /* При наведении на .theme-arc показываем все кнопки */
     .theme-arc:hover .themes-container {
       max-width: 300px;
       opacity: 1;
@@ -404,7 +399,6 @@
       </div>
     </div>
 
-    <!-- Секции с объявлениями (кликабельные) -->
     <div class="glass-card"><div class="section-header">💰 Куплю автомобиль</div><div class="items" id="cat-auto-buy"></div></div>
     <div class="glass-card"><div class="section-header">💸 Продам автомобиль</div><div class="items" id="cat-auto-sell"></div></div>
     <div class="glass-card"><div class="section-header">🏠 Недвижимость (Куплю)</div><div class="items" id="cat-home-buy"></div></div>
@@ -427,18 +421,18 @@
     </div>
   </div>
 
-  <!-- КОНСТРУКТОР -->
+  <!-- КОНСТРУКТОР (ОБНОВЛЁННЫЙ) -->
   <div id="tab-table3" class="tab-content hidden-section">
     <div class="glass-card">
       <div class="constructor-panel">
         <div class="field"><label>Действие</label><select id="constructorAction"><option>Куплю</option><option>Продам</option></select></div>
-        <div class="field"><label>Тип</label><select id="constructorType"><option>автомобиль</option><option>недвижимость</option><option>одежду</option></select></div>
-        <div class="field"><label>Модель</label><input id="constructorModel" placeholder="BMW X6, квартира"></div>
-        <div class="field"><label>Тюнинг</label><select id="constructorTuning"><option value="">—</option><option>FT</option><option>ET</option></select></div>
-        <div class="field"><label>Цена</label><input id="constructorPrice" placeholder="2.500.000$"></div>
-        <div class="field"><label>Торг</label><select id="constructorTrade"><option value="">—</option><option>Торг</option><option>Обмен</option></select></div>
+        <div class="field"><label>Тип</label><select id="constructorType"><option>а/м</option><option>недвижимость</option><option>одежду</option><option>мотоцикл</option></select></div>
+        <div class="field"><label>Модель</label><input id="constructorModel" placeholder="BMW X6, Жигуль 2105, любая"></div>
+        <div class="field"><label>Тюнинг</label><select id="constructorTuning"><option value="">—</option><option>FT</option><option>ET</option><option>DT</option></select></div>
+        <div class="field"><label>Цена/Бюджет</label><input id="constructorPrice" placeholder="1.000.000"></div>
+        <div class="field"><label>Торг/Обмен</label><select id="constructorTrade"><option value="">—</option><option>Возможен торг</option><option>Обмен</option></select></div>
       </div>
-      <div class="result-block" id="constructedText">📋 Кликните «Собрать»</div>
+      <div class="result-block" id="constructedText">📋 Соберите объявление</div>
       <div style="display: flex; justify-content: center; gap: 20px; padding-bottom: 24px;">
         <button id="generateConstructBtn">✨ Собрать</button>
         <button id="copyConstructBtn">📋 Копировать</button>
@@ -447,7 +441,6 @@
   </div>
 </div>
 
-<!-- НОВАЯ СТРУКТУРА ВЫБОРА ТЕМ (с анимацией появления) -->
 <div class="theme-arc">
   <button class="theme-trigger" id="themeTriggerBtn">🎨</button>
   <div class="themes-container">
@@ -460,16 +453,13 @@
 </div>
 
 <script>
-  // ========== УНИВЕРСАЛЬНАЯ ФУНКЦИЯ КОПИРОВАНИЯ С УВЕДОМЛЕНИЕМ ==========
+  // ========== КОПИРОВАНИЕ ==========
   function copyToClipboard(text, event) {
     navigator.clipboard.writeText(text).then(() => {
-      // Визуальный эффект на кнопке/тексте
       if(event && event.target) {
-        const originalText = event.target.innerText;
         event.target.style.transform = 'scale(0.96)';
         setTimeout(() => { if(event.target) event.target.style.transform = ''; }, 120);
       }
-      // Всплывающее уведомление
       const toast = document.createElement('div');
       toast.className = 'copy-toast';
       toast.innerText = '✅ Скопировано!';
@@ -480,7 +470,6 @@
     });
   }
 
-  // Привязываем копирование ко всем элементам .badge (объявлениям)
   function bindCopyToBadges() {
     document.querySelectorAll('.badge').forEach(badge => {
       badge.removeEventListener('click', badge._copyHandler);
@@ -500,42 +489,34 @@
     document.body.classList.add(theme);
     localStorage.setItem('site-theme', theme);
   };
-  
   document.querySelectorAll('.theme-icon').forEach(btn => {
     btn.addEventListener('click', () => applyTheme(btn.getAttribute('data-theme')));
   });
   applyTheme(localStorage.getItem('site-theme') || 'dark');
 
-  // ========== НАВИГАЦИЯ (ИСПРАВЛЕНО) ==========
+  // ========== НАВИГАЦИЯ ==========
   const tabs = ['table1', 'table2', 'table3'];
   function showTab(tabId) {
     tabs.forEach(t => document.getElementById(`tab-${t}`).classList.add('hidden-section'));
     document.getElementById(`tab-${tabId}`).classList.remove('hidden-section');
   }
   
-  // Открытие/закрытие выпадающего меню
   const mainMenuBtn = document.getElementById('mainMenuBtn');
   const mainMenuList = document.getElementById('mainMenuList');
-  
   mainMenuBtn.addEventListener('click', (e) => {
     e.stopPropagation();
     mainMenuList.classList.toggle('show');
   });
-  
-  // Закрытие меню при клике вне его
   document.addEventListener('click', (e) => {
     if (!mainMenuBtn.contains(e.target) && !mainMenuList.contains(e.target)) {
       mainMenuList.classList.remove('show');
     }
   });
-  
-  // Обработка кликов по пунктам меню
   document.querySelectorAll('#mainMenuList a').forEach(link => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
-      const tabId = link.getAttribute('data-tab');
-      showTab(tabId);
-      mainMenuList.classList.remove('show'); // закрываем меню после выбора
+      showTab(link.getAttribute('data-tab'));
+      mainMenuList.classList.remove('show');
     });
   });
   
@@ -549,7 +530,7 @@
     legendToggle.querySelector('span').innerHTML = legendVisible ? '▲' : '▼';
   });
 
-  // ========== ОБЪЯВЛЕНИЯ (ДОБАВЛЯЙТЕ ЗДЕСЬ) ==========
+  // ========== ОБЪЯВЛЕНИЯ ==========
   const adsCatalog = {
     "auto-buy":   [""],
     "auto-sell":  [""],
@@ -569,14 +550,12 @@
         container.innerHTML = arr.map(text => `<span class="badge">${text}</span>`).join('');
       }
     }
-    bindCopyToBadges(); // после отрисовки привязываем клики
+    bindCopyToBadges();
   }
   renderAllAds();
 
   // ========== ПОИСК ==========
-  const searchBase = [
-    
-  ];
+  const searchBase = [];
   const searchInput = document.getElementById('globalSearch');
   const resultDiv = document.getElementById('searchResultList');
   searchInput.addEventListener('input', (e) => {
@@ -585,28 +564,60 @@
     const filtered = searchBase.filter(term => term.toLowerCase().includes(val));
     if(filtered.length) {
       resultDiv.innerHTML = filtered.map(term => `<div class="badge" style="display:inline-block; width:auto;">📌 ${term}</div>`).join('');
-      bindCopyToBadges(); // результаты поиска тоже кликабельны
+      bindCopyToBadges();
     } else resultDiv.innerHTML = '<div style="padding: 12px;">❌ Не найдено</div>';
   });
 
-  // ========== КОНСТРУКТОР ==========
+  // ========== КОНСТРУКТОР (ОБНОВЛЁННАЯ ЛОГИКА) ==========
   const genBtn = document.getElementById('generateConstructBtn');
   const copyConstruct = document.getElementById('copyConstructBtn');
   const constructedDivElem = document.getElementById('constructedText');
+  
+  function isAnyModel(model) {
+    const anyWords = ['любой', 'любую', 'любая', 'любое', 'любого'];
+    return anyWords.some(word => model.toLowerCase().includes(word));
+  }
+  
   genBtn.addEventListener('click', () => {
     const action = document.getElementById('constructorAction').value;
     const type = document.getElementById('constructorType').value;
-    const model = document.getElementById('constructorModel').value;
+    let model = document.getElementById('constructorModel').value.trim();
     const tuning = document.getElementById('constructorTuning').value;
-    const price = document.getElementById('constructorPrice').value;
+    let price = document.getElementById('constructorPrice').value.trim();
     const trade = document.getElementById('constructorTrade').value;
+    
     let parts = [action, type];
-    if(model) parts.push(model);
-    if(tuning) parts.push(`[${tuning}]`);
-    if(price) parts.push(`💰 ${price}`);
-    if(trade) parts.push(`(${trade})`);
-    constructedDivElem.innerText = parts.join(' ') || (action + " " + type);
+    
+    // Модель
+    if(model) {
+      parts.push(model);
+    }
+    
+    // Тюнинг (без скобок)
+    if(tuning && tuning !== '—') {
+      parts.push(tuning);
+    }
+    
+    // Цена/бюджет (логика)
+    if(price) {
+      if(isAnyModel(model)) {
+        parts.push(`Цена: договорная`);
+      } else {
+        parts.push(`Цена: ${price}`);
+      }
+    } else if(isAnyModel(model)) {
+      parts.push(`Бюджет: свободный`);
+    }
+    
+    // Торг/обмен (без скобок)
+    if(trade && trade !== '—') {
+      parts.push(trade);
+    }
+    
+    const final = parts.join(' ') || (action + " " + type);
+    constructedDivElem.innerText = final;
   });
+  
   copyConstruct.addEventListener('click', () => {
     copyToClipboard(constructedDivElem.innerText, { target: copyConstruct });
   });
