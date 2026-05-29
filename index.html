@@ -296,7 +296,6 @@
       transition: 0.1s;
     }
     
-    /* Редактируемое поле результата */
     .result-editable {
       padding: 20px 24px;
       font-size: 1.1rem;
@@ -487,6 +486,8 @@
             <div class="tags-list">Gucci · LV · Nike · Adidas · Versace · Balenciaga</div>
             <h3>🚗 Марки авто</h3>
             <div class="tags-list">BMW · Mercedes · Audi · Toyota · Lexus · Porsche · Lada · Приора</div>
+            <h3>📦 Предметы</h3>
+            <div class="tags-list">Телефон · Ноутбук · Часы · Украшения · Оружие · Броня · Аптечки · Еда</div>
           </div>
         </div>
       </div>
@@ -499,6 +500,8 @@
     <div class="glass-card"><div class="section-header">👕 Одежда (Куплю)</div><div class="items" id="cat-cloth-buy"></div></div>
     <div class="glass-card"><div class="section-header">👚 Одежда (Продам)</div><div class="items" id="cat-cloth-sell"></div></div>
     <div class="glass-card"><div class="section-header">🏍 Мото/вело</div><div class="items" id="cat-moto-buy"></div></div>
+    <div class="glass-card"><div class="section-header">📦 Предметы (Куплю)</div><div class="items" id="cat-items-buy"></div></div>
+    <div class="glass-card"><div class="section-header">📦 Предметы (Продам)</div><div class="items" id="cat-items-sell"></div></div>
     <div class="glass-card"><div class="section-header">🔧 Услуги</div><div class="items" id="cat-service"></div></div>
     <div class="glass-card"><div class="section-header">📢 Приветы</div><div class="items" id="cat-hello"></div></div>
   </div>
@@ -507,22 +510,30 @@
   <div id="tab-table2" class="tab-content hidden-section">
     <div class="glass-card">
       <div class="search-area">
-        <input type="text" id="globalSearch" class="search-input" placeholder="🔍 Поиск по объявлениям: BMW, квартира, Gucci, привет...">
+        <input type="text" id="globalSearch" class="search-input" placeholder="🔍 Поиск по объявлениям: BMW, квартира, Gucci, привет, предметы...">
         <div class="draft-box" id="draftGlobal" contenteditable="true" placeholder="Черновик объявления"></div>
       </div>
       <div id="searchResultList" class="items" style="flex-direction: column; gap: 8px;"></div>
     </div>
   </div>
 
-  <!-- КОНСТРУКТОР (ОБНОВЛЁННЫЙ) -->
+  <!-- КОНСТРУКТОР -->
   <div id="tab-table3" class="tab-content hidden-section">
     <div class="glass-card">
       <div class="constructor-panel">
         <div class="field"><label>Действие</label><select id="constructorAction"><option>Куплю</option><option>Продам</option></select></div>
-        <div class="field"><label>Тип</label><select id="constructorType"><option>а/м</option><option>квартиру</option><option>дом</option><option>мотоцикл</option></select></div>
+        <div class="field"><label>Тип</label>
+          <select id="constructorType">
+            <option>а/м</option>
+            <option>квартиру</option>
+            <option>дом</option>
+            <option>мотоцикл</option>
+            <option>предмет</option>
+          </select>
+        </div>
         <div class="field" style="position: relative;">
           <label>Модель/Название</label>
-          <input id="constructorModel" placeholder="BMW X6, ЖК Центральный, особняк" autocomplete="off">
+          <input id="constructorModel" placeholder="BMW X6, ЖК Центральный, iPhone 15" autocomplete="off">
           <div id="autocompleteList" class="autocomplete-list" style="display: none;"></div>
         </div>
         <div class="field"><label>Тюнинг/Опции</label><select id="constructorTuning"><option value="">—</option><option>FT</option><option>ET</option><option>DT</option><option>Размер склада 5х36</option><option>Размер склада 10х50</option><option>г/м</option></select></div>
@@ -540,7 +551,6 @@
         <div class="field"><label>Торг/Обмен</label><select id="constructorTrade"><option value="">—</option><option>Возможен торг</option><option>Возможен обмен</option></select></div>
       </div>
       
-      <!-- Редактируемое поле для собранного объявления -->
       <div id="constructedText" class="result-editable" contenteditable="true" data-placeholder="📋 Соберите или введите объявление вручную..."></div>
       
       <div style="display: flex; justify-content: center; gap: 20px; padding-bottom: 24px;">
@@ -641,7 +651,7 @@
     legendToggle.querySelector('span').innerHTML = legendVisible ? '▲' : '▼';
   });
 
-  // ========== ОБЪЯВЛЕНИЯ ==========
+  // ========== ОБЪЯВЛЕНИЯ (ДОБАВЛЕН РАЗДЕЛ ПРЕДМЕТЫ) ==========
   const adsCatalog = {
     "auto-buy":   ["Куплю BMW X6", "Куплю Mercedes G-Class", "Куплю Audi RS6", "Куплю Toyota Land Cruiser", "Куплю Lada Priora"],
     "auto-sell":  ["Продам Lada Priora", "Продам BMW M5", "Продам Lexus RX350", "Продам Porsche 911"],
@@ -650,6 +660,8 @@
     "cloth-buy":  ["Куплю Gucci свитер", "Куплю Nike кроссовки"],
     "cloth-sell": ["Продам Adidas худи", "Продам LV сумку"],
     "moto-buy":   ["Куплю Harley Davidson", "Куплю Yamaha R1"],
+    "items-buy":  ["Куплю iPhone 15 Pro Max", "Куплю ноутбук Apple MacBook", "Куплю часы Rolex", "Куплю игровую приставку PlayStation 5"],
+    "items-sell": ["Продам телефон Samsung S24", "Продам наушники AirPods Pro", "Продам видеокарту RTX 4090", "Продам механическую клавиатуру"],
     "service":    ["Услуги механика", "Ремонт авто", "Чип-тюнинг"],
     "hello":      ["Привет фракции Уральск Лайв!", "Всем привет от старичков!"]
   };
@@ -662,6 +674,8 @@
     "cloth-buy": "👕 Куплю одежду",
     "cloth-sell": "👚 Продам одежду",
     "moto-buy": "🏍 Мото/вело",
+    "items-buy": "📦 Куплю предметы",
+    "items-sell": "📦 Продам предметы",
     "service": "🔧 Услуги",
     "hello": "📢 Приветы"
   };
@@ -707,7 +721,7 @@
   searchInput.addEventListener('input', (e) => {
     const query = e.target.value.trim();
     if (!query) {
-      resultDiv.innerHTML = '<div style="padding: 12px; text-align: center;">🔍 Введите слово для поиска по объявлениям<br><span style="font-size: 0.8rem; opacity: 0.7;">Например: BMW, квартира, Gucci, привет</span></div>';
+      resultDiv.innerHTML = '<div style="padding: 12px; text-align: center;">🔍 Введите слово для поиска по объявлениям<br><span style="font-size: 0.8rem; opacity: 0.7;">Например: BMW, квартира, Gucci, iPhone, привет</span></div>';
       return;
     }
     
@@ -733,7 +747,7 @@
       for (const text of arr) {
         const words = text.split(' ');
         for (const word of words) {
-          if (word.length > 2 && !['Куплю', 'Продам', 'а/м', 'квартиру', 'дом', 'мотоцикл'].includes(word)) {
+          if (word.length > 2 && !['Куплю', 'Продам', 'а/м', 'квартиру', 'дом', 'мотоцикл', 'предмет'].includes(word)) {
             models.push(word.replace(/[.,!?;:]/g, ''));
           }
         }
@@ -741,7 +755,8 @@
     }
     const refModels = ['BMW', 'Mercedes', 'Audi', 'Toyota', 'Lexus', 'Porsche', 'Lada', 'Priora', 
                        'ЖК Центральный', 'ЖК Московский', 'ЖК Речной', 'особняк', 'таунхаус', 
-                       'квартиру', 'дом', 'мотоцикл', 'Harley', 'Yamaha', 'Gucci', 'Nike', 'Adidas'];
+                       'квартиру', 'дом', 'мотоцикл', 'Harley', 'Yamaha', 'Gucci', 'Nike', 'Adidas',
+                       'iPhone', 'Samsung', 'MacBook', 'Rolex', 'PlayStation', 'AirPods', 'RTX'];
     return [...new Set([...models, ...refModels])];
   }
   
@@ -775,20 +790,21 @@
     }
   });
 
-  // ========== КОНСТРУКТОР (С ВЫБОРОМ ЦЕНЫ И РЕДАКТИРУЕМЫМ ПОЛЕМ) ==========
+  // ========== КОНСТРУКТОР ==========
   const genBtn = document.getElementById('generateConstructBtn');
   const copyConstruct = document.getElementById('copyConstructBtn');
   const clearConstruct = document.getElementById('clearConstructBtn');
   const constructedDivElem = document.getElementById('constructedText');
   const actionSelect = document.getElementById('constructorAction');
   const priceSelect = document.getElementById('constructorPrice');
+  const typeSelect = document.getElementById('constructorType');
   
   function isAnyModel(model) {
     const anyWords = ['любой', 'любую', 'любая', 'любое', 'любого'];
     return anyWords.some(word => model.toLowerCase().includes(word));
   }
   
-  function formatPrice(priceValue, action, model) {
+  function formatPrice(priceValue, action, model, type) {
     if (!priceValue) return '';
     
     // Если выбрана Договорная или Свободный
@@ -814,18 +830,23 @@
   
   genBtn.addEventListener('click', () => {
     const action = actionSelect.value;
-    const type = document.getElementById('constructorType').value;
+    let type = typeSelect.value;
     let model = document.getElementById('constructorModel').value.trim();
     const tuning = document.getElementById('constructorTuning').value;
     const priceValue = priceSelect.value;
     const trade = document.getElementById('constructorTrade').value;
+    
+    // Для предметов меняем окончание
+    if (type === 'предмет') {
+      type = action === 'Куплю' ? 'предмет' : 'предмет';
+    }
     
     let parts = [action, type];
     
     if(model) parts.push(model);
     if(tuning && tuning !== '—') parts.push(tuning + '.');
     
-    const priceText = formatPrice(priceValue, action, model);
+    const priceText = formatPrice(priceValue, action, model, type);
     if(priceText) parts.push(priceText);
     
     if(trade && trade !== '—') parts.push(trade + '.');
@@ -848,7 +869,6 @@
     constructedDivElem.focus();
   });
   
-  // Placeholder для редактируемого поля
   constructedDivElem.addEventListener('focus', () => {
     if (constructedDivElem.innerText === '📋 Соберите или введите объявление вручную...') {
       constructedDivElem.innerText = '';
