@@ -474,14 +474,20 @@
           <div class="legend-col">
             <h3>🏢 Жилые комплексы (ЖК)</h3>
             <div class="tags-list">
+             
             </div>
             <h3>🏠 Дома</h3>
             <div class="tags-list">
+             
             </div>
           </div>
           <div class="legend-col">
             <h3>👔 Бренды</h3>
+            
+            <h3>🚗 Марки авто</h3>
+          
             <h3>📦 Предметы</h3>
+    
           </div>
         </div>
       </div>
@@ -504,7 +510,7 @@
   <div id="tab-table2" class="tab-content hidden-section">
     <div class="glass-card">
       <div class="search-area">
-        <input type="text" id="globalSearch" class="search-input" placeholder="🔍 Поиск по объявлениям: BMW, квартира, Gucci, привет, предметы...">
+        <input type="text" id="globalSearch" class="search-input" placeholder="🔍 Поиск по объявлениям: Жигуль 2101, квартира, Gucci, предметы...">
         <div class="draft-box" id="draftGlobal" contenteditable="true" placeholder="Черновик объявления"></div>
       </div>
       <div id="searchResultList" class="items" style="flex-direction: column; gap: 8px;"></div>
@@ -739,7 +745,7 @@
   searchInput.addEventListener('input', (e) => {
     const query = e.target.value.trim();
     if (!query) {
-      resultDiv.innerHTML = '<div style="padding: 12px; text-align: center;">🔍 Введите слово для поиска по объявлениям<br><span style="font-size: 0.8rem; opacity: 0.7;">Например: Жигуль, квартира, Gucci, iPhone, привет</span></div>';
+      resultDiv.innerHTML = '<div style="padding: 12px; text-align: center;">🔍 Введите слово для поиска по объявлениям<br><span style="font-size: 0.8rem; opacity: 0.7;">Например: Жигуль 2101, квартира, Gucci, iPhone</span></div>';
       return;
     }
     
@@ -758,22 +764,36 @@
     }
   });
 
-  // ========== АВТОПОДСТАНОВКА ДЛЯ КОНСТРУКТОРА ==========
+  // ========== АВТОПОДСТАНОВКА ДЛЯ КОНСТРУКТОРА (ПОЛНЫЕ НАЗВАНИЯ) ==========
   function getAllModelNames() {
     const models = [];
-    for (const [key, arr] of Object.entries(adsCatalog)) {
-      for (const text of arr) {
-        const words = text.split(' ');
-        for (const word of words) {
-          if (word.length > 2 && !['Куплю', 'Продам', 'а/м', 'квартиру', 'дом', 'мотоцикл', 'предмет'].includes(word)) {
-            models.push(word.replace(/[.,!?;:]/g, ''));
+    
+    // Добавляем все названия автомобилей из списка (полностью)
+    for (const car of carList) {
+      models.push(car);
+    }
+    
+    // Добавляем названия из других разделов
+    const otherCategories = ['home-buy', 'home-sell', 'cloth-buy', 'cloth-sell', 'moto-buy', 'items-buy', 'items-sell'];
+    for (const category of otherCategories) {
+      if (adsCatalog[category]) {
+        for (const text of adsCatalog[category]) {
+          // Извлекаем название после типа
+          const match = text.match(/(?:Куплю|Продам)\s+(?:квартиру|дом|предмет|мотоцикл)\s+(.+?)(?:\.|$)/);
+          if (match && match[1]) {
+            models.push(match[1].trim());
           }
         }
       }
     }
-    const refModels = ['Жигуль', 'Бумер', 'Мерс', 'Аудио', 'Тойотик', 'Поршак', 'Ламбо', 'Ферра',
-                       'ЖК Центральный', 'ЖК Московский', 'особняк', 'таунхаус', 'квартиру', 'дом',
-                       'iPhone', 'Samsung', 'MacBook', 'Rolex', 'PlayStation'];
+    
+    // Добавляем справочные названия
+    const refModels = [
+      'ЖК Центральный', 'ЖК Московский', 'ЖК Речной', 'ЖК Лесной', 'ЖК Солнечный',
+      'особняк', 'таунхаус', 'частный дом', 'коттедж',
+      'iPhone 15 Pro Max', 'Samsung S24', 'MacBook', 'Rolex', 'PlayStation 5', 'AirPods Pro', 'RTX 4090'
+    ];
+    
     return [...new Set([...models, ...refModels])];
   }
   
