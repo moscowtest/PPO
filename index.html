@@ -31,7 +31,6 @@
       transition: background 0.3s ease;
     }
     
-    /* Частицы для фона */
     .particles {
       position: fixed;
       top: 0;
@@ -45,7 +44,6 @@
     
     .particle {
       position: absolute;
-      background: rgba(139, 92, 246, 0.4);
       border-radius: 50%;
       pointer-events: none;
       animation: floatParticle linear infinite;
@@ -68,131 +66,122 @@
       }
     }
     
-    /* Тёмная тема фон */
+    /* ТЁМНАЯ ТЕМА */
     body.dark::before {
       background: linear-gradient(135deg, #0a0c15 0%, #0f1222 50%, #1a1a2e 100%);
     }
     body.dark .particle {
-      background: rgba(139, 92, 246, 0.3);
+      background: rgba(139, 92, 246, 0.4);
       box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
     }
+    body.dark .glass-card {
+      background: rgba(15, 25, 45, 0.75);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    }
+    body.dark .section-header {
+      background: linear-gradient(90deg, rgba(139,92,246,0.25) 0%, rgba(59,130,246,0.1) 100%);
+      border-left: 4px solid #8b5cf6;
+      color: #f0f0ff;
+    }
+    body.dark .badge {
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      border: 1px solid #3b4a6e;
+      color: #e2e8f0;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    }
+    body.dark .badge:hover {
+      border-color: #8b5cf6;
+      box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
+    }
+    body.dark .search-input, body.dark .draft-box {
+      background: rgba(30, 41, 59, 0.8);
+      color: #f0f0f0;
+    }
+    body.dark select, body.dark .field input {
+      background: rgba(30, 41, 59, 0.8);
+      color: #f0f0f0;
+      border-color: #4a5b7a;
+    }
     
-    /* Светлая тема фон */
+    /* СВЕТЛАЯ ТЕМА */
     body.light::before {
       background: linear-gradient(145deg, #f0f9f4 0%, #e0ece6 100%);
     }
     body.light .particle {
       background: rgba(46, 125, 50, 0.15);
     }
-    
-    /* Розовая тема фон */
-    body.pink::before {
-      background: linear-gradient(125deg, #1a0b1a 0%, #2d1b2e 100%);
-    }
-    body.pink .particle {
-      background: rgba(255, 105, 180, 0.3);
-      box-shadow: 0 0 10px rgba(255, 105, 180, 0.4);
-    }
-    
-    /* GTA тема фон */
-    body.gta::before {
-      background: linear-gradient(115deg, #0b1a2a 0%, #1c2a1f 100%);
-    }
-    body.gta .particle {
-      background: rgba(243, 156, 18, 0.25);
-      box-shadow: 0 0 8px rgba(243, 156, 18, 0.3);
-    }
-    
-    /* Новогодняя тема фон */
-    body.NewYear::before {
-      background: linear-gradient(145deg, #0a2f3a 0%, #144d5c 100%);
-    }
-    body.NewYear .particle {
-      background: rgba(255, 217, 100, 0.25);
-      box-shadow: 0 0 10px rgba(255, 217, 100, 0.4);
-    }
-
-    body.dark .glass-card {
-      background: rgba(15, 25, 45, 0.6);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(139, 92, 246, 0.3);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-    }
-    body.dark .section-header {
-      background: linear-gradient(90deg, rgba(139,92,246,0.2) 0%, rgba(59,130,246,0.1) 100%);
-      border-left: 4px solid #8b5cf6;
-    }
-    body.dark .badge {
-      background: linear-gradient(135deg, #1e293b, #0f172a);
-      border: 1px solid #334155;
-      color: #cbd5e1;
-    }
-
     body.light .glass-card {
-      background: rgba(255, 255, 255, 0.85);
+      background: rgba(255, 255, 255, 0.92);
       backdrop-filter: blur(10px);
-      border: 1px solid rgba(46, 125, 50, 0.2);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      border: 1px solid rgba(46, 125, 50, 0.25);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
     }
     body.light .section-header {
       background: linear-gradient(90deg, #e8f5e9, #ffffff);
       border-left: 4px solid #2e7d32;
+      color: #1a3a2a;
     }
     body.light .badge {
       background: #ffffff;
       border: 1px solid #c8e6c9;
-      color: #1e3a1e;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      color: #1a3a2a;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      text-shadow: none;
     }
-
+    body.light .badge:hover {
+      border-color: #2e7d32;
+      box-shadow: 0 0 12px rgba(46, 125, 50, 0.2);
+    }
+    body.light .search-input, body.light .draft-box {
+      background: rgba(255, 255, 255, 0.9);
+      color: #1a3a2a;
+    }
+    body.light select, body.light .field input {
+      background: white;
+      color: #1a3a2a;
+      border-color: #b9c3d4;
+    }
+    
+    /* РОЗОВАЯ ТЕМА */
+    body.pink::before {
+      background: linear-gradient(125deg, #1a0b1a 0%, #2d1b2e 100%);
+    }
+    body.pink .particle {
+      background: rgba(255, 105, 180, 0.35);
+      box-shadow: 0 0 10px rgba(255, 105, 180, 0.4);
+    }
     body.pink .glass-card {
-      background: rgba(50, 20, 50, 0.7);
+      background: rgba(50, 25, 50, 0.8);
       backdrop-filter: blur(12px);
-      border: 1px solid #ff69b4;
-      box-shadow: 0 0 15px rgba(255, 105, 180, 0.3);
+      border: 1px solid rgba(255, 105, 180, 0.4);
+      box-shadow: 0 0 15px rgba(255, 105, 180, 0.2);
     }
     body.pink .section-header {
       background: linear-gradient(90deg, rgba(255,105,180,0.25), rgba(255,20,147,0.1));
       border-left: 4px solid #ff69b4;
-      text-shadow: 0 0 5px #ff69b4;
+      color: #ffe0f0;
+      text-shadow: 0 0 8px rgba(255,105,180,0.5);
     }
     body.pink .badge {
-      background: #2a1a2a;
+      background: rgba(42, 26, 42, 0.9);
       border: 1px solid #ff80bf;
-      color: #ffc0e0;
+      color: #ffe0f0;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.2);
     }
-
-    body.gta .glass-card {
-      background: rgba(0, 0, 0, 0.65);
-      backdrop-filter: blur(8px);
-      border: 1px solid #f39c12;
-      box-shadow: 0 4px 15px rgba(243,156,18,0.2);
+    body.pink .badge:hover {
+      border-color: #ff69b4;
+      box-shadow: 0 0 15px rgba(255, 105, 180, 0.4);
     }
-    body.gta .section-header {
-      background: linear-gradient(90deg, rgba(243,156,18,0.2), rgba(230,126,34,0.05));
-      border-left: 4px solid #f39c12;
-      font-family: 'Courier New', monospace;
+    body.pink .search-input, body.pink .draft-box {
+      background: rgba(42, 26, 42, 0.8);
+      color: #ffe0f0;
     }
-    body.gta .badge {
-      background: #1e2a1a;
-      border: 1px solid #f5b642;
-      color: #ffd966;
-    }
-
-    body.NewYear .glass-card {
-      background: rgba(10, 40, 45, 0.8);
-      backdrop-filter: blur(10px);
-      border: 1px solid #ffd966;
-      box-shadow: 0 0 12px rgba(255, 220, 100, 0.3);
-    }
-    body.NewYear .section-header {
-      background: linear-gradient(90deg, rgba(220, 80, 60, 0.3), rgba(46, 125, 50, 0.2));
-      border-left: 4px solid #e63946;
-    }
-    body.NewYear .badge {
-      background: #1d4d4f;
-      border: 1px solid #f4c542;
-      color: #fee3b8;
+    body.pink select, body.pink .field input {
+      background: rgba(42, 26, 42, 0.8);
+      color: #ffe0f0;
+      border-color: #ff80bf;
     }
 
     .container {
@@ -261,22 +250,16 @@
       flex: 1 0 auto;
       text-align: center;
       line-height: 1.4;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
       font-family: 'Fira Code', 'Courier New', monospace;
       position: relative;
       overflow: hidden;
     }
     
-    /* RIPPLE-ЭФФЕКТ ДЛЯ КНОПОК И БЕЙДЖЕЙ */
-    .badge, button, .theme-icon, .theme-trigger, .dropdown-btn {
-      position: relative;
-      overflow: hidden;
-    }
-    
+    /* RIPPLE-ЭФФЕКТ */
     .ripple {
       position: absolute;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.4);
+      background: rgba(255, 255, 255, 0.3);
       transform: scale(0);
       animation: rippleAnim 0.6s linear;
       pointer-events: none;
@@ -299,13 +282,14 @@
     
     .badge:hover {
       transform: translateY(-3px) scale(1.02);
-      filter: brightness(1.05);
+      filter: brightness(1.03);
     }
     
-    /* ГРАДИЕНТНЫЕ КНОПКИ ТЕМ */
+    /* ГРАДИЕНТНЫЕ КНОПКИ */
     .theme-trigger, .theme-icon, .dropdown-btn {
       background: linear-gradient(135deg, rgba(100, 108, 255, 0.8), rgba(139, 92, 246, 0.8));
       transition: all 0.3s ease;
+      border: none;
     }
     
     .theme-trigger:hover, .theme-icon:hover, .dropdown-btn:hover {
@@ -398,11 +382,9 @@
       padding: 14px 20px;
       border-radius: 48px;
       border: none;
-      background: rgba(255,255,255,0.1);
       backdrop-filter: blur(4px);
       font-size: 1rem;
       font-family: inherit;
-      color: inherit;
       outline: none;
     }
     .constructor-panel {
@@ -429,9 +411,7 @@
       width: 100%;
       padding: 10px 14px;
       border-radius: 60px;
-      background: rgba(0,0,0,0.3);
       border: 1px solid rgba(255,255,255,0.2);
-      color: inherit;
       font-family: inherit;
       font-size: 0.9rem;
       outline: none;
@@ -476,7 +456,7 @@
       padding: 20px 24px;
       font-size: 1rem;
       font-weight: 500;
-      background: rgba(255,255,255,0.05);
+      background: rgba(255,255,255,0.08);
       border-radius: 28px;
       margin: 0 24px 20px 24px;
       outline: none;
@@ -487,10 +467,6 @@
     }
     .result-editable:focus {
       border-color: rgba(100, 108, 255, 0.5);
-    }
-    .result-editable[contenteditable="true"]:empty:before {
-      content: "📋 Соберите или введите объявление вручную...";
-      opacity: 0.5;
     }
     
     .theme-arc {
@@ -509,14 +485,11 @@
     }
     
     .theme-trigger {
-      background: linear-gradient(135deg, rgba(100, 108, 255, 0.8), rgba(139, 92, 246, 0.8));
-      border: none;
       font-size: 24px;
       width: 48px;
       height: 48px;
       border-radius: 50%;
       cursor: pointer;
-      transition: all 0.3s ease;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -533,17 +506,15 @@
     }
     
     .theme-arc:hover .themes-container {
-      max-width: 300px;
+      max-width: 200px;
       opacity: 1;
       margin-left: 8px;
     }
     
     .theme-icon {
-      background: linear-gradient(135deg, rgba(100, 108, 255, 0.8), rgba(139, 92, 246, 0.8));
-      border: none;
-      font-size: 22px;
-      width: 44px;
-      height: 44px;
+      font-size: 20px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       cursor: pointer;
       transition: all 0.3s ease;
@@ -560,7 +531,6 @@
       display: inline-block;
     }
     .dropdown-btn {
-      background: linear-gradient(135deg, rgba(100, 108, 255, 0.8), rgba(139, 92, 246, 0.8));
       padding: 10px 24px;
       border-radius: 40px;
       font-size: 1rem;
@@ -610,6 +580,15 @@
       margin-left: 8px;
       padding-bottom: 4px;
     }
+    
+    /* Улучшенная читаемость для всех тем */
+    body.dark .search-input::placeholder,
+    body.pink .search-input::placeholder {
+      color: rgba(255,255,255,0.5);
+    }
+    body.light .search-input::placeholder {
+      color: rgba(0,0,0,0.4);
+    }
   </style>
 </head>
 <body class="dark">
@@ -656,9 +635,7 @@
       </div>
     </div>
 
-    <!-- ПОЛЕЗНОЕ -->
     <div class="glass-card"><div class="section-header">📋 Полезное</div><div class="items" id="cat-useful"></div></div>
-
     <div class="glass-card"><div class="section-header">💰 Куплю автомобиль</div><div class="items" id="cat-auto-buy"></div></div>
     <div class="glass-card"><div class="section-header">💸 Продам автомобиль</div><div class="items" id="cat-auto-sell"></div></div>
     <div class="glass-card"><div class="section-header">🏠 Куплю квартиру/дом</div><div class="items" id="cat-home-buy"></div></div>
@@ -666,19 +643,14 @@
     <div class="glass-card"><div class="section-header">👕 Одежда (Куплю)</div><div class="items" id="cat-cloth-buy"></div></div>
     <div class="glass-card"><div class="section-header">👚 Одежда (Продам)</div><div class="items" id="cat-cloth-sell"></div></div>
     <div class="glass-card"><div class="section-header">🏍 Мото/вело</div><div class="items" id="cat-moto-buy"></div></div>
-    
     <div class="glass-card"><div class="section-header">🍄 Гриб (Куплю)</div><div class="items" id="cat-mushrooms-buy"></div></div>
     <div class="glass-card"><div class="section-header">🍄 Гриб (Продам)</div><div class="items" id="cat-mushrooms-sell"></div></div>
-    
     <div class="glass-card"><div class="section-header">🐟 Рыбу (Куплю)</div><div class="items" id="cat-fish-buy"></div></div>
     <div class="glass-card"><div class="section-header">🐟 Рыбу (Продам)</div><div class="items" id="cat-fish-sell"></div></div>
-    
     <div class="glass-card"><div class="section-header">⛏ Руда (Куплю)</div><div class="items" id="cat-ore-buy"></div></div>
     <div class="glass-card"><div class="section-header">⛏ Руда (Продам)</div><div class="items" id="cat-ore-sell"></div></div>
-    
     <div class="glass-card"><div class="section-header">📦 Шкуру (Куплю)</div><div class="items" id="cat-items-buy"></div></div>
     <div class="glass-card"><div class="section-header">📦 Шкуру (Продам)</div><div class="items" id="cat-items-sell"></div></div>
-    
     <div class="glass-card"><div class="section-header">💼 Бизнес (Куплю)</div><div class="items" id="cat-biz-buy"></div></div>
     <div class="glass-card"><div class="section-header">💼 Бизнес (Продам)</div><div class="items" id="cat-biz-sell"></div></div>
     <div class="glass-card"><div class="section-header">🎲 Госномера (Куплю)</div><div class="items" id="cat-gn-buy"></div></div>
@@ -754,26 +726,23 @@
     <button class="theme-icon" data-theme="dark">🌙</button>
     <button class="theme-icon" data-theme="light">☀️</button>
     <button class="theme-icon" data-theme="pink">🌸</button>
-    <button class="theme-icon" data-theme="gta">🔥</button>
-    <button class="theme-icon" data-theme="NewYear">❄️</button>
   </div>
 </div>
 
-<!-- ПЛАВАЮЩАЯ КНОПКА НАВЕРХ -->
 <button class="scroll-top" id="scrollTopBtn">↑</button>
 
 <script>
-  // ========== ГЕНЕРАЦИЯ ЧАСТИЦ ДЛЯ ФОНА ==========
+  // ========== ГЕНЕРАЦИЯ ЧАСТИЦ ==========
   function createParticles() {
     const particlesContainer = document.createElement('div');
     particlesContainer.className = 'particles';
     document.body.appendChild(particlesContainer);
     
-    const particleCount = 50;
+    const particleCount = 40;
     for (let i = 0; i < particleCount; i++) {
       const particle = document.createElement('div');
       particle.className = 'particle';
-      const size = Math.random() * 4 + 2;
+      const size = Math.random() * 3 + 2;
       particle.style.width = size + 'px';
       particle.style.height = size + 'px';
       particle.style.left = Math.random() * 100 + '%';
@@ -797,7 +766,6 @@
     setTimeout(() => ripple.remove(), 600);
   }
   
-  // Применяем ripple ко всем кликабельным элементам
   document.addEventListener('click', (e) => {
     const target = e.target.closest('.badge, button, .theme-icon, .theme-trigger, .dropdown-btn');
     if (target) {
@@ -805,7 +773,7 @@
     }
   });
 
-  // ========== ПЛАВАЮЩАЯ КНОПКА НАВЕРХ ==========
+  // ========== КНОПКА НАВЕРХ ==========
   const scrollTopBtn = document.getElementById('scrollTopBtn');
   window.addEventListener('scroll', () => {
     if (window.scrollY > 300) {
@@ -849,9 +817,9 @@
     });
   }
 
-  // ========== ТЕМЫ ==========
+  // ========== ТЕМЫ (только 3) ==========
   const applyTheme = (theme) => {
-    document.body.classList.remove('dark', 'light', 'pink', 'gta', 'NewYear');
+    document.body.classList.remove('dark', 'light', 'pink');
     document.body.classList.add(theme);
     localStorage.setItem('site-theme', theme);
   };
@@ -955,16 +923,16 @@
   ];
 
   const usefulRules = [
-    "Аналогичное объявление только один раз в пять минут.",
-    "Некорректное объявление.",
-    "Для рекламы семьи/фракции/мероприятия вам нужно купить рекламу в Уральск Лайв.",
-    "Азартные игры запрещены в объявлении.",
-    "Запрещенные предметы/услуги запрещены в объявлении.",
-    "Ищу человека по имени Иван Иванов. Найдись!",
-    "Ищу девушку для с/о. О себе: При встрече.",
-    "Ищу парня для с/о. О себе: При встрече.",
-    "Ищу семью! Просьба позвонить!",
-    "Трудоустроюсь. О себе: по телефону."
+    "⚠️ Аналогичное объявление только один раз в пять минут.",
+    "❌ Некорректное объявление.",
+    "📢 Для рекламы семьи/фракции/мероприятия вам нужно купить рекламу в Уральск Лайв.",
+    "🎲 Азартные игры запрещены в объявлении.",
+    "🚫 Запрещенные предметы/услуги запрещены в объявлении.",
+    "🔍 Ищу человека по имени Иван Иванов. Найдись!",
+    "💕 Ищу девушку для с/о. О себе: При встрече.",
+    "💕 Ищу парня для с/о. О себе: При встрече.",
+    "👨‍👩‍👧 Ищу семью! Просьба позвонить!",
+    "💼 Трудоустроюсь. О себе: по телефону."
   ];
 
   const usefulFull = [...usefulUniversal, ...usefulRules];
@@ -1190,4 +1158,4 @@
   });
 </script>
 </body>
-</html> 
+</html>
