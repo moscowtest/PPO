@@ -16,12 +16,102 @@
       font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
       transition: background 0.3s ease, color 0.2s ease;
       padding: 24px 20px;
+      min-height: 100vh;
     }
 
-    body.dark {
-      background: linear-gradient(135deg, #0a0c15 0%, #0f1222 100%);
-      color: #e2e8f0;
+    /* ========== АНИМИРОВАННЫЙ ФОН ========== */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      transition: background 0.3s ease;
     }
+    
+    /* Частицы для фона */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    
+    .particle {
+      position: absolute;
+      background: rgba(139, 92, 246, 0.4);
+      border-radius: 50%;
+      pointer-events: none;
+      animation: floatParticle linear infinite;
+    }
+    
+    @keyframes floatParticle {
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-20vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+    
+    /* Тёмная тема фон */
+    body.dark::before {
+      background: linear-gradient(135deg, #0a0c15 0%, #0f1222 50%, #1a1a2e 100%);
+    }
+    body.dark .particle {
+      background: rgba(139, 92, 246, 0.3);
+      box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
+    }
+    
+    /* Светлая тема фон */
+    body.light::before {
+      background: linear-gradient(145deg, #f0f9f4 0%, #e0ece6 100%);
+    }
+    body.light .particle {
+      background: rgba(46, 125, 50, 0.15);
+    }
+    
+    /* Розовая тема фон */
+    body.pink::before {
+      background: linear-gradient(125deg, #1a0b1a 0%, #2d1b2e 100%);
+    }
+    body.pink .particle {
+      background: rgba(255, 105, 180, 0.3);
+      box-shadow: 0 0 10px rgba(255, 105, 180, 0.4);
+    }
+    
+    /* GTA тема фон */
+    body.gta::before {
+      background: linear-gradient(115deg, #0b1a2a 0%, #1c2a1f 100%);
+    }
+    body.gta .particle {
+      background: rgba(243, 156, 18, 0.25);
+      box-shadow: 0 0 8px rgba(243, 156, 18, 0.3);
+    }
+    
+    /* Новогодняя тема фон */
+    body.NewYear::before {
+      background: linear-gradient(145deg, #0a2f3a 0%, #144d5c 100%);
+    }
+    body.NewYear .particle {
+      background: rgba(255, 217, 100, 0.25);
+      box-shadow: 0 0 10px rgba(255, 217, 100, 0.4);
+    }
+
     body.dark .glass-card {
       background: rgba(15, 25, 45, 0.6);
       backdrop-filter: blur(12px);
@@ -37,15 +127,7 @@
       border: 1px solid #334155;
       color: #cbd5e1;
     }
-    body.dark .result-editable {
-      background: rgba(30, 41, 59, 0.8);
-      border: 1px solid #334155;
-    }
 
-    body.light {
-      background: linear-gradient(145deg, #f0f9f4 0%, #e6f0eb 100%);
-      color: #1a3a2a;
-    }
     body.light .glass-card {
       background: rgba(255, 255, 255, 0.85);
       backdrop-filter: blur(10px);
@@ -62,15 +144,7 @@
       color: #1e3a1e;
       box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     }
-    body.light .result-editable {
-      background: #ffffff;
-      border: 1px solid #c8e6c9;
-    }
 
-    body.pink {
-      background: linear-gradient(125deg, #1a0b1a 0%, #2d1b2e 100%);
-      color: #ffc0e0;
-    }
     body.pink .glass-card {
       background: rgba(50, 20, 50, 0.7);
       backdrop-filter: blur(12px);
@@ -87,15 +161,7 @@
       border: 1px solid #ff80bf;
       color: #ffc0e0;
     }
-    body.pink .result-editable {
-      background: #2a1a2a;
-      border: 1px solid #ff69b4;
-    }
 
-    body.gta {
-      background: linear-gradient(115deg, #0b1a2a 0%, #1c2a1f 100%);
-      color: #f5b642;
-    }
     body.gta .glass-card {
       background: rgba(0, 0, 0, 0.65);
       backdrop-filter: blur(8px);
@@ -112,15 +178,7 @@
       border: 1px solid #f5b642;
       color: #ffd966;
     }
-    body.gta .result-editable {
-      background: #1e2a1a;
-      border: 1px solid #f5b642;
-    }
 
-    body.NewYear {
-      background: linear-gradient(145deg, #0a2f3a 0%, #144d5c 100%);
-      color: #fff2df;
-    }
     body.NewYear .glass-card {
       background: rgba(10, 40, 45, 0.8);
       backdrop-filter: blur(10px);
@@ -136,23 +194,50 @@
       border: 1px solid #f4c542;
       color: #fee3b8;
     }
-    body.NewYear .result-editable {
-      background: #1d4d4f;
-      border: 1px solid #f4c542;
-    }
 
     .container {
       max-width: 1400px;
       margin: 0 auto;
     }
+    
+    /* АНИМИРОВАННЫЕ КАРТОЧКИ */
     .glass-card {
       border-radius: 32px;
       margin: 24px 0;
       overflow: hidden;
-      transition: transform 0.2s, box-shadow 0.2s;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      animation: fadeSlideUp 0.5s ease forwards;
+      opacity: 0;
     }
+    
+    @keyframes fadeSlideUp {
+      0% {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .glass-card:hover {
+      transform: translateY(-4px);
+    }
+    
+    /* ШРИФТОВАЯ ИЕРАРХИЯ */
+    h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #fff 0%, #8b5cf6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
     .section-header {
-      font-size: 1.7rem;
+      font-size: 1.5rem;
       font-weight: 700;
       padding: 18px 24px;
       cursor: pointer;
@@ -160,21 +245,16 @@
       justify-content: space-between;
       align-items: center;
       user-select: none;
-    }
-    .items {
-      padding: 20px 24px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 16px;
+      letter-spacing: -0.3px;
     }
     
     .badge {
       padding: 16px 24px;
       border-radius: 20px;
-      font-size: 1rem;
+      font-size: 0.9rem;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.15s ease;
+      transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
       backdrop-filter: blur(2px);
       min-width: 240px;
       max-width: 380px;
@@ -182,13 +262,89 @@
       text-align: center;
       line-height: 1.4;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      font-family: 'Fira Code', 'Courier New', monospace;
+      position: relative;
+      overflow: hidden;
     }
+    
+    /* RIPPLE-ЭФФЕКТ ДЛЯ КНОПОК И БЕЙДЖЕЙ */
+    .badge, button, .theme-icon, .theme-trigger, .dropdown-btn {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.4);
+      transform: scale(0);
+      animation: rippleAnim 0.6s linear;
+      pointer-events: none;
+    }
+    
+    @keyframes rippleAnim {
+      0% {
+        transform: scale(0);
+        opacity: 0.6;
+      }
+      100% {
+        transform: scale(4);
+        opacity: 0;
+      }
+    }
+    
     .badge:active {
       transform: scale(0.97);
     }
+    
     .badge:hover {
-      transform: translateY(-2px);
+      transform: translateY(-3px) scale(1.02);
       filter: brightness(1.05);
+    }
+    
+    /* ГРАДИЕНТНЫЕ КНОПКИ ТЕМ */
+    .theme-trigger, .theme-icon, .dropdown-btn {
+      background: linear-gradient(135deg, rgba(100, 108, 255, 0.8), rgba(139, 92, 246, 0.8));
+      transition: all 0.3s ease;
+    }
+    
+    .theme-trigger:hover, .theme-icon:hover, .dropdown-btn:hover {
+      background: linear-gradient(135deg, rgba(100, 108, 255, 1), rgba(139, 92, 246, 1));
+      transform: scale(1.08);
+      box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
+    }
+    
+    /* ПЛАВАЮЩАЯ КНОПКА НАВЕРХ */
+    .scroll-top {
+      position: fixed;
+      bottom: 100px;
+      right: 24px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #8b5cf6, #6366f1);
+      border: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      z-index: 999;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+    
+    .scroll-top.show {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .scroll-top:hover {
+      transform: translateY(-5px) scale(1.1);
+      box-shadow: 0 8px 25px rgba(139, 92, 246, 0.5);
     }
     
     .copy-toast {
@@ -212,6 +368,14 @@
       70% { opacity: 1; }
       100% { opacity: 0; transform: translateX(-50%) translateY(-20px); visibility: hidden; }
     }
+    
+    .items {
+      padding: 20px 24px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    
     .legend-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -310,7 +474,7 @@
     
     .result-editable {
       padding: 20px 24px;
-      font-size: 1.1rem;
+      font-size: 1rem;
       font-weight: 500;
       background: rgba(255,255,255,0.05);
       border-radius: 28px;
@@ -319,6 +483,7 @@
       cursor: text;
       transition: 0.1s;
       border: 1px solid transparent;
+      font-family: 'Fira Code', monospace;
     }
     .result-editable:focus {
       border-color: rgba(100, 108, 255, 0.5);
@@ -334,7 +499,7 @@
       right: 24px;
       display: flex;
       gap: 10px;
-      background: rgba(0,0,0,0.5);
+      background: rgba(0,0,0,0.4);
       padding: 10px 16px;
       border-radius: 60px;
       backdrop-filter: blur(16px);
@@ -344,21 +509,17 @@
     }
     
     .theme-trigger {
-      background: rgba(255,255,255,0.2);
+      background: linear-gradient(135deg, rgba(100, 108, 255, 0.8), rgba(139, 92, 246, 0.8));
       border: none;
       font-size: 24px;
       width: 48px;
       height: 48px;
       border-radius: 50%;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all 0.3s ease;
       display: flex;
       align-items: center;
       justify-content: center;
-    }
-    .theme-trigger:hover {
-      background: rgba(255,255,255,0.35);
-      transform: scale(1.05);
     }
     
     .themes-container {
@@ -378,21 +539,17 @@
     }
     
     .theme-icon {
-      background: rgba(255,255,255,0.2);
+      background: linear-gradient(135deg, rgba(100, 108, 255, 0.8), rgba(139, 92, 246, 0.8));
       border: none;
       font-size: 22px;
       width: 44px;
       height: 44px;
       border-radius: 50%;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all 0.3s ease;
       display: flex;
       align-items: center;
       justify-content: center;
-    }
-    .theme-icon:hover {
-      transform: scale(1.1);
-      background: rgba(255,255,255,0.35);
     }
     
     .hidden-section {
@@ -403,11 +560,12 @@
       display: inline-block;
     }
     .dropdown-btn {
-      background: rgba(100, 108, 255, 0.7);
+      background: linear-gradient(135deg, rgba(100, 108, 255, 0.8), rgba(139, 92, 246, 0.8));
       padding: 10px 24px;
       border-radius: 40px;
       font-size: 1rem;
       cursor: pointer;
+      transition: all 0.3s ease;
     }
     .dropdown-list {
       display: none;
@@ -457,7 +615,7 @@
 <body class="dark">
 <div class="container">
   <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 16px;">
-    <h1 style="font-size: 2rem;">🚛 Уральск Онлайн</h1>
+    <h1>🚛 Уральск Онлайн</h1>
     <div class="dropdown">
       <button class="dropdown-btn" id="mainMenuBtn">📌 Разделы ▼</button>
       <div class="dropdown-list" id="mainMenuList">
@@ -509,18 +667,17 @@
     <div class="glass-card"><div class="section-header">👚 Одежда (Продам)</div><div class="items" id="cat-cloth-sell"></div></div>
     <div class="glass-card"><div class="section-header">🏍 Мото/вело</div><div class="items" id="cat-moto-buy"></div></div>
     
-    <!-- НОВЫЕ РАЗДЕЛЫ -->
-    <div class="glass-card"><div class="section-header">🍄 Грибы (Куплю)</div><div class="items" id="cat-mushrooms-buy"></div></div>
-    <div class="glass-card"><div class="section-header">🍄 Грибы (Продам)</div><div class="items" id="cat-mushrooms-sell"></div></div>
+    <div class="glass-card"><div class="section-header">🍄 Гриб (Куплю)</div><div class="items" id="cat-mushrooms-buy"></div></div>
+    <div class="glass-card"><div class="section-header">🍄 Гриб (Продам)</div><div class="items" id="cat-mushrooms-sell"></div></div>
     
-    <div class="glass-card"><div class="section-header">🐟 Рыба (Куплю)</div><div class="items" id="cat-fish-buy"></div></div>
-    <div class="glass-card"><div class="section-header">🐟 Рыба (Продам)</div><div class="items" id="cat-fish-sell"></div></div>
+    <div class="glass-card"><div class="section-header">🐟 Рыбу (Куплю)</div><div class="items" id="cat-fish-buy"></div></div>
+    <div class="glass-card"><div class="section-header">🐟 Рыбу (Продам)</div><div class="items" id="cat-fish-sell"></div></div>
     
     <div class="glass-card"><div class="section-header">⛏ Руда (Куплю)</div><div class="items" id="cat-ore-buy"></div></div>
     <div class="glass-card"><div class="section-header">⛏ Руда (Продам)</div><div class="items" id="cat-ore-sell"></div></div>
     
-    <div class="glass-card"><div class="section-header">📦 Шкуры (Куплю)</div><div class="items" id="cat-items-buy"></div></div>
-    <div class="glass-card"><div class="section-header">📦 Шкуры (Продам)</div><div class="items" id="cat-items-sell"></div></div>
+    <div class="glass-card"><div class="section-header">📦 Шкуру (Куплю)</div><div class="items" id="cat-items-buy"></div></div>
+    <div class="glass-card"><div class="section-header">📦 Шкуру (Продам)</div><div class="items" id="cat-items-sell"></div></div>
     
     <div class="glass-card"><div class="section-header">💼 Бизнес (Куплю)</div><div class="items" id="cat-biz-buy"></div></div>
     <div class="glass-card"><div class="section-header">💼 Бизнес (Продам)</div><div class="items" id="cat-biz-sell"></div></div>
@@ -534,7 +691,7 @@
   <div id="tab-table2" class="tab-content hidden-section">
     <div class="glass-card">
       <div class="search-area">
-        <input type="text" id="globalSearch" class="search-input" placeholder="🔍 Поиск по объявлениям: Жигуль 2101, квартира, Gucci, грибы...">
+        <input type="text" id="globalSearch" class="search-input" placeholder="🔍 Поиск по объявлениям: Жигуль 2101, квартира, Gucci, гриб...">
         <div class="draft-box" id="draftGlobal" contenteditable="true" placeholder="Черновик объявления"></div>
       </div>
       <div id="searchResultList" class="items" style="flex-direction: column; gap: 8px;"></div>
@@ -552,7 +709,7 @@
             <option>квартиру</option>
             <option>дом</option>
             <option>мотоцикл</option>
-            <option>грибы</option>
+            <option>гриб</option>
             <option>рыбу</option>
             <option>руду</option>
             <option>шкуру</option>
@@ -602,7 +759,66 @@
   </div>
 </div>
 
+<!-- ПЛАВАЮЩАЯ КНОПКА НАВЕРХ -->
+<button class="scroll-top" id="scrollTopBtn">↑</button>
+
 <script>
+  // ========== ГЕНЕРАЦИЯ ЧАСТИЦ ДЛЯ ФОНА ==========
+  function createParticles() {
+    const particlesContainer = document.createElement('div');
+    particlesContainer.className = 'particles';
+    document.body.appendChild(particlesContainer);
+    
+    const particleCount = 50;
+    for (let i = 0; i < particleCount; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'particle';
+      const size = Math.random() * 4 + 2;
+      particle.style.width = size + 'px';
+      particle.style.height = size + 'px';
+      particle.style.left = Math.random() * 100 + '%';
+      particle.style.animationDuration = Math.random() * 10 + 8 + 's';
+      particle.style.animationDelay = Math.random() * 10 + 's';
+      particlesContainer.appendChild(particle);
+    }
+  }
+  createParticles();
+
+  // ========== RIPPLE-ЭФФЕКТ ==========
+  function addRipple(event, element) {
+    const ripple = document.createElement('span');
+    ripple.className = 'ripple';
+    const rect = element.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height);
+    ripple.style.width = ripple.style.height = size + 'px';
+    ripple.style.left = event.clientX - rect.left - size / 2 + 'px';
+    ripple.style.top = event.clientY - rect.top - size / 2 + 'px';
+    element.appendChild(ripple);
+    setTimeout(() => ripple.remove(), 600);
+  }
+  
+  // Применяем ripple ко всем кликабельным элементам
+  document.addEventListener('click', (e) => {
+    const target = e.target.closest('.badge, button, .theme-icon, .theme-trigger, .dropdown-btn');
+    if (target) {
+      addRipple(e, target);
+    }
+  });
+
+  // ========== ПЛАВАЮЩАЯ КНОПКА НАВЕРХ ==========
+  const scrollTopBtn = document.getElementById('scrollTopBtn');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 300) {
+      scrollTopBtn.classList.add('show');
+    } else {
+      scrollTopBtn.classList.remove('show');
+    }
+  });
+  
+  scrollTopBtn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
   // ========== КОПИРОВАНИЕ ==========
   function copyToClipboard(text, event) {
     navigator.clipboard.writeText(text).then(() => {
@@ -639,6 +855,7 @@
     document.body.classList.add(theme);
     localStorage.setItem('site-theme', theme);
   };
+  
   document.querySelectorAll('.theme-icon').forEach(btn => {
     btn.addEventListener('click', () => applyTheme(btn.getAttribute('data-theme')));
   });
@@ -704,27 +921,22 @@
   const autoSell = carList.map(car => `Продам а/м ${car}. Цена: 1.000.000 рублей.`);
   const autoBuy = carList.map(car => `Куплю а/м ${car}. Бюджет: 1.000.000 рублей.`);
 
- // Грибы
-const грибы = ["Волнушка", "Опёнок", "Подосиновик", "Маслёнок", "Шампиньон"];
-const mushroomsSell = грибы.map(item => `Продам гриб "${item}". Цена: Договорная.`);
-const mushroomsBuy = грибы.map(item => `Куплю гриб "${item}". Бюджет: Свободный.`);
+  const грибы = ["Волнушка", "Опёнок", "Подосиновик", "Маслёнок", "Шампиньон"];
+  const mushroomsSell = грибы.map(item => `Продам гриб "${item}". Цена: Договорная.`);
+  const mushroomsBuy = грибы.map(item => `Куплю гриб "${item}". Бюджет: Свободный.`);
 
-// Рыба
-const рыба = ["Карп", "Карась", "Семга", "Щука", "Скумбрия", "Форель", "Кунджа", "Камбала", "Тунец", "Корюшка", "Осётр", "Судак", "Окунь", "Дорадо", "Пиранья", "Угорь", "Сельдь", "Лосось", "Черный амур", "Палтус", "Крылатка", "Скат", "Красноперка", "Пескарь", "Сол", "Бычок", "Линь", "Лещ", "Плотва", "Морская камбала"];
-const fishSell = рыба.map(item => `Продам рыбу "${item}". Цена: Договорная.`);
-const fishBuy = рыба.map(item => `Куплю рыбу "${item}". Бюджет: Свободный.`);
+  const рыба = ["Карп", "Карась", "Семга", "Щука", "Скумбрия", "Форель", "Кунджа", "Камбала", "Тунец", "Корюшка", "Осётр", "Судак", "Окунь", "Дорадо", "Пиранья", "Угорь", "Сельдь", "Лосось", "Черный амур", "Палтус", "Крылатка", "Скат", "Красноперка", "Пескарь", "Сол", "Бычок", "Линь", "Лещ", "Плотва", "Морская камбала"];
+  const fishSell = рыба.map(item => `Продам рыбу "${item}". Цена: Договорная.`);
+  const fishBuy = рыба.map(item => `Куплю рыбу "${item}". Бюджет: Свободный.`);
 
-// Шкуры
-const шкура = ["Шкура кролика", "Шкура свиньи", "Шкура кайота", "Шкура оленя", "Шкура коровы", "Шкура пумы", "Шкура кабана"];
-const itemsSell = шкура.map(item => `Продам шкуру "${item}". Цена: Договорная.`);
-const itemsBuy = шкура.map(item => `Куплю шкуру "${item}". Бюджет: Свободный.`);
+  const шкура = ["Шкура кролика", "Шкура свиньи", "Шкура кайота", "Шкура оленя", "Шкура коровы", "Шкура пумы", "Шкура кабана"];
+  const itemsSell = шкура.map(item => `Продам шкуру "${item}". Цена: Договорная.`);
+  const itemsBuy = шкура.map(item => `Куплю шкуру "${item}". Бюджет: Свободный.`);
 
-// Руда (оставляем без изменений, так как "руда" и так правильно)
-const руда = ["Никелевая руда", "Медная руда", "Железная руда", "Кремниевая руда", "Хромовая руда", "Серебряная руда", "Марганцевая руда", "Золотая руда", "Оловянная руда"];
-const oreSell = руда.map(item => `Продам ${item}. Цена: Договорная.`);
-const oreBuy = руда.map(item => `Куплю ${item}. Бюджет: Свободный.`);
+  const руда = ["Никелевая руда", "Медная руда", "Железная руда", "Кремниевая руда", "Хромовая руда", "Серебряная руда", "Марганцевая руда", "Золотая руда", "Оловянная руда"];
+  const oreSell = руда.map(item => `Продам ${item}. Цена: Договорная.`);
+  const oreBuy = руда.map(item => `Куплю ${item}. Бюджет: Свободный.`);
 
-  // Полезное
   const usefulUniversal = [
     "Куплю любой бизнес. Бюджет: Свободный.",
     "Продам любой бизнес. Цена: Договорная.",
@@ -757,7 +969,6 @@ const oreBuy = руда.map(item => `Куплю ${item}. Бюджет: Своб�
 
   const usefulFull = [...usefulUniversal, ...usefulRules];
 
-  // Приветы
   const helloList = [
     "Передаю привет сотрудникам ГКБ!",
     "Передаю привет сотрудникам УВД!",
@@ -769,7 +980,6 @@ const oreBuy = руда.map(item => `Куплю ${item}. Бюджет: Своб�
     "Передаю привет семье \"Есенины\"."
   ];
 
-  // Каталог объявлений
   const adsCatalog = {
     "useful": usefulFull,
     "auto-buy": autoBuy,
@@ -806,14 +1016,14 @@ const oreBuy = руда.map(item => `Куплю ${item}. Бюджет: Своб�
     "cloth-sell": "👚 Продам одежду",
     "moto-buy": "🏍 Мото/вело",
     "moto-sell": "🏍 Продам мото",
-    "mushrooms-buy": "🍄 Куплю грибы",
-    "mushrooms-sell": "🍄 Продам грибы",
+    "mushrooms-buy": "🍄 Куплю гриб",
+    "mushrooms-sell": "🍄 Продам гриб",
     "fish-buy": "🐟 Куплю рыбу",
     "fish-sell": "🐟 Продам рыбу",
     "ore-buy": "⛏ Куплю руду",
     "ore-sell": "⛏ Продам руду",
-    "items-buy": "📦 Куплю шкуры",
-    "items-sell": "📦 Продам шкуры",
+    "items-buy": "📦 Куплю шкуру",
+    "items-sell": "📦 Продам шкуру",
     "biz-buy": "💼 Куплю бизнес",
     "biz-sell": "💼 Продам бизнес",
     "gn-buy": "🎲 Куплю г/н",
@@ -856,7 +1066,6 @@ const oreBuy = руда.map(item => `Куплю ${item}. Бюджет: Своб�
   }
   renderAllAds();
 
-  // ========== ПОИСК ==========
   const searchInput = document.getElementById('globalSearch');
   const resultDiv = document.getElementById('searchResultList');
   
@@ -882,7 +1091,6 @@ const oreBuy = руда.map(item => `Куплю ${item}. Бюджет: Своб�
     }
   });
 
-  // ========== АВТОПОДСТАНОВКА ==========
   function getAllModelNames() {
     const models = [];
     for (const car of carList) models.push(car);
@@ -924,7 +1132,6 @@ const oreBuy = руда.map(item => `Куплю ${item}. Бюджет: Своб�
     }
   });
 
-  // ========== КОНСТРУКТОР ==========
   const genBtn = document.getElementById('generateConstructBtn');
   const copyConstruct = document.getElementById('copyConstructBtn');
   const clearConstruct = document.getElementById('clearConstructBtn');
@@ -974,7 +1181,6 @@ const oreBuy = руда.map(item => `Куплю ${item}. Бюджет: Своб�
     constructedDivElem.focus();
   });
 
-  // сворачивание секций
   document.querySelectorAll('.glass-card .section-header').forEach(header => {
     if(header.id === 'legendToggleBtn') return;
     header.addEventListener('click', () => {
@@ -984,4 +1190,4 @@ const oreBuy = руда.map(item => `Куплю ${item}. Бюджет: Своб�
   });
 </script>
 </body>
-</html>
+</html> 
