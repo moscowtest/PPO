@@ -215,6 +215,105 @@
       box-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
     }
     
+    /* ========== НОВАЯ ЧЁРНАЯ ТЕМА (SKULL) ========== */
+    body.black::before {
+      background: #000000;
+    }
+    
+    /* Черепа вместо частиц */
+    body.black .particle {
+      background: none !important;
+      box-shadow: none !important;
+      font-size: 20px;
+      animation: floatSkull 10s linear infinite;
+      text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+    }
+    
+    @keyframes floatSkull {
+      0% {
+        transform: translateY(100vh) rotate(0deg) scale(0.8);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.8;
+      }
+      90% {
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateY(-20vh) rotate(360deg) scale(1.2);
+        opacity: 0;
+      }
+    }
+    
+    body.black .glass-card {
+      background: rgba(10, 10, 15, 0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(100, 100, 120, 0.4);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    }
+    
+    body.black .section-header {
+      background: linear-gradient(90deg, rgba(80, 80, 100, 0.3), rgba(50, 50, 70, 0.1));
+      border-left: 4px solid #666;
+      color: #cccccc;
+    }
+    
+    body.black .badge {
+      background: linear-gradient(135deg, #1a1a1f, #0d0d12);
+      border: 1px solid #333340;
+      color: #b0b0b8;
+    }
+    
+    body.black .badge:hover {
+      border-color: #888;
+      box-shadow: 0 0 15px rgba(136, 136, 136, 0.3);
+    }
+    
+    body.black h1 {
+      background: linear-gradient(135deg, #aaa 0%, #666 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    body.black .search-input, body.black .draft-box {
+      background: rgba(20, 20, 25, 0.8);
+      color: #ccc;
+    }
+    
+    body.black select, body.black .field input {
+      background: rgba(20, 20, 25, 0.8);
+      color: #ccc;
+      border-color: #333;
+    }
+    
+    body.black .theme-icon, body.black .theme-trigger, body.black .dropdown-btn {
+      background: linear-gradient(135deg, #444, #222);
+      box-shadow: 0 0 10px rgba(100, 100, 100, 0.3);
+    }
+    
+    body.black .theme-icon:hover, body.black .theme-trigger:hover {
+      background: linear-gradient(135deg, #555, #333);
+      box-shadow: 0 0 15px rgba(150, 150, 150, 0.5);
+    }
+    
+    body.black .scroll-top {
+      background: linear-gradient(135deg, #444, #222);
+    }
+    
+    body.black .scroll-top:hover {
+      box-shadow: 0 0 15px rgba(150, 150, 150, 0.4);
+    }
+    
+    body.black .result-editable {
+      background: rgba(20, 20, 25, 0.6);
+    }
+    
+    body.black .dropdown-list {
+      background: rgba(15, 15, 20, 0.95);
+    }
+    
     .container {
       max-width: 1400px;
       margin: 0 auto;
@@ -491,7 +590,7 @@
       transition: max-width 0.3s ease, opacity 0.25s ease;
     }
     .theme-arc:hover .themes-container {
-      max-width: 200px;
+      max-width: 260px;
       opacity: 1;
       margin-left: 8px;
     }
@@ -672,6 +771,7 @@
     <button class="theme-icon" data-theme="dark">🌙</button>
     <button class="theme-icon" data-theme="light">☀️</button>
     <button class="theme-icon" data-theme="pink">🌸</button>
+    <button class="theme-icon" data-theme="black">💀</button>
   </div>
 </div>
 
@@ -682,7 +782,9 @@
     const particlesContainer = document.createElement('div');
     particlesContainer.className = 'particles';
     document.body.appendChild(particlesContainer);
-    for (let i = 0; i < 40; i++) {
+    
+    // Создаём обычные частицы (для всех тем)
+    for (let i = 0; i < 30; i++) {
       const particle = document.createElement('div');
       particle.className = 'particle';
       const size = Math.random() * 3 + 2;
@@ -693,6 +795,26 @@
       particle.style.animationDelay = Math.random() * 10 + 's';
       particlesContainer.appendChild(particle);
     }
+    
+    // Создаём черепа для чёрной темы (скрыты по умолчанию)
+    for (let i = 0; i < 25; i++) {
+      const skull = document.createElement('div');
+      skull.className = 'particle skull-particle';
+      skull.textContent = '💀';
+      skull.style.width = 'auto';
+      skull.style.height = 'auto';
+      skull.style.fontSize = (Math.random() * 16 + 14) + 'px';
+      skull.style.left = Math.random() * 100 + '%';
+      skull.style.animationDuration = Math.random() * 12 + 8 + 's';
+      skull.style.animationDelay = Math.random() * 12 + 's';
+      skull.style.opacity = '0.6';
+      skull.style.display = 'none';
+      particlesContainer.appendChild(skull);
+    }
+    
+    // Сохраняем черепа для переключения темы
+    window.skullParticles = document.querySelectorAll('.skull-particle');
+    window.normalParticles = document.querySelectorAll('.particle:not(.skull-particle)');
   }
   createParticles();
 
@@ -726,9 +848,21 @@
   function animateThemeChange(theme) {
     overlay.style.opacity = '1';
     setTimeout(() => {
-      document.body.classList.remove('dark', 'light', 'pink');
+      document.body.classList.remove('dark', 'light', 'pink', 'black');
       document.body.classList.add(theme);
       localStorage.setItem('site-theme', theme);
+      
+      // Управление отображением черепов
+      if (window.skullParticles && window.normalParticles) {
+        if (theme === 'black') {
+          window.skullParticles.forEach(s => s.style.display = 'block');
+          window.normalParticles.forEach(p => p.style.display = 'none');
+        } else {
+          window.skullParticles.forEach(s => s.style.display = 'none');
+          window.normalParticles.forEach(p => p.style.display = 'block');
+        }
+      }
+      
       setTimeout(() => { overlay.style.opacity = '0'; }, 300);
     }, 200);
   }
@@ -736,8 +870,20 @@
   document.querySelectorAll('.theme-icon').forEach(btn => {
     btn.addEventListener('click', () => animateThemeChange(btn.getAttribute('data-theme')));
   });
+  
   const savedTheme = localStorage.getItem('site-theme') || 'dark';
   document.body.classList.add(savedTheme);
+  
+  // Инициализация черепов при загрузке
+  if (window.skullParticles && window.normalParticles) {
+    if (savedTheme === 'black') {
+      window.skullParticles.forEach(s => s.style.display = 'block');
+      window.normalParticles.forEach(p => p.style.display = 'none');
+    } else {
+      window.skullParticles.forEach(s => s.style.display = 'none');
+      window.normalParticles.forEach(p => p.style.display = 'block');
+    }
+  }
 
   const scrollTopBtn = document.getElementById('scrollTopBtn');
   window.addEventListener('scroll', () => {
@@ -819,7 +965,6 @@
   const oreSell = руда.map(item => `Продам ${item}. Цена: Договорная.`);
   const oreBuy = руда.map(item => `Куплю ${item}. Бюджет: Свободный.`);
 
-  // ПОЛЕЗНОЕ (с перенесённым Трудоустроюсь)
   const usefulUniversal = [
     "Куплю любой бизнес. Бюджет: Свободный.",
     "Продам любой бизнес. Цена: Договорная.",
@@ -835,7 +980,7 @@
     "Продам дом в любом районе. Цена: Договорная.",
     "Куплю любую сумку. Бюджет: Свободный.",
     "Куплю любую одежду. Бюджет: Свободный.",
-    "Трудоустроюсь в транспортную компанию. Звоните!"  
+    "Трудоустроюсь в транспортную компанию. Звоните!"
   ];
 
   const usefulRules = [
@@ -886,7 +1031,7 @@
     "biz-sell": [],
     "gn-buy": [],
     "gn-sell": [],
-    "service": [  // НОВЫЕ УСЛУГИ
+    "service": [
       "Требуются услуги разнорабочего. Звоните!",
       "Требуются услуги водителя. Звоните!",
       "Требуются услуги грузоперевозок. Звоните!",
