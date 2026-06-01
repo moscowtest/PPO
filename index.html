@@ -168,7 +168,6 @@
       gap: 16px;
     }
     
-    /* НОВЫЙ ДИЗАЙН ОБЪЯВЛЕНИЙ — КВАДРАТНЫЕ, КРУПНЫЕ */
     .badge {
       padding: 16px 24px;
       border-radius: 20px;
@@ -499,7 +498,7 @@
       </div>
     </div>
 
-    <!-- ПОЛЕЗНОЕ — САМЫЙ ПЕРВЫЙ РАЗДЕЛ ПОСЛЕ СПРАВОЧНИКА -->
+    <!-- ПОЛЕЗНОЕ -->
     <div class="glass-card"><div class="section-header">📋 Полезное</div><div class="items" id="cat-useful"></div></div>
 
     <div class="glass-card"><div class="section-header">💰 Куплю автомобиль</div><div class="items" id="cat-auto-buy"></div></div>
@@ -509,8 +508,20 @@
     <div class="glass-card"><div class="section-header">👕 Одежда (Куплю)</div><div class="items" id="cat-cloth-buy"></div></div>
     <div class="glass-card"><div class="section-header">👚 Одежда (Продам)</div><div class="items" id="cat-cloth-sell"></div></div>
     <div class="glass-card"><div class="section-header">🏍 Мото/вело</div><div class="items" id="cat-moto-buy"></div></div>
-    <div class="glass-card"><div class="section-header">📦 Предметы (Куплю)</div><div class="items" id="cat-items-buy"></div></div>
-    <div class="glass-card"><div class="section-header">📦 Предметы (Продам)</div><div class="items" id="cat-items-sell"></div></div>
+    
+    <!-- НОВЫЕ РАЗДЕЛЫ -->
+    <div class="glass-card"><div class="section-header">🍄 Грибы (Куплю)</div><div class="items" id="cat-mushrooms-buy"></div></div>
+    <div class="glass-card"><div class="section-header">🍄 Грибы (Продам)</div><div class="items" id="cat-mushrooms-sell"></div></div>
+    
+    <div class="glass-card"><div class="section-header">🐟 Рыба (Куплю)</div><div class="items" id="cat-fish-buy"></div></div>
+    <div class="glass-card"><div class="section-header">🐟 Рыба (Продам)</div><div class="items" id="cat-fish-sell"></div></div>
+    
+    <div class="glass-card"><div class="section-header">⛏ Руда (Куплю)</div><div class="items" id="cat-ore-buy"></div></div>
+    <div class="glass-card"><div class="section-header">⛏ Руда (Продам)</div><div class="items" id="cat-ore-sell"></div></div>
+    
+    <div class="glass-card"><div class="section-header">📦 Шкуры (Куплю)</div><div class="items" id="cat-items-buy"></div></div>
+    <div class="glass-card"><div class="section-header">📦 Шкуры (Продам)</div><div class="items" id="cat-items-sell"></div></div>
+    
     <div class="glass-card"><div class="section-header">💼 Бизнес (Куплю)</div><div class="items" id="cat-biz-buy"></div></div>
     <div class="glass-card"><div class="section-header">💼 Бизнес (Продам)</div><div class="items" id="cat-biz-sell"></div></div>
     <div class="glass-card"><div class="section-header">🎲 Госномера (Куплю)</div><div class="items" id="cat-gn-buy"></div></div>
@@ -523,7 +534,7 @@
   <div id="tab-table2" class="tab-content hidden-section">
     <div class="glass-card">
       <div class="search-area">
-        <input type="text" id="globalSearch" class="search-input" placeholder="🔍 Поиск по объявлениям: Жигуль 2101, квартира, Gucci, предметы...">
+        <input type="text" id="globalSearch" class="search-input" placeholder="🔍 Поиск по объявлениям: Жигуль 2101, квартира, Gucci, грибы...">
         <div class="draft-box" id="draftGlobal" contenteditable="true" placeholder="Черновик объявления"></div>
       </div>
       <div id="searchResultList" class="items" style="flex-direction: column; gap: 8px;"></div>
@@ -541,14 +552,17 @@
             <option>квартиру</option>
             <option>дом</option>
             <option>мотоцикл</option>
-            <option>предмет</option>
+            <option>грибы</option>
+            <option>рыбу</option>
+            <option>руду</option>
+            <option>шкуру</option>
             <option>бизнес</option>
             <option>г/н</option>
           </select>
         </div>
         <div class="field" style="position: relative;">
           <label>Модель/Название</label>
-          <input id="constructorModel" placeholder="Жигуль 2101, ЖК Центральный, iPhone 15" autocomplete="off">
+          <input id="constructorModel" placeholder="Жигуль 2101, Подосиновик, Карп, Золотая руда" autocomplete="off">
           <div id="autocompleteList" class="autocomplete-list" style="display: none;"></div>
         </div>
         <div class="field"><label>Тюнинг/Опции</label><select id="constructorTuning"><option value="">—</option><option>FT</option><option>ET</option><option>DT</option><option>Размер склада 5х36</option><option>Размер склада 10х50</option><option>г/м</option></select></div>
@@ -666,7 +680,7 @@
     legendToggle.querySelector('span').innerHTML = legendVisible ? '▲' : '▼';
   });
 
-  // ========== ОБЪЯВЛЕНИЯ ==========
+  // ========== СПИСКИ ==========
   const carList = [
     "Жигуль 2101", "Жигуль 2105", "Жигуль 2106", "Жигуль 2107", "Жигуль 2108", "Жигуль 2112", "Жигуль 2112 Купе", "Жигуль 2114", "Жигуль 2115",
     "Фольц Гольф", "Жигуль Приора", "Буханка", "Жигуль Калина", "Жигуль Калина Спорт", "Аудио А4", "Бумер X5 E53", "Нивас Урбан", "Нивас 2121",
@@ -690,27 +704,27 @@
   const autoSell = carList.map(car => `Продам а/м ${car}. Цена: 1.000.000 рублей.`);
   const autoBuy = carList.map(car => `Куплю а/м ${car}. Бюджет: 1.000.000 рублей.`);
 
-  // Предметы
+  // Грибы
   const грибы = ["Волнушка", "Опёнок", "Подосиновик", "Маслёнок", "Шампиньон"];
+  const mushroomsSell = грибы.map(item => `Продам ${item}. Цена: Договорная.`);
+  const mushroomsBuy = грибы.map(item => `Куплю ${item}. Бюджет: Свободный.`);
+
+  // Рыба
   const рыба = ["Карп", "Карась", "Семга", "Щука", "Скумбрия", "Форель", "Кунджа", "Камбала", "Тунец", "Корюшка", "Осётр", "Судак", "Окунь", "Дорадо", "Пиранья", "Угорь", "Сельдь", "Лосось", "Черный амур", "Палтус", "Крылатка", "Скат", "Красноперка", "Пескарь", "Сол", "Бычок", "Линь", "Лещ", "Плотва", "Морская камбала"];
+  const fishSell = рыба.map(item => `Продам ${item}. Цена: Договорная.`);
+  const fishBuy = рыба.map(item => `Куплю ${item}. Бюджет: Свободный.`);
+
+  // Шкуры (остаются в предметах)
   const шкура = ["Шкура кролика", "Шкура свиньи", "Шкура кайота", "Шкура оленя", "Шкура коровы", "Шкура пумы", "Шкура кабана"];
+  const itemsSell = шкура.map(item => `Продам "${item}". Цена: Договорная.`);
+  const itemsBuy = шкура.map(item => `Куплю "${item}". Бюджет: Свободный.`);
+
+  // Руда
   const руда = ["Никелевая руда", "Медная руда", "Железная руда", "Кремниевая руда", "Хромовая руда", "Серебряная руда", "Марганцевая руда", "Золотая руда", "Оловянная руда"];
+  const oreSell = руда.map(item => `Продам ${item}. Цена: Договорная.`);
+  const oreBuy = руда.map(item => `Куплю ${item}. Бюджет: Свободный.`);
 
-  const itemsSell = [
-    ...грибы.map(item => `Продам "${item}". Цена: Договорная.`),
-    ...рыба.map(item => `Продам "${item}". Цена: Договорная.`),
-    ...шкура.map(item => `Продам "${item}". Цена: Договорная.`),
-    ...руда.map(item => `Продам "${item}". Цена: Договорная.`)
-  ];
-  
-  const itemsBuy = [
-    ...грибы.map(item => `Куплю "${item}". Бюджет: Свободный.`),
-    ...рыба.map(item => `Куплю "${item}". Бюджет: Свободный.`),
-    ...шкура.map(item => `Куплю "${item}". Бюджет: Свободный.`),
-    ...руда.map(item => `Куплю "${item}". Бюджет: Свободный.`)
-  ];
-
-  // Полезное (правила + универсальные объявления)
+  // Полезное
   const usefulUniversal = [
     "Куплю любой бизнес. Бюджет: Свободный.",
     "Продам любой бизнес. Цена: Договорная.",
@@ -729,16 +743,16 @@
   ];
 
   const usefulRules = [
-    "Аналогичное объявление только один раз в пять минут.",
-    "Некорректное объявление.",
-    "Для рекламы семьи/фракции/мероприятия вам нужно купить рекламу в Уральск Лайв.",
-    "Азартные игры запрещены в объявлении.",
-    "Запрещенные предметы/услуги запрещены в объявлении.",
-    "Ищу человека по имени Иван Иванов. Найдись!",
-    "Ищу девушку для с/о. О себе: При встрече.",
-    "Ищу парня для с/о. О себе: При встрече.",
-    "Ищу семью! Просьба позвонить!",
-    "Трудоустроюсь. О себе: по телефону."
+    "⚠️ Аналогичное объявление только один раз в пять минут.",
+    "❌ Некорректное объявление.",
+    "📢 Для рекламы семьи/фракции/мероприятия вам нужно купить рекламу в Уральск Лайв.",
+    "🎲 Азартные игры запрещены в объявлении.",
+    "🚫 Запрещенные предметы/услуги запрещены в объявлении.",
+    "🔍 Ищу человека по имени Иван Иванов. Найдись!",
+    "💕 Ищу девушку для с/о. О себе: При встрече.",
+    "💕 Ищу парня для с/о. О себе: При встрече.",
+    "👨‍👩‍👧 Ищу семью! Просьба позвонить!",
+    "💼 Трудоустроюсь. О себе: по телефону."
   ];
 
   const usefulFull = [...usefulUniversal, ...usefulRules];
@@ -755,7 +769,7 @@
     "Передаю привет семье \"Есенины\"."
   ];
 
-  // Остальные разделы (без универсальных объявлений)
+  // Каталог объявлений
   const adsCatalog = {
     "useful": usefulFull,
     "auto-buy": autoBuy,
@@ -766,6 +780,12 @@
     "cloth-sell": [],
     "moto-buy": [],
     "moto-sell": [],
+    "mushrooms-buy": mushroomsBuy,
+    "mushrooms-sell": mushroomsSell,
+    "fish-buy": fishBuy,
+    "fish-sell": fishSell,
+    "ore-buy": oreBuy,
+    "ore-sell": oreSell,
     "items-buy": itemsBuy,
     "items-sell": itemsSell,
     "biz-buy": [],
@@ -786,8 +806,14 @@
     "cloth-sell": "👚 Продам одежду",
     "moto-buy": "🏍 Мото/вело",
     "moto-sell": "🏍 Продам мото",
-    "items-buy": "📦 Куплю предметы",
-    "items-sell": "📦 Продам предметы",
+    "mushrooms-buy": "🍄 Куплю грибы",
+    "mushrooms-sell": "🍄 Продам грибы",
+    "fish-buy": "🐟 Куплю рыбу",
+    "fish-sell": "🐟 Продам рыбу",
+    "ore-buy": "⛏ Куплю руду",
+    "ore-sell": "⛏ Продам руду",
+    "items-buy": "📦 Куплю шкуры",
+    "items-sell": "📦 Продам шкуры",
     "biz-buy": "💼 Куплю бизнес",
     "biz-sell": "💼 Продам бизнес",
     "gn-buy": "🎲 Куплю г/н",
@@ -830,14 +856,14 @@
   }
   renderAllAds();
 
-  // ========== ПОИСК ПО ОБЪЯВЛЕНИЯМ ==========
+  // ========== ПОИСК ==========
   const searchInput = document.getElementById('globalSearch');
   const resultDiv = document.getElementById('searchResultList');
   
   searchInput.addEventListener('input', (e) => {
     const query = e.target.value.trim();
     if (!query) {
-      resultDiv.innerHTML = '<div style="padding: 12px; text-align: center;">🔍 Введите слово для поиска по объявлениям<br><span style="font-size: 0.8rem; opacity: 0.7;">Например: Жигуль 2101, квартира, Gucci, iPhone, Шкура</span></div>';
+      resultDiv.innerHTML = '<div style="padding: 12px; text-align: center;">🔍 Введите слово для поиска по объявлениям<br><span style="font-size: 0.8rem; opacity: 0.7;">Например: Жигуль 2101, Подосиновик, Карп, Руда</span></div>';
       return;
     }
     
@@ -860,7 +886,10 @@
   function getAllModelNames() {
     const models = [];
     for (const car of carList) models.push(car);
-    for (const item of [...грибы, ...рыба, ...шкура, ...руда]) models.push(item);
+    for (const item of грибы) models.push(item);
+    for (const item of рыба) models.push(item);
+    for (const item of шкура) models.push(item);
+    for (const item of руда) models.push(item);
     const refModels = ['iPhone 15 Pro Max', 'Samsung S24', 'MacBook', 'Rolex', 'PlayStation 5', 'RU', 'KZ', 'BY'];
     return [...new Set([...models, ...refModels])];
   }
