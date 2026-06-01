@@ -14,9 +14,28 @@
 
     body {
       font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-      transition: background 0.3s ease, color 0.2s ease;
+      transition: background 0.5s ease, color 0.3s ease;
       padding: 24px 20px;
       min-height: 100vh;
+    }
+
+    /* АНИМИРОВАННЫЙ ПЕРЕХОД МЕЖДУ ТЕМАМИ */
+    .theme-transition-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--transition-color, rgba(0,0,0,0.5));
+      z-index: 9999;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    
+    .theme-transition-overlay.active {
+      opacity: 1;
+      pointer-events: none;
     }
 
     /* ========== АНИМИРОВАННЫЙ ФОН ========== */
@@ -28,7 +47,7 @@
       width: 100%;
       height: 100%;
       z-index: -2;
-      transition: background 0.3s ease;
+      transition: background 0.5s ease;
     }
     
     .particles {
@@ -91,19 +110,6 @@
       color: #e2e8f0;
       text-shadow: 0 1px 2px rgba(0,0,0,0.2);
     }
-    body.dark .badge:hover {
-      border-color: #8b5cf6;
-      box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
-    }
-    body.dark .search-input, body.dark .draft-box {
-      background: rgba(30, 41, 59, 0.8);
-      color: #f0f0f0;
-    }
-    body.dark select, body.dark .field input {
-      background: rgba(30, 41, 59, 0.8);
-      color: #f0f0f0;
-      border-color: #4a5b7a;
-    }
     
     /* СВЕТЛАЯ ТЕМА */
     body.light::before {
@@ -128,62 +134,135 @@
       border: 1px solid #c8e6c9;
       color: #1a3a2a;
       box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-      text-shadow: none;
-    }
-    body.light .badge:hover {
-      border-color: #2e7d32;
-      box-shadow: 0 0 12px rgba(46, 125, 50, 0.2);
-    }
-    body.light .search-input, body.light .draft-box {
-      background: rgba(255, 255, 255, 0.9);
-      color: #1a3a2a;
-    }
-    body.light select, body.light .field input {
-      background: white;
-      color: #1a3a2a;
-      border-color: #b9c3d4;
     }
     
-    /* РОЗОВАЯ ТЕМА */
+    /* РОЗОВАЯ ТЕМА — АНИМЕ/ВАЙБ */
     body.pink::before {
-      background: linear-gradient(125deg, #1a0b1a 0%, #2d1b2e 100%);
+      background: linear-gradient(145deg, #1a0b1a 0%, #2d1b2e 50%, #3d1f3d 100%);
     }
     body.pink .particle {
-      background: rgba(255, 105, 180, 0.35);
-      box-shadow: 0 0 10px rgba(255, 105, 180, 0.4);
+      background: rgba(255, 150, 200, 0.5);
+      box-shadow: 0 0 12px rgba(255, 150, 200, 0.6);
+      animation: floatParticleHeart 8s linear infinite;
     }
+    
+    @keyframes floatParticleHeart {
+      0% {
+        transform: translateY(100vh) rotate(0deg) scale(1);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.8;
+      }
+      50% {
+        transform: translateY(50vh) rotate(180deg) scale(1.2);
+      }
+      90% {
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateY(-20vh) rotate(360deg) scale(1);
+        opacity: 0;
+      }
+    }
+    
     body.pink .glass-card {
-      background: rgba(50, 25, 50, 0.8);
+      background: rgba(45, 25, 55, 0.7);
       backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 105, 180, 0.4);
-      box-shadow: 0 0 15px rgba(255, 105, 180, 0.2);
+      border: 1px solid rgba(255, 120, 180, 0.5);
+      box-shadow: 0 8px 25px rgba(255, 105, 180, 0.25);
+      border-radius: 32px;
+      position: relative;
+      overflow: hidden;
     }
+    
+    /* Декоративные сердечки на карточках для розовой темы */
+    body.pink .glass-card::before {
+      content: '🌸';
+      position: absolute;
+      bottom: 10px;
+      right: 15px;
+      font-size: 24px;
+      opacity: 0.15;
+      pointer-events: none;
+    }
+    
+    body.pink .glass-card::after {
+      content: '✨';
+      position: absolute;
+      top: 10px;
+      left: 15px;
+      font-size: 20px;
+      opacity: 0.15;
+      pointer-events: none;
+    }
+    
     body.pink .section-header {
-      background: linear-gradient(90deg, rgba(255,105,180,0.25), rgba(255,20,147,0.1));
-      border-left: 4px solid #ff69b4;
-      color: #ffe0f0;
-      text-shadow: 0 0 8px rgba(255,105,180,0.5);
+      background: linear-gradient(90deg, rgba(255,150,200,0.25), rgba(255,105,180,0.1));
+      border-left: 4px solid #ff88c8;
+      color: #ffe0f5;
+      text-shadow: 0 0 10px rgba(255,105,180,0.5);
+      font-weight: 700;
+      letter-spacing: 0.5px;
     }
+    
     body.pink .badge {
-      background: rgba(42, 26, 42, 0.9);
-      border: 1px solid #ff80bf;
-      color: #ffe0f0;
+      background: linear-gradient(135deg, rgba(60, 35, 65, 0.9), rgba(45, 25, 55, 0.9));
+      border: 1px solid #ffa0d0;
+      color: #ffe0f5;
       text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 12px rgba(255, 105, 180, 0.15);
     }
+    
     body.pink .badge:hover {
       border-color: #ff69b4;
-      box-shadow: 0 0 15px rgba(255, 105, 180, 0.4);
+      box-shadow: 0 0 20px rgba(255, 105, 180, 0.4);
+      transform: translateY(-3px) scale(1.02);
     }
+    
     body.pink .search-input, body.pink .draft-box {
-      background: rgba(42, 26, 42, 0.8);
-      color: #ffe0f0;
+      background: rgba(60, 35, 65, 0.7);
+      color: #ffe0f5;
+      border: 1px solid rgba(255, 150, 200, 0.3);
     }
+    
     body.pink select, body.pink .field input {
-      background: rgba(42, 26, 42, 0.8);
-      color: #ffe0f0;
-      border-color: #ff80bf;
+      background: rgba(60, 35, 65, 0.7);
+      color: #ffe0f5;
+      border-color: rgba(255, 150, 200, 0.4);
+    }
+    
+    body.pink .search-input::placeholder {
+      color: rgba(255, 200, 220, 0.6);
+    }
+    
+    body.pink .dropdown-list {
+      background: rgba(45, 25, 55, 0.95);
+      backdrop-filter: blur(12px);
+    }
+    
+    body.pink .theme-icon, body.pink .theme-trigger, body.pink .dropdown-btn {
+      background: linear-gradient(135deg, #ff88c8, #ff69b4);
+      box-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+    }
+    
+    body.pink .theme-icon:hover, body.pink .theme-trigger:hover {
+      box-shadow: 0 0 20px rgba(255, 105, 180, 0.8);
+    }
+    
+    body.pink .scroll-top {
+      background: linear-gradient(135deg, #ff88c8, #ff69b4);
+    }
+    
+    body.pink .scroll-top:hover {
+      box-shadow: 0 0 20px rgba(255, 105, 180, 0.6);
+    }
+    
+    body.pink .result-editable {
+      background: rgba(60, 35, 65, 0.6);
     }
 
+    /* Общие стили */
     .container {
       max-width: 1400px;
       margin: 0 auto;
@@ -220,6 +299,13 @@
       font-weight: 800;
       letter-spacing: -0.5px;
       background: linear-gradient(135deg, #fff 0%, #8b5cf6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    body.pink h1 {
+      background: linear-gradient(135deg, #ffc0e0 0%, #ff88c8 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -580,18 +666,11 @@
       margin-left: 8px;
       padding-bottom: 4px;
     }
-    
-    /* Улучшенная читаемость для всех тем */
-    body.dark .search-input::placeholder,
-    body.pink .search-input::placeholder {
-      color: rgba(255,255,255,0.5);
-    }
-    body.light .search-input::placeholder {
-      color: rgba(0,0,0,0.4);
-    }
   </style>
 </head>
 <body class="dark">
+<div class="theme-transition-overlay" id="themeTransitionOverlay"></div>
+
 <div class="container">
   <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 16px;">
     <h1>🚛 Уральск Онлайн</h1>
@@ -732,6 +811,24 @@
 <button class="scroll-top" id="scrollTopBtn">↑</button>
 
 <script>
+  // ========== АНИМИРОВАННЫЙ ПЕРЕХОД МЕЖДУ ТЕМАМИ ==========
+  const overlay = document.getElementById('themeTransitionOverlay');
+  
+  function animateThemeChange(theme) {
+    return new Promise((resolve) => {
+      overlay.style.opacity = '1';
+      setTimeout(() => {
+        document.body.classList.remove('dark', 'light', 'pink');
+        document.body.classList.add(theme);
+        localStorage.setItem('site-theme', theme);
+        setTimeout(() => {
+          overlay.style.opacity = '0';
+          resolve();
+        }, 300);
+      }, 200);
+    });
+  }
+
   // ========== ГЕНЕРАЦИЯ ЧАСТИЦ ==========
   function createParticles() {
     const particlesContainer = document.createElement('div');
@@ -817,17 +914,22 @@
     });
   }
 
-  // ========== ТЕМЫ (только 3) ==========
+  // ========== ТЕМЫ (с анимацией) ==========
   const applyTheme = (theme) => {
-    document.body.classList.remove('dark', 'light', 'pink');
-    document.body.classList.add(theme);
-    localStorage.setItem('site-theme', theme);
+    const currentTheme = document.body.classList.contains('dark') ? 'dark' : 
+                         document.body.classList.contains('light') ? 'light' : 'pink';
+    if (currentTheme === theme) return;
+    
+    animateThemeChange(theme);
   };
   
   document.querySelectorAll('.theme-icon').forEach(btn => {
     btn.addEventListener('click', () => applyTheme(btn.getAttribute('data-theme')));
   });
-  applyTheme(localStorage.getItem('site-theme') || 'dark');
+  
+  // Применяем сохранённую тему без анимации при загрузке
+  const savedTheme = localStorage.getItem('site-theme') || 'dark';
+  document.body.classList.add(savedTheme);
 
   // ========== НАВИГАЦИЯ ==========
   const tabs = ['table1', 'table2', 'table3'];
