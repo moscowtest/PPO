@@ -19,26 +19,19 @@
       min-height: 100vh;
     }
 
-    /* АНИМИРОВАННЫЙ ПЕРЕХОД МЕЖДУ ТЕМАМИ */
     .theme-transition-overlay {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: var(--transition-color, rgba(0,0,0,0.5));
+      background: rgba(0,0,0,0.5);
       z-index: 9999;
       pointer-events: none;
       opacity: 0;
       transition: opacity 0.4s ease;
     }
     
-    .theme-transition-overlay.active {
-      opacity: 1;
-      pointer-events: none;
-    }
-
-    /* ========== АНИМИРОВАННЫЙ ФОН ========== */
     body::before {
       content: '';
       position: fixed;
@@ -69,20 +62,10 @@
     }
     
     @keyframes floatParticle {
-      0% {
-        transform: translateY(100vh) rotate(0deg);
-        opacity: 0;
-      }
-      10% {
-        opacity: 1;
-      }
-      90% {
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(-20vh) rotate(360deg);
-        opacity: 0;
-      }
+      0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
     }
     
     /* ТЁМНАЯ ТЕМА */
@@ -108,7 +91,6 @@
       background: linear-gradient(135deg, #1e293b, #0f172a);
       border: 1px solid #3b4a6e;
       color: #e2e8f0;
-      text-shadow: 0 1px 2px rgba(0,0,0,0.2);
     }
     
     /* СВЕТЛАЯ ТЕМА */
@@ -136,143 +118,108 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     }
     
-    /* РОЗОВАЯ ТЕМА — АНИМЕ/ВАЙБ (с видимыми сердечками) */
-body.pink::before {
-  background: linear-gradient(145deg, #1a0b1a 0%, #2d1b2e 50%, #3d1f3d 100%);
-}
-body.pink .particle {
-  background: rgba(255, 150, 200, 0.6);
-  box-shadow: 0 0 12px rgba(255, 150, 200, 0.7);
-  animation: floatParticleHeart 8s linear infinite;
-}
-
-@keyframes floatParticleHeart {
-  0% {
-    transform: translateY(100vh) rotate(0deg) scale(1);
-    opacity: 0;
-  }
-  10% {
-    opacity: 0.9;
-  }
-  50% {
-    transform: translateY(50vh) rotate(180deg) scale(1.2);
-  }
-  90% {
-    opacity: 0.9;
-  }
-  100% {
-    transform: translateY(-20vh) rotate(360deg) scale(1);
-    opacity: 0;
-  }
-}
-
-body.pink .glass-card {
-  background: rgba(45, 25, 55, 0.75);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 120, 180, 0.6);
-  box-shadow: 0 8px 25px rgba(255, 105, 180, 0.3);
-  border-radius: 32px;
-  position: relative;
-  overflow: hidden;
-}
-
-/* ВИДИМЫЕ СЕРДЕЧКИ на карточках */
-body.pink .glass-card::before {
-  content: '💖';
-  position: absolute;
-  bottom: 12px;
-  right: 15px;
-  font-size: 28px;
-  opacity: 0.5;
-  pointer-events: none;
-  animation: heartbeat 2s ease infinite;
-  text-shadow: 0 0 8px rgba(255,105,180,0.8);
-}
-
-body.pink .glass-card::after {
-  content: '💗';
-  position: absolute;
-  top: 12px;
-  left: 15px;
-  font-size: 24px;
-  opacity: 0.5;
-  pointer-events: none;
-  animation: heartbeat 2.5s ease infinite reverse;
-  text-shadow: 0 0 8px rgba(255,105,180,0.8);
-}
-
-@keyframes heartbeat {
-  0% { transform: scale(1); opacity: 0.4; }
-  50% { transform: scale(1.2); opacity: 0.8; }
-  100% { transform: scale(1); opacity: 0.4; }
-}
-
-/* Дополнительные сердечки на бейджах */
-body.pink .badge {
-  background: linear-gradient(135deg, rgba(60, 35, 65, 0.95), rgba(45, 25, 55, 0.95));
-  border: 1px solid #ffa0d0;
-  color: #ffe0f5;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
-  box-shadow: 0 4px 12px rgba(255, 105, 180, 0.2);
-  position: relative;
-}
-
-body.pink .badge:hover {
-  border-color: #ff69b4;
-  box-shadow: 0 0 20px rgba(255, 105, 180, 0.5);
-  transform: translateY(-3px) scale(1.02);
-}
-
-body.pink .badge::before {
-  content: '💕';
-  position: absolute;
-  left: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 14px;
-  opacity: 0.7;
-  pointer-events: none;
-}
-
-body.pink .badge {
-  padding-left: 35px;
-}
-
-body.pink .section-header {
-  background: linear-gradient(90deg, rgba(255,150,200,0.3), rgba(255,105,180,0.15));
-  border-left: 4px solid #ff88c8;
-  color: #ffe0f5;
-  text-shadow: 0 0 10px rgba(255,105,180,0.6);
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  position: relative;
-}
-
-body.pink .section-header::after {
-  content: '🌸';
-  position: absolute;
-  right: 50px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 20px;
-  opacity: 0.6;
-  pointer-events: none;
-}
-
-body.pink h1 {
-  background: linear-gradient(135deg, #ffc0e0 0%, #ff88c8 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-    /* Общие стили */
+    /* РОЗОВАЯ ТЕМА */
+    body.pink::before {
+      background: linear-gradient(145deg, #1a0b1a 0%, #2d1b2e 50%, #3d1f3d 100%);
+    }
+    body.pink .particle {
+      background: rgba(255, 150, 200, 0.6);
+      box-shadow: 0 0 12px rgba(255, 150, 200, 0.7);
+      animation: floatParticleHeart 8s linear infinite;
+    }
+    @keyframes floatParticleHeart {
+      0% { transform: translateY(100vh) rotate(0deg) scale(1); opacity: 0; }
+      10% { opacity: 0.9; }
+      50% { transform: translateY(50vh) rotate(180deg) scale(1.2); }
+      90% { opacity: 0.9; }
+      100% { transform: translateY(-20vh) rotate(360deg) scale(1); opacity: 0; }
+    }
+    body.pink .glass-card {
+      background: rgba(45, 25, 55, 0.75);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 120, 180, 0.6);
+      box-shadow: 0 8px 25px rgba(255, 105, 180, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+    body.pink .glass-card::before {
+      content: '💖';
+      position: absolute;
+      bottom: 12px;
+      right: 15px;
+      font-size: 28px;
+      opacity: 0.5;
+      pointer-events: none;
+      animation: heartbeat 2s ease infinite;
+    }
+    body.pink .glass-card::after {
+      content: '💗';
+      position: absolute;
+      top: 12px;
+      left: 15px;
+      font-size: 24px;
+      opacity: 0.5;
+      pointer-events: none;
+      animation: heartbeat 2.5s ease infinite reverse;
+    }
+    @keyframes heartbeat {
+      0% { transform: scale(1); opacity: 0.4; }
+      50% { transform: scale(1.2); opacity: 0.8; }
+      100% { transform: scale(1); opacity: 0.4; }
+    }
+    body.pink .badge {
+      background: linear-gradient(135deg, rgba(60, 35, 65, 0.95), rgba(45, 25, 55, 0.95));
+      border: 1px solid #ffa0d0;
+      color: #ffe0f5;
+      position: relative;
+      padding-left: 35px;
+    }
+    body.pink .badge::before {
+      content: '💕';
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 14px;
+      opacity: 0.7;
+      pointer-events: none;
+    }
+    body.pink .section-header {
+      background: linear-gradient(90deg, rgba(255,150,200,0.3), rgba(255,105,180,0.15));
+      border-left: 4px solid #ff88c8;
+      color: #ffe0f5;
+      text-shadow: 0 0 10px rgba(255,105,180,0.6);
+      position: relative;
+    }
+    body.pink .section-header::after {
+      content: '🌸';
+      position: absolute;
+      right: 50px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 20px;
+      opacity: 0.6;
+    }
+    body.pink h1 {
+      background: linear-gradient(135deg, #ffc0e0 0%, #ff88c8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    body.pink .search-input, body.pink .draft-box {
+      background: rgba(60, 35, 65, 0.7);
+      color: #ffe0f5;
+    }
+    body.pink .theme-icon, body.pink .theme-trigger, body.pink .dropdown-btn {
+      background: linear-gradient(135deg, #ff88c8, #ff69b4);
+      box-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+    }
+    
     .container {
       max-width: 1400px;
       margin: 0 auto;
     }
     
-    /* АНИМИРОВАННЫЕ КАРТОЧКИ */
     .glass-card {
       border-radius: 32px;
       margin: 24px 0;
@@ -283,33 +230,27 @@ body.pink h1 {
     }
     
     @keyframes fadeSlideUp {
-      0% {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      0% { opacity: 0; transform: translateY(30px); }
+      100% { opacity: 1; transform: translateY(0); }
     }
     
     .glass-card:hover {
       transform: translateY(-4px);
     }
     
-    /* ШРИФТОВАЯ ИЕРАРХИЯ */
     h1 {
       font-size: 2rem;
       font-weight: 800;
       letter-spacing: -0.5px;
+    }
+    body.dark h1 {
       background: linear-gradient(135deg, #fff 0%, #8b5cf6 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
-    
-    body.pink h1 {
-      background: linear-gradient(135deg, #ffc0e0 0%, #ff88c8 100%);
+    body.light h1 {
+      background: linear-gradient(135deg, #1a3a2a 0%, #2e7d32 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -324,7 +265,6 @@ body.pink h1 {
       justify-content: space-between;
       align-items: center;
       user-select: none;
-      letter-spacing: -0.3px;
     }
     
     .badge {
@@ -345,7 +285,6 @@ body.pink h1 {
       overflow: hidden;
     }
     
-    /* RIPPLE-ЭФФЕКТ */
     .ripple {
       position: absolute;
       border-radius: 50%;
@@ -354,41 +293,25 @@ body.pink h1 {
       animation: rippleAnim 0.6s linear;
       pointer-events: none;
     }
-    
     @keyframes rippleAnim {
-      0% {
-        transform: scale(0);
-        opacity: 0.6;
-      }
-      100% {
-        transform: scale(4);
-        opacity: 0;
-      }
+      0% { transform: scale(0); opacity: 0.6; }
+      100% { transform: scale(4); opacity: 0; }
     }
     
-    .badge:active {
-      transform: scale(0.97);
-    }
+    .badge:active { transform: scale(0.97); }
+    .badge:hover { transform: translateY(-3px) scale(1.02); filter: brightness(1.03); }
     
-    .badge:hover {
-      transform: translateY(-3px) scale(1.02);
-      filter: brightness(1.03);
-    }
-    
-    /* ГРАДИЕНТНЫЕ КНОПКИ */
     .theme-trigger, .theme-icon, .dropdown-btn {
       background: linear-gradient(135deg, rgba(100, 108, 255, 0.8), rgba(139, 92, 246, 0.8));
       transition: all 0.3s ease;
       border: none;
     }
-    
     .theme-trigger:hover, .theme-icon:hover, .dropdown-btn:hover {
       background: linear-gradient(135deg, rgba(100, 108, 255, 1), rgba(139, 92, 246, 1));
       transform: scale(1.08);
       box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
     }
     
-    /* ПЛАВАЮЩАЯ КНОПКА НАВЕРХ */
     .scroll-top {
       position: fixed;
       bottom: 100px;
@@ -410,16 +333,8 @@ body.pink h1 {
       z-index: 999;
       box-shadow: 0 4px 15px rgba(0,0,0,0.3);
     }
-    
-    .scroll-top.show {
-      opacity: 1;
-      visibility: visible;
-    }
-    
-    .scroll-top:hover {
-      transform: translateY(-5px) scale(1.1);
-      box-shadow: 0 8px 25px rgba(139, 92, 246, 0.5);
-    }
+    .scroll-top.show { opacity: 1; visibility: visible; }
+    .scroll-top:hover { transform: translateY(-5px) scale(1.1); box-shadow: 0 8px 25px rgba(139, 92, 246, 0.5); }
     
     .copy-toast {
       position: fixed;
@@ -434,8 +349,6 @@ body.pink h1 {
       z-index: 2000;
       animation: fadeOut 1.5s ease forwards;
       pointer-events: none;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-      font-size: 1rem;
     }
     @keyframes fadeOut {
       0% { opacity: 1; transform: translateX(-50%) translateY(0); }
@@ -455,11 +368,6 @@ body.pink h1 {
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 28px;
       padding: 24px;
-    }
-    .tags-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-      gap: 8px;
     }
     .search-area {
       display: flex;
@@ -518,7 +426,6 @@ body.pink h1 {
       overflow-y: auto;
       z-index: 100;
       margin-top: 4px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
     }
     .autocomplete-list div {
       padding: 10px 16px;
@@ -527,9 +434,7 @@ body.pink h1 {
       border-radius: 16px;
       margin: 2px 4px;
     }
-    .autocomplete-list div:hover {
-      background: rgba(255,255,255,0.15);
-    }
+    .autocomplete-list div:hover { background: rgba(255,255,255,0.15); }
     button {
       background: rgba(100, 108, 255, 0.8);
       border: none;
@@ -538,8 +443,6 @@ body.pink h1 {
       color: white;
       font-weight: bold;
       cursor: pointer;
-      font-size: 0.95rem;
-      transition: 0.1s;
     }
     
     .result-editable {
@@ -555,9 +458,7 @@ body.pink h1 {
       border: 1px solid transparent;
       font-family: 'Fira Code', monospace;
     }
-    .result-editable:focus {
-      border-color: rgba(100, 108, 255, 0.5);
-    }
+    .result-editable:focus { border-color: rgba(100, 108, 255, 0.5); }
     
     .theme-arc {
       position: fixed;
@@ -570,10 +471,7 @@ body.pink h1 {
       border-radius: 60px;
       backdrop-filter: blur(16px);
       z-index: 1000;
-      flex-direction: row;
-      align-items: center;
     }
-    
     .theme-trigger {
       font-size: 24px;
       width: 48px;
@@ -584,23 +482,19 @@ body.pink h1 {
       align-items: center;
       justify-content: center;
     }
-    
     .themes-container {
       display: flex;
       gap: 8px;
       overflow: hidden;
       max-width: 0;
       opacity: 0;
-      transition: max-width 0.3s ease, opacity 0.25s ease, margin 0.2s ease;
-      margin-left: 0;
+      transition: max-width 0.3s ease, opacity 0.25s ease;
     }
-    
     .theme-arc:hover .themes-container {
       max-width: 200px;
       opacity: 1;
       margin-left: 8px;
     }
-    
     .theme-icon {
       font-size: 20px;
       width: 40px;
@@ -613,20 +507,9 @@ body.pink h1 {
       justify-content: center;
     }
     
-    .hidden-section {
-      display: none;
-    }
-    .dropdown {
-      position: relative;
-      display: inline-block;
-    }
-    .dropdown-btn {
-      padding: 10px 24px;
-      border-radius: 40px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
+    .hidden-section { display: none; }
+    .dropdown { position: relative; display: inline-block; }
+    .dropdown-btn { padding: 10px 24px; border-radius: 40px; font-size: 1rem; cursor: pointer; }
     .dropdown-list {
       display: none;
       position: absolute;
@@ -640,9 +523,7 @@ body.pink h1 {
       padding: 8px;
       z-index: 101;
     }
-    .dropdown-list.show {
-      display: block;
-    }
+    .dropdown-list.show { display: block; }
     .dropdown-list a {
       display: block;
       padding: 10px 16px;
@@ -651,18 +532,12 @@ body.pink h1 {
       text-decoration: none;
       cursor: pointer;
     }
-    .dropdown-list a:hover {
-      background: rgba(255,255,255,0.15);
-    }
+    .dropdown-list a:hover { background: rgba(255,255,255,0.15); }
     
     .search-result-item {
       background: rgba(255,255,255,0.08);
       border-radius: 16px;
       margin-bottom: 8px;
-      transition: 0.1s;
-    }
-    .search-result-item:hover {
-      background: rgba(255,255,255,0.15);
     }
     .search-category {
       font-size: 0.7rem;
@@ -688,7 +563,6 @@ body.pink h1 {
     </div>
   </div>
 
-  <!-- ТАБЛИЦА ППО -->
   <div id="tab-table1" class="tab-content">
     <div class="glass-card">
       <div class="section-header" id="legendToggleBtn">
@@ -742,39 +616,30 @@ body.pink h1 {
     <div class="glass-card"><div class="section-header">📢 Приветы</div><div class="items" id="cat-hello"></div></div>
   </div>
 
-  <!-- ПОИСК -->
   <div id="tab-table2" class="tab-content hidden-section">
     <div class="glass-card">
       <div class="search-area">
-        <input type="text" id="globalSearch" class="search-input" placeholder="🔍 Поиск по объявлениям: Жигуль 2101, квартира, Gucci, гриб...">
+        <input type="text" id="globalSearch" class="search-input" placeholder="🔍 Поиск по объявлениям...">
         <div class="draft-box" id="draftGlobal" contenteditable="true" placeholder="Черновик объявления"></div>
       </div>
       <div id="searchResultList" class="items" style="flex-direction: column; gap: 8px;"></div>
     </div>
   </div>
 
-  <!-- КОНСТРУКТОР -->
   <div id="tab-table3" class="tab-content hidden-section">
     <div class="glass-card">
       <div class="constructor-panel">
         <div class="field"><label>Действие</label><select id="constructorAction"><option>Куплю</option><option>Продам</option></select></div>
         <div class="field"><label>Тип</label>
           <select id="constructorType">
-            <option>а/м</option>
-            <option>квартиру</option>
-            <option>дом</option>
-            <option>мотоцикл</option>
-            <option>гриб</option>
-            <option>рыбу</option>
-            <option>руду</option>
-            <option>шкуру</option>
-            <option>бизнес</option>
-            <option>г/н</option>
+            <option>а/м</option><option>квартиру</option><option>дом</option><option>мотоцикл</option>
+            <option>гриб</option><option>рыбу</option><option>руду</option><option>шкуру</option>
+            <option>бизнес</option><option>г/н</option>
           </select>
         </div>
         <div class="field" style="position: relative;">
           <label>Модель/Название</label>
-          <input id="constructorModel" placeholder="Жигуль 2101, Подосиновик, Карп, Золотая руда" autocomplete="off">
+          <input id="constructorModel" placeholder="Жигуль 2101, Подосиновик, Карп..." autocomplete="off">
           <div id="autocompleteList" class="autocomplete-list" style="display: none;"></div>
         </div>
         <div class="field"><label>Тюнинг/Опции</label><select id="constructorTuning"><option value="">—</option><option>FT</option><option>ET</option><option>DT</option><option>Размер склада 5х36</option><option>Размер склада 10х50</option><option>г/м</option></select></div>
@@ -791,9 +656,7 @@ body.pink h1 {
         </div>
         <div class="field"><label>Торг/Обмен</label><select id="constructorTrade"><option value="">—</option><option>Возможен торг</option><option>Возможен обмен</option></select></div>
       </div>
-      
       <div id="constructedText" class="result-editable" contenteditable="true" data-placeholder="📋 Соберите или введите объявление вручную..."></div>
-      
       <div style="display: flex; justify-content: center; gap: 20px; padding-bottom: 24px;">
         <button id="generateConstructBtn">✨ Собрать</button>
         <button id="copyConstructBtn">📋 Копировать</button>
@@ -815,32 +678,11 @@ body.pink h1 {
 <button class="scroll-top" id="scrollTopBtn">↑</button>
 
 <script>
-  // ========== АНИМИРОВАННЫЙ ПЕРЕХОД МЕЖДУ ТЕМАМИ ==========
-  const overlay = document.getElementById('themeTransitionOverlay');
-  
-  function animateThemeChange(theme) {
-    return new Promise((resolve) => {
-      overlay.style.opacity = '1';
-      setTimeout(() => {
-        document.body.classList.remove('dark', 'light', 'pink');
-        document.body.classList.add(theme);
-        localStorage.setItem('site-theme', theme);
-        setTimeout(() => {
-          overlay.style.opacity = '0';
-          resolve();
-        }, 300);
-      }, 200);
-    });
-  }
-
-  // ========== ГЕНЕРАЦИЯ ЧАСТИЦ ==========
   function createParticles() {
     const particlesContainer = document.createElement('div');
     particlesContainer.className = 'particles';
     document.body.appendChild(particlesContainer);
-    
-    const particleCount = 40;
-    for (let i = 0; i < particleCount; i++) {
+    for (let i = 0; i < 40; i++) {
       const particle = document.createElement('div');
       particle.className = 'particle';
       const size = Math.random() * 3 + 2;
@@ -854,41 +696,6 @@ body.pink h1 {
   }
   createParticles();
 
-  // ========== RIPPLE-ЭФФЕКТ ==========
-  function addRipple(event, element) {
-    const ripple = document.createElement('span');
-    ripple.className = 'ripple';
-    const rect = element.getBoundingClientRect();
-    const size = Math.max(rect.width, rect.height);
-    ripple.style.width = ripple.style.height = size + 'px';
-    ripple.style.left = event.clientX - rect.left - size / 2 + 'px';
-    ripple.style.top = event.clientY - rect.top - size / 2 + 'px';
-    element.appendChild(ripple);
-    setTimeout(() => ripple.remove(), 600);
-  }
-  
-  document.addEventListener('click', (e) => {
-    const target = e.target.closest('.badge, button, .theme-icon, .theme-trigger, .dropdown-btn');
-    if (target) {
-      addRipple(e, target);
-    }
-  });
-
-  // ========== КНОПКА НАВЕРХ ==========
-  const scrollTopBtn = document.getElementById('scrollTopBtn');
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 300) {
-      scrollTopBtn.classList.add('show');
-    } else {
-      scrollTopBtn.classList.remove('show');
-    }
-  });
-  
-  scrollTopBtn.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
-
-  // ========== КОПИРОВАНИЕ ==========
   function copyToClipboard(text, event) {
     navigator.clipboard.writeText(text).then(() => {
       if(event && event.target) {
@@ -900,8 +707,6 @@ body.pink h1 {
       toast.innerText = '✅ Скопировано!';
       document.body.appendChild(toast);
       setTimeout(() => toast.remove(), 1500);
-    }).catch(() => {
-      alert('Не удалось скопировать');
     });
   }
 
@@ -914,28 +719,33 @@ body.pink h1 {
       };
       badge.addEventListener('click', handler);
       badge._copyHandler = handler;
-      badge.style.cursor = 'pointer';
     });
   }
 
-  // ========== ТЕМЫ (с анимацией) ==========
-  const applyTheme = (theme) => {
-    const currentTheme = document.body.classList.contains('dark') ? 'dark' : 
-                         document.body.classList.contains('light') ? 'light' : 'pink';
-    if (currentTheme === theme) return;
-    
-    animateThemeChange(theme);
-  };
-  
+  const overlay = document.getElementById('themeTransitionOverlay');
+  function animateThemeChange(theme) {
+    overlay.style.opacity = '1';
+    setTimeout(() => {
+      document.body.classList.remove('dark', 'light', 'pink');
+      document.body.classList.add(theme);
+      localStorage.setItem('site-theme', theme);
+      setTimeout(() => { overlay.style.opacity = '0'; }, 300);
+    }, 200);
+  }
+
   document.querySelectorAll('.theme-icon').forEach(btn => {
-    btn.addEventListener('click', () => applyTheme(btn.getAttribute('data-theme')));
+    btn.addEventListener('click', () => animateThemeChange(btn.getAttribute('data-theme')));
   });
-  
-  // Применяем сохранённую тему без анимации при загрузке
   const savedTheme = localStorage.getItem('site-theme') || 'dark';
   document.body.classList.add(savedTheme);
 
-  // ========== НАВИГАЦИЯ ==========
+  const scrollTopBtn = document.getElementById('scrollTopBtn');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 300) scrollTopBtn.classList.add('show');
+    else scrollTopBtn.classList.remove('show');
+  });
+  scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
   const tabs = ['table1', 'table2', 'table3'];
   function showTab(tabId) {
     tabs.forEach(t => document.getElementById(`tab-${t}`).classList.add('hidden-section'));
@@ -960,8 +770,7 @@ body.pink h1 {
       mainMenuList.classList.remove('show');
     });
   });
-  
-  // Легенда
+
   const legendToggle = document.getElementById('legendToggleBtn');
   const legendBlock = document.getElementById('legendBlock');
   let legendVisible = false;
@@ -971,7 +780,6 @@ body.pink h1 {
     legendToggle.querySelector('span').innerHTML = legendVisible ? '▲' : '▼';
   });
 
-  // ========== СПИСКИ ==========
   const carList = [
     "Жигуль 2101", "Жигуль 2105", "Жигуль 2106", "Жигуль 2107", "Жигуль 2108", "Жигуль 2112", "Жигуль 2112 Купе", "Жигуль 2114", "Жигуль 2115",
     "Фольц Гольф", "Жигуль Приора", "Буханка", "Жигуль Калина", "Жигуль Калина Спорт", "Аудио А4", "Бумер X5 E53", "Нивас Урбан", "Нивас 2121",
@@ -1011,6 +819,7 @@ body.pink h1 {
   const oreSell = руда.map(item => `Продам ${item}. Цена: Договорная.`);
   const oreBuy = руда.map(item => `Куплю ${item}. Бюджет: Свободный.`);
 
+  // ПОЛЕЗНОЕ (с перенесённым Трудоустроюсь)
   const usefulUniversal = [
     "Куплю любой бизнес. Бюджет: Свободный.",
     "Продам любой бизнес. Цена: Договорная.",
@@ -1025,7 +834,8 @@ body.pink h1 {
     "Продам квартиру в любом районе. Цена: Договорная.",
     "Продам дом в любом районе. Цена: Договорная.",
     "Куплю любую сумку. Бюджет: Свободный.",
-    "Куплю любую одежду. Бюджет: Свободный."
+    "Куплю любую одежду. Бюджет: Свободный.",
+    "Трудоустроюсь в транспортную компанию. Звоните!"  
   ];
 
   const usefulRules = [
@@ -1076,7 +886,14 @@ body.pink h1 {
     "biz-sell": [],
     "gn-buy": [],
     "gn-sell": [],
-    "service": ["Трудоустроюсь в транспортную компанию. Звоните!"],
+    "service": [  // НОВЫЕ УСЛУГИ
+      "Требуются услуги разнорабочего. Звоните!",
+      "Требуются услуги водителя. Звоните!",
+      "Требуются услуги грузоперевозок. Звоните!",
+      "Требуются услуги диджея. Звоните!",
+      "Требуются услуги фотографа. Звоните!",
+      "Требуются услуги опытного адвоката. Звоните!"
+    ],
     "hello": helloList
   };
   
@@ -1111,11 +928,7 @@ body.pink h1 {
     for (const [category, ads] of Object.entries(adsCatalog)) {
       for (const ad of ads) {
         if (ad && ad.trim() !== "") {
-          allAds.push({
-            text: ad,
-            category: category,
-            categoryName: categoryNames[category] || category
-          });
+          allAds.push({ text: ad, category: category, categoryName: categoryNames[category] || category });
         }
       }
     }
@@ -1132,9 +945,7 @@ body.pink h1 {
   function renderAllAds() {
     for (const [key, arr] of Object.entries(adsCatalog)) {
       const container = document.getElementById(`cat-${key}`);
-      if(container) {
-        container.innerHTML = arr.map(text => `<span class="badge">${text}</span>`).join('');
-      }
+      if(container) container.innerHTML = arr.map(text => `<span class="badge">${text}</span>`).join('');
     }
     bindCopyToBadges();
   }
@@ -1142,26 +953,18 @@ body.pink h1 {
 
   const searchInput = document.getElementById('globalSearch');
   const resultDiv = document.getElementById('searchResultList');
-  
   searchInput.addEventListener('input', (e) => {
     const query = e.target.value.trim();
     if (!query) {
-      resultDiv.innerHTML = '<div style="padding: 12px; text-align: center;">🔍 Введите слово для поиска по объявлениям<br><span style="font-size: 0.8rem; opacity: 0.7;">Например: Жигуль 2101, Подосиновик, Карп, Руда</span></div>';
+      resultDiv.innerHTML = '<div style="padding: 12px; text-align: center;">🔍 Введите слово для поиска...</div>';
       return;
     }
-    
     const results = searchAds(query);
-    
     if (results.length > 0) {
-      resultDiv.innerHTML = results.map(ad => `
-        <div class="search-result-item">
-          <span class="badge" style="display: block; width: 100%; text-align: left;">${ad.text}</span>
-          <div class="search-category">📁 ${ad.categoryName}</div>
-        </div>
-      `).join('');
+      resultDiv.innerHTML = results.map(ad => `<div class="search-result-item"><span class="badge" style="display: block; width: 100%; text-align: left;">${ad.text}</span><div class="search-category">📁 ${ad.categoryName}</div></div>`).join('');
       bindCopyToBadges();
     } else {
-      resultDiv.innerHTML = '<div style="padding: 12px; text-align: center;">❌ Ничего не найдено<br><span style="font-size: 0.8rem; opacity: 0.7;">Попробуйте другие ключевые слова</span></div>';
+      resultDiv.innerHTML = '<div style="padding: 12px; text-align: center;">❌ Ничего не найдено</div>';
     }
   });
 
@@ -1172,39 +975,23 @@ body.pink h1 {
     for (const item of рыба) models.push(item);
     for (const item of шкура) models.push(item);
     for (const item of руда) models.push(item);
-    const refModels = ['iPhone 15 Pro Max', 'Samsung S24', 'MacBook', 'Rolex', 'PlayStation 5', 'RU', 'KZ', 'BY'];
-    return [...new Set([...models, ...refModels])];
+    return [...new Set(models)];
   }
   
   const modelSuggestions = getAllModelNames();
   const modelInput = document.getElementById('constructorModel');
   const autocompleteList = document.getElementById('autocompleteList');
-  
   modelInput.addEventListener('input', (e) => {
     const value = e.target.value.toLowerCase().trim();
-    if (value.length < 2) {
-      autocompleteList.style.display = 'none';
-      return;
-    }
+    if (value.length < 2) { autocompleteList.style.display = 'none'; return; }
     const filtered = modelSuggestions.filter(s => s.toLowerCase().includes(value));
     if (filtered.length > 0) {
       autocompleteList.innerHTML = filtered.map(s => `<div onclick="selectModel('${s.replace(/'/g, "\\'")}')">${s}</div>`).join('');
       autocompleteList.style.display = 'block';
-    } else {
-      autocompleteList.style.display = 'none';
-    }
+    } else { autocompleteList.style.display = 'none'; }
   });
-  
-  window.selectModel = (model) => {
-    modelInput.value = model;
-    autocompleteList.style.display = 'none';
-  };
-  
-  document.addEventListener('click', (e) => {
-    if (e.target !== modelInput) {
-      autocompleteList.style.display = 'none';
-    }
-  });
+  window.selectModel = (model) => { modelInput.value = model; autocompleteList.style.display = 'none'; };
+  document.addEventListener('click', (e) => { if (e.target !== modelInput) autocompleteList.style.display = 'none'; });
 
   const genBtn = document.getElementById('generateConstructBtn');
   const copyConstruct = document.getElementById('copyConstructBtn');
@@ -1212,48 +999,38 @@ body.pink h1 {
   const constructedDivElem = document.getElementById('constructedText');
   const actionSelect = document.getElementById('constructorAction');
   const priceSelect = document.getElementById('constructorPrice');
-  const typeSelect = document.getElementById('constructorType');
   
   function isAnyModel(model) {
     const anyWords = ['любой', 'любую', 'любая', 'любое', 'любого'];
     return anyWords.some(word => model.toLowerCase().includes(word));
   }
   
-  function formatPrice(priceValue, action, model, type) {
+  function formatPrice(priceValue, action, model) {
     if (!priceValue) return '';
     if (priceValue === 'Договорная') return `Цена: Договорная.`;
     if (priceValue === 'Свободный') return `Бюджет: Свободный.`;
     if (isAnyModel(model)) return `Цена: Договорная.`;
-    if (action === 'Продам') return `Цена: ${priceValue}.`;
-    return `Бюджет: ${priceValue}.`;
+    return action === 'Продам' ? `Цена: ${priceValue}.` : `Бюджет: ${priceValue}.`;
   }
   
   genBtn.addEventListener('click', () => {
     const action = actionSelect.value;
-    let type = typeSelect.value;
+    let type = document.getElementById('constructorType').value;
     let model = document.getElementById('constructorModel').value.trim();
     const tuning = document.getElementById('constructorTuning').value;
     const priceValue = priceSelect.value;
     const trade = document.getElementById('constructorTrade').value;
-    
     let parts = [action, type];
     if(model) parts.push(model);
     if(tuning && tuning !== '—') parts.push(tuning + '.');
-    const priceText = formatPrice(priceValue, action, model, type);
+    const priceText = formatPrice(priceValue, action, model);
     if(priceText) parts.push(priceText);
     if(trade && trade !== '—') parts.push(trade + '.');
-    
     constructedDivElem.innerText = parts.join(' ') || (action + " " + type);
   });
   
-  copyConstruct.addEventListener('click', () => {
-    copyToClipboard(constructedDivElem.innerText, { target: copyConstruct });
-  });
-  
-  clearConstruct.addEventListener('click', () => {
-    constructedDivElem.innerText = '';
-    constructedDivElem.focus();
-  });
+  copyConstruct.addEventListener('click', () => copyToClipboard(constructedDivElem.innerText, { target: copyConstruct }));
+  clearConstruct.addEventListener('click', () => { constructedDivElem.innerText = ''; constructedDivElem.focus(); });
 
   document.querySelectorAll('.glass-card .section-header').forEach(header => {
     if(header.id === 'legendToggleBtn') return;
