@@ -165,20 +165,33 @@
       padding: 20px 24px;
       display: flex;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 16px;
     }
+    
+    /* НОВЫЙ ДИЗАЙН ОБЪЯВЛЕНИЙ — КВАДРАТНЫЕ, КРУПНЫЕ */
     .badge {
-      padding: 8px 18px;
-      border-radius: 40px;
-      font-size: 0.9rem;
-      font-weight: 500;
+      padding: 16px 24px;
+      border-radius: 20px;
+      font-size: 1rem;
+      font-weight: 600;
       cursor: pointer;
-      transition: all 0.1s ease;
+      transition: all 0.15s ease;
       backdrop-filter: blur(2px);
+      min-width: 240px;
+      max-width: 380px;
+      flex: 1 0 auto;
+      text-align: center;
+      line-height: 1.4;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
     .badge:active {
-      transform: scale(0.96);
+      transform: scale(0.97);
     }
+    .badge:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.05);
+    }
+    
     .copy-toast {
       position: fixed;
       bottom: 100px;
@@ -474,21 +487,14 @@
           </div>
           <div class="legend-col">
             <h3>🏢 Жилые комплексы (ЖК)</h3>
-            <div class="tags-list">
-             
-            </div>
+            <div class="tags-list"></div>
             <h3>🏠 Дома</h3>
-            <div class="tags-list">
-             
-            </div>
+            <div class="tags-list"></div>
           </div>
           <div class="legend-col">
             <h3>👔 Бренды</h3>
-            
             <h3>🚗 Марки авто</h3>
-          
             <h3>📦 Предметы</h3>
-    
           </div>
         </div>
       </div>
@@ -509,7 +515,6 @@
     <div class="glass-card"><div class="section-header">🎲 Госномера (Продам)</div><div class="items" id="cat-gn-sell"></div></div>
     <div class="glass-card"><div class="section-header">🔧 Услуги</div><div class="items" id="cat-service"></div></div>
     <div class="glass-card"><div class="section-header">📢 Приветы</div><div class="items" id="cat-hello"></div></div>
-    <div class="glass-card"><div class="section-header">📋 Полезное</div><div class="items" id="cat-useful"></div></div>
   </div>
 
   <!-- ПОИСК -->
@@ -573,11 +578,9 @@
   <div id="tab-table4" class="tab-content hidden-section">
     <div class="glass-card">
       <div class="section-header">
-        📋 Правила и предупреждения
+        📋 Полезное
       </div>
-      <div class="items" id="cat-useful-tab">
-        <!-- Содержимое будет скопировано из cat-useful -->
-      </div>
+      <div class="items" id="cat-useful-tab"></div>
     </div>
   </div>
 </div>
@@ -715,23 +718,23 @@
     ...руда.map(item => `Куплю "${item}". Бюджет: Свободный.`)
   ];
 
-  // Универсальные объявления (любой)
-  const anyAds = {
-    "auto-buy": ["Куплю любой а/м. Бюджет: Свободный."],
-    "auto-sell": ["Продам любой а/м. Цена: Договорная."],
-    "moto-buy": ["Куплю любой мотоцикл. Бюджет: Свободный."],
-    "moto-sell": ["Продам любой мотоцикл. Цена: Договорная."],
-    "home-buy": ["Куплю квартиру в любом районе. Бюджет: Свободный.", "Куплю дом в любом районе. Бюджет: Свободный."],
-    "home-sell": ["Продам квартиру в любом районе. Цена: Договорная.", "Продам дом в любом районе. Цена: Договорная."],
-    "biz-buy": ["Куплю любой бизнес. Бюджет: Свободный."],
-    "biz-sell": ["Продам любой бизнес. Цена: Договорная."],
-    "cloth-buy": ["Куплю любую сумку. Бюджет: Свободный.", "Куплю любую одежду. Бюджет: Свободный."],
-    "cloth-sell": ["Продам любую сумку. Цена: Договорная.", "Продам любую одежду. Цена: Договорная."],
-    "items-buy": ["Куплю любую рыбу. Бюджет: Свободный."],
-    "items-sell": ["Продам любую рыбу. Цена: Договорная."],
-    "gn-buy": ["Куплю любой г/н RU. Бюджет: Свободный.", "Куплю любой г/н KZ. Бюджет: Свободный.", "Куплю любой г/н BY. Бюджет: Свободный."],
-    "gn-sell": ["Продам любой г/н RU. Цена: Договорная.", "Продам любой г/н KZ. Цена: Договорная.", "Продам любой г/н BY. Цена: Договорная."]
-  };
+  // Универсальные объявления (любой) — ТОЛЬКО В ПОЛЕЗНОЕ
+  const usefulUniversal = [
+    "Куплю любой бизнес. Бюджет: Свободный.",
+    "Продам любой бизнес. Цена: Договорная.",
+    "Куплю любой г/н RU. Бюджет: Свободный.",
+    "Куплю любой г/н KZ. Бюджет: Свободный.",
+    "Куплю любой г/н BY. Бюджет: Свободный.",
+    "Продам любой г/н RU. Цена: Договорная.",
+    "Продам любой г/н KZ. Цена: Договорная.",
+    "Продам любой г/н BY. Цена: Договорная.",
+    "Куплю квартиру в любом районе. Бюджет: Свободный.",
+    "Куплю дом в любом районе. Бюджет: Свободный.",
+    "Продам квартиру в любом районе. Цена: Договорная.",
+    "Продам дом в любом районе. Цена: Договорная.",
+    "Куплю любую сумку. Бюджет: Свободный.",
+    "Куплю любую одежду. Бюджет: Свободный."
+  ];
 
   // Приветы
   const helloList = [
@@ -745,8 +748,8 @@
     "Передаю привет семье \"Есенины\"."
   ];
 
-  // Полезное
-  const usefulList = [
+  // Полезное (правила + универсальные объявления)
+  const usefulRules = [
     "⚠️ Аналогичное объявление только один раз в пять минут.",
     "❌ Некорректное объявление.",
     "📢 Для рекламы семьи/фракции/мероприятия вам нужно купить рекламу в Уральск Лайв.",
@@ -759,24 +762,27 @@
     "💼 Трудоустроюсь. О себе: по телефону."
   ];
 
+  const usefulFull = [...usefulUniversal, ...usefulRules];
+
+  // Остальные разделы без универсальных объявлений
   const adsCatalog = {
-    "auto-buy": [...autoBuy, ...anyAds["auto-buy"]],
-    "auto-sell": [...autoSell, ...anyAds["auto-sell"]],
-    "home-buy": [...anyAds["home-buy"]],
-    "home-sell": [...anyAds["home-sell"]],
-    "cloth-buy": [...anyAds["cloth-buy"]],
-    "cloth-sell": [...anyAds["cloth-sell"]],
-    "moto-buy": [...anyAds["moto-buy"]],
-    "moto-sell": [...anyAds["moto-sell"]],
-    "items-buy": [...itemsBuy, ...anyAds["items-buy"]],
-    "items-sell": [...itemsSell, ...anyAds["items-sell"]],
-    "biz-buy": anyAds["biz-buy"],
-    "biz-sell": anyAds["biz-sell"],
-    "gn-buy": anyAds["gn-buy"],
-    "gn-sell": anyAds["gn-sell"],
+    "auto-buy": autoBuy,
+    "auto-sell": autoSell,
+    "home-buy": [],
+    "home-sell": [],
+    "cloth-buy": [],
+    "cloth-sell": [],
+    "moto-buy": [],
+    "moto-sell": [],
+    "items-buy": itemsBuy,
+    "items-sell": itemsSell,
+    "biz-buy": [],
+    "biz-sell": [],
+    "gn-buy": [],
+    "gn-sell": [],
     "service": ["Трудоустроюсь в транспортную компанию. Звоните!"],
     "hello": helloList,
-    "useful": usefulList
+    "useful": usefulFull
   };
   
   const categoryNames = {
