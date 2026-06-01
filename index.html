@@ -452,6 +452,7 @@
         <a data-tab="table1">📖 Таблица ППО</a>
         <a data-tab="table2">🔍 Поисковик</a>
         <a data-tab="table3">⚡ Конструктор</a>
+        <a data-tab="table4">📋 Полезное</a>
       </div>
     </div>
   </div>
@@ -502,8 +503,13 @@
     <div class="glass-card"><div class="section-header">🏍 Мото/вело</div><div class="items" id="cat-moto-buy"></div></div>
     <div class="glass-card"><div class="section-header">📦 Предметы (Куплю)</div><div class="items" id="cat-items-buy"></div></div>
     <div class="glass-card"><div class="section-header">📦 Предметы (Продам)</div><div class="items" id="cat-items-sell"></div></div>
+    <div class="glass-card"><div class="section-header">💼 Бизнес (Куплю)</div><div class="items" id="cat-biz-buy"></div></div>
+    <div class="glass-card"><div class="section-header">💼 Бизнес (Продам)</div><div class="items" id="cat-biz-sell"></div></div>
+    <div class="glass-card"><div class="section-header">🎲 Госномера (Куплю)</div><div class="items" id="cat-gn-buy"></div></div>
+    <div class="glass-card"><div class="section-header">🎲 Госномера (Продам)</div><div class="items" id="cat-gn-sell"></div></div>
     <div class="glass-card"><div class="section-header">🔧 Услуги</div><div class="items" id="cat-service"></div></div>
     <div class="glass-card"><div class="section-header">📢 Приветы</div><div class="items" id="cat-hello"></div></div>
+    <div class="glass-card"><div class="section-header">📋 Полезное</div><div class="items" id="cat-useful"></div></div>
   </div>
 
   <!-- ПОИСК -->
@@ -529,6 +535,8 @@
             <option>дом</option>
             <option>мотоцикл</option>
             <option>предмет</option>
+            <option>бизнес</option>
+            <option>г/н</option>
           </select>
         </div>
         <div class="field" style="position: relative;">
@@ -557,6 +565,18 @@
         <button id="generateConstructBtn">✨ Собрать</button>
         <button id="copyConstructBtn">📋 Копировать</button>
         <button id="clearConstructBtn">🗑 Очистить</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ПОЛЕЗНОЕ -->
+  <div id="tab-table4" class="tab-content hidden-section">
+    <div class="glass-card">
+      <div class="section-header">
+        📋 Правила и предупреждения
+      </div>
+      <div class="items" id="cat-useful-tab">
+        <!-- Содержимое будет скопировано из cat-useful -->
       </div>
     </div>
   </div>
@@ -616,7 +636,7 @@
   applyTheme(localStorage.getItem('site-theme') || 'dark');
 
   // ========== НАВИГАЦИЯ ==========
-  const tabs = ['table1', 'table2', 'table3'];
+  const tabs = ['table1', 'table2', 'table3', 'table4'];
   function showTab(tabId) {
     tabs.forEach(t => document.getElementById(`tab-${t}`).classList.add('hidden-section'));
     document.getElementById(`tab-${tabId}`).classList.remove('hidden-section');
@@ -651,7 +671,7 @@
     legendToggle.querySelector('span').innerHTML = legendVisible ? '▲' : '▼';
   });
 
-  // ========== ОБЪЯВЛЕНИЯ (ОБНОВЛЁННЫЙ СПИСОК АВТОМОБИЛЕЙ) ==========
+  // ========== ОБЪЯВЛЕНИЯ ==========
   const carList = [
     "Жигуль 2101", "Жигуль 2105", "Жигуль 2106", "Жигуль 2107", "Жигуль 2108", "Жигуль 2112", "Жигуль 2112 Купе", "Жигуль 2114", "Жигуль 2115",
     "Фольц Гольф", "Жигуль Приора", "Буханка", "Жигуль Калина", "Жигуль Калина Спорт", "Аудио А4", "Бумер X5 E53", "Нивас Урбан", "Нивас 2121",
@@ -672,17 +692,15 @@
     "Мерс ГТ Блек серия 2021", "Ролс Фантом", "Мерс 6x6 Г900 Рокет", "Фордец ГТ", "Конигсек Агера РС", "Конигсек Гемера", "Буггита Диво", "Ламбо Венено"
   ];
 
-  // Формируем объявления для продажи и покупки
   const autoSell = carList.map(car => `Продам а/м ${car}. Цена: 1.000.000 рублей.`);
   const autoBuy = carList.map(car => `Куплю а/м ${car}. Бюджет: 1.000.000 рублей.`);
 
-  // ========== НОВЫЕ ПРЕДМЕТЫ (ГРИБЫ, РЫБА, ШКУРА, РУДА) ==========
+  // Предметы
   const грибы = ["Волнушка", "Опёнок", "Подосиновик", "Маслёнок", "Шампиньон"];
   const рыба = ["Карп", "Карась", "Семга", "Щука", "Скумбрия", "Форель", "Кунджа", "Камбала", "Тунец", "Корюшка", "Осётр", "Судак", "Окунь", "Дорадо", "Пиранья", "Угорь", "Сельдь", "Лосось", "Черный амур", "Палтус", "Крылатка", "Скат", "Красноперка", "Пескарь", "Сол", "Бычок", "Линь", "Лещ", "Плотва", "Морская камбала"];
   const шкура = ["Шкура кролика", "Шкура свиньи", "Шкура кайота", "Шкура оленя", "Шкура коровы", "Шкура пумы", "Шкура кабана"];
   const руда = ["Никелевая руда", "Медная руда", "Железная руда", "Кремниевая руда", "Хромовая руда", "Серебряная руда", "Марганцевая руда", "Золотая руда", "Оловянная руда"];
 
-  // Формируем объявления для предметов (продажа)
   const itemsSell = [
     ...грибы.map(item => `Продам "${item}". Цена: Договорная.`),
     ...рыба.map(item => `Продам "${item}". Цена: Договорная.`),
@@ -690,7 +708,6 @@
     ...руда.map(item => `Продам "${item}". Цена: Договорная.`)
   ];
   
-  // Формируем объявления для предметов (покупка) — БЮДЖЕТ: СВОБОДНЫЙ
   const itemsBuy = [
     ...грибы.map(item => `Куплю "${item}". Бюджет: Свободный.`),
     ...рыба.map(item => `Куплю "${item}". Бюджет: Свободный.`),
@@ -698,18 +715,68 @@
     ...руда.map(item => `Куплю "${item}". Бюджет: Свободный.`)
   ];
 
+  // Универсальные объявления (любой)
+  const anyAds = {
+    "auto-buy": ["Куплю любой а/м. Бюджет: Свободный."],
+    "auto-sell": ["Продам любой а/м. Цена: Договорная."],
+    "moto-buy": ["Куплю любой мотоцикл. Бюджет: Свободный."],
+    "moto-sell": ["Продам любой мотоцикл. Цена: Договорная."],
+    "home-buy": ["Куплю квартиру в любом районе. Бюджет: Свободный.", "Куплю дом в любом районе. Бюджет: Свободный."],
+    "home-sell": ["Продам квартиру в любом районе. Цена: Договорная.", "Продам дом в любом районе. Цена: Договорная."],
+    "biz-buy": ["Куплю любой бизнес. Бюджет: Свободный."],
+    "biz-sell": ["Продам любой бизнес. Цена: Договорная."],
+    "cloth-buy": ["Куплю любую сумку. Бюджет: Свободный.", "Куплю любую одежду. Бюджет: Свободный."],
+    "cloth-sell": ["Продам любую сумку. Цена: Договорная.", "Продам любую одежду. Цена: Договорная."],
+    "items-buy": ["Куплю любую рыбу. Бюджет: Свободный."],
+    "items-sell": ["Продам любую рыбу. Цена: Договорная."],
+    "gn-buy": ["Куплю любой г/н RU. Бюджет: Свободный.", "Куплю любой г/н KZ. Бюджет: Свободный.", "Куплю любой г/н BY. Бюджет: Свободный."],
+    "gn-sell": ["Продам любой г/н RU. Цена: Договорная.", "Продам любой г/н KZ. Цена: Договорная.", "Продам любой г/н BY. Цена: Договорная."]
+  };
+
+  // Приветы
+  const helloList = [
+    "Передаю привет сотрудникам ГКБ!",
+    "Передаю привет сотрудникам УВД!",
+    "Передаю привет сотрудникам ГИБДД!",
+    "Передаю привет сотрудникам ФСБ!",
+    "Передаю привет сотрудникам МВД!",
+    "Передаю привет сотрудникам ВС РФ!",
+    "Передаю привет Ивану Иванову!",
+    "Передаю привет семье \"Есенины\"."
+  ];
+
+  // Полезное
+  const usefulList = [
+    "⚠️ Аналогичное объявление только один раз в пять минут.",
+    "❌ Некорректное объявление.",
+    "📢 Для рекламы семьи/фракции/мероприятия вам нужно купить рекламу в Уральск Лайв.",
+    "🎲 Азартные игры запрещены в объявлении.",
+    "🚫 Запрещенные предметы/услуги запрещены в объявлении.",
+    "🔍 Ищу человека по имени Иван Иванов. Найдись!",
+    "💕 Ищу девушку для с/о. О себе: При встрече.",
+    "💕 Ищу парня для с/о. О себе: При встрече.",
+    "👨‍👩‍👧 Ищу семью! Просьба позвонить!",
+    "💼 Трудоустроюсь. О себе: по телефону."
+  ];
+
   const adsCatalog = {
-    "auto-buy":   autoBuy,
-    "auto-sell":  autoSell,
-    "home-buy":   ["Куплю ЖК Центральный", "Куплю особняк", "Куплю квартиру в центре"],
-    "home-sell":  ["Продам ЖК Московский", "Продам таунхаус", "Продам частный дом"],
-    "cloth-buy":  ["Куплю Gucci свитер", "Куплю Nike кроссовки"],
-    "cloth-sell": ["Продам Adidas худи", "Продам LV сумку"],
-    "moto-buy":   ["Куплю Harley Davidson", "Куплю Yamaha R1"],
-    "items-buy":  itemsBuy,
-    "items-sell": itemsSell,
-    "service":    ["Трудоустроюсь в транспортную компанию. Звоните!"],
-    "hello":      ["Привет фракции Уральск Лайв!"]
+    "auto-buy": [...autoBuy, ...anyAds["auto-buy"]],
+    "auto-sell": [...autoSell, ...anyAds["auto-sell"]],
+    "home-buy": [...anyAds["home-buy"]],
+    "home-sell": [...anyAds["home-sell"]],
+    "cloth-buy": [...anyAds["cloth-buy"]],
+    "cloth-sell": [...anyAds["cloth-sell"]],
+    "moto-buy": [...anyAds["moto-buy"]],
+    "moto-sell": [...anyAds["moto-sell"]],
+    "items-buy": [...itemsBuy, ...anyAds["items-buy"]],
+    "items-sell": [...itemsSell, ...anyAds["items-sell"]],
+    "biz-buy": anyAds["biz-buy"],
+    "biz-sell": anyAds["biz-sell"],
+    "gn-buy": anyAds["gn-buy"],
+    "gn-sell": anyAds["gn-sell"],
+    "service": ["Трудоустроюсь в транспортную компанию. Звоните!"],
+    "hello": helloList,
+    "useful": usefulList
   };
   
   const categoryNames = {
@@ -720,10 +787,16 @@
     "cloth-buy": "👕 Куплю одежду",
     "cloth-sell": "👚 Продам одежду",
     "moto-buy": "🏍 Мото/вело",
+    "moto-sell": "🏍 Продам мото",
     "items-buy": "📦 Куплю предметы",
     "items-sell": "📦 Продам предметы",
+    "biz-buy": "💼 Куплю бизнес",
+    "biz-sell": "💼 Продам бизнес",
+    "gn-buy": "🎲 Куплю г/н",
+    "gn-sell": "🎲 Продам г/н",
     "service": "🔧 Услуги",
-    "hello": "📢 Приветы"
+    "hello": "📢 Приветы",
+    "useful": "📋 Полезное"
   };
   
   function getAllAds() {
@@ -756,6 +829,11 @@
         container.innerHTML = arr.map(text => `<span class="badge">${text}</span>`).join('');
       }
     }
+    // Копируем полезное в отдельную вкладку
+    const usefulContainer = document.getElementById('cat-useful-tab');
+    if(usefulContainer && adsCatalog["useful"]) {
+      usefulContainer.innerHTML = adsCatalog["useful"].map(text => `<span class="badge">${text}</span>`).join('');
+    }
     bindCopyToBadges();
   }
   renderAllAds();
@@ -786,35 +864,12 @@
     }
   });
 
-  // ========== АВТОПОДСТАНОВКА ДЛЯ КОНСТРУКТОРА (ПОЛНЫЕ НАЗВАНИЯ) ==========
+  // ========== АВТОПОДСТАНОВКА ==========
   function getAllModelNames() {
     const models = [];
-    
-    // Добавляем все названия автомобилей из списка (полностью)
-    for (const car of carList) {
-      models.push(car);
-    }
-    
-    // Добавляем названия из других разделов
-    const otherCategories = ['home-buy', 'home-sell', 'cloth-buy', 'cloth-sell', 'moto-buy', 'items-buy', 'items-sell'];
-    for (const category of otherCategories) {
-      if (adsCatalog[category]) {
-        for (const text of adsCatalog[category]) {
-          const match = text.match(/(?:Куплю|Продам)\s+(?:квартиру|дом|предмет|мотоцикл|")(.+?)(?:\.|"|$)/);
-          if (match && match[1]) {
-            models.push(match[1].trim());
-          }
-        }
-      }
-    }
-    
-    // Добавляем справочные названия для предметов
-    const refModels = [
-      'ЖК Центральный', 'ЖК Московский', 'особняк', 'таунхаус', 'частный дом', 'коттедж',
-      'iPhone 15 Pro Max', 'Samsung S24', 'MacBook', 'Rolex', 'PlayStation 5', 'AirPods Pro', 'RTX 4090',
-      ...грибы, ...рыба, ...шкура, ...руда
-    ];
-    
+    for (const car of carList) models.push(car);
+    for (const item of [...грибы, ...рыба, ...шкура, ...руда]) models.push(item);
+    const refModels = ['iPhone 15 Pro Max', 'Samsung S24', 'MacBook', 'Rolex', 'PlayStation 5', 'RU', 'KZ', 'BY'];
     return [...new Set([...models, ...refModels])];
   }
   
@@ -864,23 +919,11 @@
   
   function formatPrice(priceValue, action, model, type) {
     if (!priceValue) return '';
-    
-    if (priceValue === 'Договорная') {
-      return `Цена: Договорная.`;
-    }
-    if (priceValue === 'Свободный') {
-      return `Бюджет: Свободный.`;
-    }
-    
-    if (isAnyModel(model)) {
-      return `Цена: Договорная.`;
-    }
-    
-    if (action === 'Продам') {
-      return `Цена: ${priceValue}.`;
-    } else {
-      return `Бюджет: ${priceValue}.`;
-    }
+    if (priceValue === 'Договорная') return `Цена: Договорная.`;
+    if (priceValue === 'Свободный') return `Бюджет: Свободный.`;
+    if (isAnyModel(model)) return `Цена: Договорная.`;
+    if (action === 'Продам') return `Цена: ${priceValue}.`;
+    return `Бюджет: ${priceValue}.`;
   }
   
   genBtn.addEventListener('click', () => {
@@ -891,42 +934,23 @@
     const priceValue = priceSelect.value;
     const trade = document.getElementById('constructorTrade').value;
     
-    if (type === 'предмет') {
-      type = action === 'Куплю' ? 'предмет' : 'предмет';
-    }
-    
     let parts = [action, type];
-    
     if(model) parts.push(model);
     if(tuning && tuning !== '—') parts.push(tuning + '.');
-    
     const priceText = formatPrice(priceValue, action, model, type);
     if(priceText) parts.push(priceText);
-    
     if(trade && trade !== '—') parts.push(trade + '.');
     
-    const final = parts.join(' ') || (action + " " + type);
-    constructedDivElem.innerText = final;
+    constructedDivElem.innerText = parts.join(' ') || (action + " " + type);
   });
   
   copyConstruct.addEventListener('click', () => {
-    const textToCopy = constructedDivElem.innerText;
-    if (textToCopy && textToCopy.trim()) {
-      copyToClipboard(textToCopy, { target: copyConstruct });
-    } else {
-      copyToClipboard(constructedDivElem.innerText || "📋 Соберите или введите объявление", { target: copyConstruct });
-    }
+    copyToClipboard(constructedDivElem.innerText, { target: copyConstruct });
   });
   
   clearConstruct.addEventListener('click', () => {
     constructedDivElem.innerText = '';
     constructedDivElem.focus();
-  });
-  
-  constructedDivElem.addEventListener('focus', () => {
-    if (constructedDivElem.innerText === '📋 Соберите или введите объявление вручную...') {
-      constructedDivElem.innerText = '';
-    }
   });
 
   // сворачивание секций
