@@ -465,7 +465,6 @@
         <a data-tab="table1">📖 Таблица ППО</a>
         <a data-tab="table2">🔍 Поисковик</a>
         <a data-tab="table3">⚡ Конструктор</a>
-        <a data-tab="table4">📋 Полезное</a>
       </div>
     </div>
   </div>
@@ -499,6 +498,9 @@
         </div>
       </div>
     </div>
+
+    <!-- ПОЛЕЗНОЕ — САМЫЙ ПЕРВЫЙ РАЗДЕЛ ПОСЛЕ СПРАВОЧНИКА -->
+    <div class="glass-card"><div class="section-header">📋 Полезное</div><div class="items" id="cat-useful"></div></div>
 
     <div class="glass-card"><div class="section-header">💰 Куплю автомобиль</div><div class="items" id="cat-auto-buy"></div></div>
     <div class="glass-card"><div class="section-header">💸 Продам автомобиль</div><div class="items" id="cat-auto-sell"></div></div>
@@ -573,16 +575,6 @@
       </div>
     </div>
   </div>
-
-  <!-- ПОЛЕЗНОЕ -->
-  <div id="tab-table4" class="tab-content hidden-section">
-    <div class="glass-card">
-      <div class="section-header">
-        📋 Полезное
-      </div>
-      <div class="items" id="cat-useful-tab"></div>
-    </div>
-  </div>
 </div>
 
 <div class="theme-arc">
@@ -639,7 +631,7 @@
   applyTheme(localStorage.getItem('site-theme') || 'dark');
 
   // ========== НАВИГАЦИЯ ==========
-  const tabs = ['table1', 'table2', 'table3', 'table4'];
+  const tabs = ['table1', 'table2', 'table3'];
   function showTab(tabId) {
     tabs.forEach(t => document.getElementById(`tab-${t}`).classList.add('hidden-section'));
     document.getElementById(`tab-${tabId}`).classList.remove('hidden-section');
@@ -718,7 +710,7 @@
     ...руда.map(item => `Куплю "${item}". Бюджет: Свободный.`)
   ];
 
-  // Универсальные объявления (любой) — ТОЛЬКО В ПОЛЕЗНОЕ
+  // Полезное (правила + универсальные объявления)
   const usefulUniversal = [
     "Куплю любой бизнес. Бюджет: Свободный.",
     "Продам любой бизнес. Цена: Договорная.",
@@ -736,6 +728,21 @@
     "Куплю любую одежду. Бюджет: Свободный."
   ];
 
+  const usefulRules = [
+    "Аналогичное объявление только один раз в пять минут.",
+    "Некорректное объявление.",
+    "Для рекламы семьи/фракции/мероприятия вам нужно купить рекламу в Уральск Лайв.",
+    "Азартные игры запрещены в объявлении.",
+    "Запрещенные предметы/услуги запрещены в объявлении.",
+    "Ищу человека по имени Иван Иванов. Найдись!",
+    "Ищу девушку для с/о. О себе: При встрече.",
+    "Ищу парня для с/о. О себе: При встрече.",
+    "Ищу семью! Просьба позвонить!",
+    "Трудоустроюсь. О себе: по телефону."
+  ];
+
+  const usefulFull = [...usefulUniversal, ...usefulRules];
+
   // Приветы
   const helloList = [
     "Передаю привет сотрудникам ГКБ!",
@@ -748,24 +755,9 @@
     "Передаю привет семье \"Есенины\"."
   ];
 
-  // Полезное (правила + универсальные объявления)
-  const usefulRules = [
-    "⚠️ Аналогичное объявление только один раз в пять минут.",
-    "❌ Некорректное объявление.",
-    "📢 Для рекламы семьи/фракции/мероприятия вам нужно купить рекламу в Уральск Лайв.",
-    "🎲 Азартные игры запрещены в объявлении.",
-    "🚫 Запрещенные предметы/услуги запрещены в объявлении.",
-    "🔍 Ищу человека по имени Иван Иванов. Найдись!",
-    "💕 Ищу девушку для с/о. О себе: При встрече.",
-    "💕 Ищу парня для с/о. О себе: При встрече.",
-    "👨‍👩‍👧 Ищу семью! Просьба позвонить!",
-    "💼 Трудоустроюсь. О себе: по телефону."
-  ];
-
-  const usefulFull = [...usefulUniversal, ...usefulRules];
-
-  // Остальные разделы без универсальных объявлений
+  // Остальные разделы (без универсальных объявлений)
   const adsCatalog = {
+    "useful": usefulFull,
     "auto-buy": autoBuy,
     "auto-sell": autoSell,
     "home-buy": [],
@@ -781,11 +773,11 @@
     "gn-buy": [],
     "gn-sell": [],
     "service": ["Трудоустроюсь в транспортную компанию. Звоните!"],
-    "hello": helloList,
-    "useful": usefulFull
+    "hello": helloList
   };
   
   const categoryNames = {
+    "useful": "📋 Полезное",
     "auto-buy": "💰 Куплю авто",
     "auto-sell": "💸 Продам авто",
     "home-buy": "🏠 Куплю недвижимость",
@@ -801,8 +793,7 @@
     "gn-buy": "🎲 Куплю г/н",
     "gn-sell": "🎲 Продам г/н",
     "service": "🔧 Услуги",
-    "hello": "📢 Приветы",
-    "useful": "📋 Полезное"
+    "hello": "📢 Приветы"
   };
   
   function getAllAds() {
@@ -834,11 +825,6 @@
       if(container) {
         container.innerHTML = arr.map(text => `<span class="badge">${text}</span>`).join('');
       }
-    }
-    // Копируем полезное в отдельную вкладку
-    const usefulContainer = document.getElementById('cat-useful-tab');
-    if(usefulContainer && adsCatalog["useful"]) {
-      usefulContainer.innerHTML = adsCatalog["useful"].map(text => `<span class="badge">${text}</span>`).join('');
     }
     bindCopyToBadges();
   }
