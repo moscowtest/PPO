@@ -361,7 +361,7 @@
       line-height: 1.6;
     }
     
-    /* ========== КНОПКИ НАВИГАЦИИ (Таблица ППО, Поисковик, Конструктор) ========== */
+    /* ========== НАВИГАЦИЯ (ВЫПАДАЮЩЕЕ МЕНЮ) ========== */
     .dropdown-list {
       position: absolute;
       right: 0;
@@ -372,6 +372,10 @@
       min-width: 210px;
       padding: 8px;
       z-index: 101;
+      display: none;
+    }
+    .dropdown-list.show {
+      display: block;
     }
     body.dark .dropdown-list {
       background: rgba(20, 20, 40, 0.95);
@@ -410,7 +414,6 @@
     .dropdown-list a:hover {
       background: rgba(255,255,255,0.15);
     }
-    .dropdown-list.show { display: block; }
     
     .badge {
       padding: 16px 24px;
@@ -910,31 +913,41 @@
   });
   scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
+  // ========== ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК ==========
   const tabs = ['table1', 'table2', 'table3'];
   function showTab(tabId) {
     tabs.forEach(t => document.getElementById(`tab-${t}`).classList.add('hidden-section'));
     document.getElementById(`tab-${tabId}`).classList.remove('hidden-section');
   }
   
+  // ========== НАВИГАЦИЯ (ИСПРАВЛЕНА — МЕНЮ ЗАКРЫВАЕТСЯ) ==========
   const mainMenuBtn = document.getElementById('mainMenuBtn');
   const mainMenuList = document.getElementById('mainMenuList');
+
+  // Открытие/закрытие по кнопке
   mainMenuBtn.addEventListener('click', (e) => {
     e.stopPropagation();
     mainMenuList.classList.toggle('show');
   });
+
+  // Закрытие при клике вне меню
   document.addEventListener('click', (e) => {
     if (!mainMenuBtn.contains(e.target) && !mainMenuList.contains(e.target)) {
       mainMenuList.classList.remove('show');
     }
   });
+
+  // Обработка выбора раздела + закрытие меню
   document.querySelectorAll('#mainMenuList a').forEach(link => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
-      showTab(link.getAttribute('data-tab'));
-      mainMenuList.classList.remove('show');
+      const tabId = link.getAttribute('data-tab');
+      showTab(tabId);
+      mainMenuList.classList.remove('show'); // Закрываем меню
     });
   });
 
+  // Легенда (сворачивание/разворачивание)
   const legendToggle = document.getElementById('legendToggleBtn');
   const legendBlock = document.getElementById('legendBlock');
   let legendVisible = false;
@@ -942,6 +955,34 @@
     legendVisible = !legendVisible;
     legendBlock.style.display = legendVisible ? 'block' : 'none';
     legendToggle.querySelector('span').innerHTML = legendVisible ? '▲' : '▼';
+  });
+
+  // ========== СВОРАЧИВАНИЕ СЕКЦИЙ С ОБЪЯВЛЕНИЯМИ (ИСПРАВЛЕНО) ==========
+  document.querySelectorAll('.glass-card .section-header').forEach(header => {
+    if (header.id === 'legendToggleBtn') return;
+    
+    const itemsDiv = header.parentElement.querySelector('.items');
+    if (!itemsDiv) return;
+    
+    // Создаём иконку-стрелку, если её нет
+    let toggleIcon = header.querySelector('.toggle-icon');
+    if (!toggleIcon) {
+      toggleIcon = document.createElement('span');
+      toggleIcon.className = 'toggle-icon';
+      toggleIcon.innerHTML = '▲';
+      header.appendChild(toggleIcon);
+    }
+    
+    // Устанавливаем начальное состояние
+    itemsDiv.style.display = 'flex';
+    toggleIcon.innerHTML = '▲';
+    
+    header.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isVisible = itemsDiv.style.display !== 'none';
+      itemsDiv.style.display = isVisible ? 'none' : 'flex';
+      toggleIcon.innerHTML = isVisible ? '▼' : '▲';
+    });
   });
 
   const carList = [
@@ -1201,14 +1242,6 @@
   
   copyConstruct.addEventListener('click', () => copyToClipboard(constructedDivElem.innerText, { target: copyConstruct }));
   clearConstruct.addEventListener('click', () => { constructedDivElem.innerText = ''; constructedDivElem.focus(); });
-
-  document.querySelectorAll('.glass-card .section-header').forEach(header => {
-    if(header.id === 'legendToggleBtn') return;
-    header.addEventListener('click', () => {
-      const content = header.parentElement.querySelector('.items');
-      if(content) content.style.display = content.style.display === 'none' ? 'flex' : 'none';
-    });
-  });
 </script>
 </body>
 </html>
