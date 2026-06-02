@@ -87,6 +87,10 @@
       border: 1px solid #3b4a6e;
       color: #e2e8f0;
     }
+    body.dark .legend-col,
+    body.dark .legend-col h3 {
+      color: #e2e8f0;
+    }
     
     /* СВЕТЛАЯ ТЕМА */
     body.light::before {
@@ -106,6 +110,10 @@
       border: 1px solid #c8e6c9;
       color: #1a3a2a;
       box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    body.light .legend-col,
+    body.light .legend-col h3 {
+      color: #1a3a2a;
     }
     
     /* РОЗОВАЯ ТЕМА */
@@ -182,6 +190,11 @@
       background: linear-gradient(135deg, #ff88c8, #ff69b4);
       box-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
     }
+    body.pink .legend-col,
+    body.pink .legend-col h3 {
+      color: #ffe0f5;
+      text-shadow: 0 0 2px rgba(0,0,0,0.2);
+    }
     
     /* ЧЁРНАЯ ТЕМА (SKULL) */
     body.black::before {
@@ -241,8 +254,9 @@
     body.black .result-editable {
       background: rgba(20, 20, 25, 0.6);
     }
-    body.black .dropdown-list {
-      background: rgba(15, 15, 20, 0.95);
+    body.black .legend-col,
+    body.black .legend-col h3 {
+      color: #d0d0d8;
     }
 
     .container {
@@ -298,7 +312,7 @@
       background-clip: text;
     }
     
-    /* ========== ЗАГОЛОВКИ РАЗДЕЛОВ — ВИДИМЫЕ ВО ВСЕХ ТЕМАХ ========== */
+    /* ========== ЗАГОЛОВКИ РАЗДЕЛОВ ========== */
     .section-header {
       font-size: 1.5rem;
       font-weight: 700;
@@ -311,21 +325,18 @@
       letter-spacing: -0.3px;
     }
 
-    /* ТЁМНАЯ ТЕМА */
     body.dark .section-header {
       background: linear-gradient(90deg, rgba(139,92,246,0.25) 0%, rgba(59,130,246,0.1) 100%);
       border-left: 4px solid #8b5cf6;
       color: #f0f0ff;
     }
 
-    /* СВЕТЛАЯ ТЕМА */
     body.light .section-header {
       background: linear-gradient(90deg, #e8f5e9, #ffffff);
       border-left: 4px solid #2e7d32;
       color: #1a3a2a;
     }
 
-    /* РОЗОВАЯ ТЕМА — БЕЛЫЙ ТЕКСТ ДЛЯ ЧИТАЕМОСТИ */
     body.pink .section-header {
       background: linear-gradient(90deg, rgba(255,150,200,0.5), rgba(255,105,180,0.25));
       border-left: 4px solid #ff88c8;
@@ -333,13 +344,73 @@
       text-shadow: 0 0 3px rgba(0,0,0,0.3);
     }
 
-    /* ЧЁРНАЯ ТЕМА — СВЕТЛО-СЕРЫЙ ТЕКСТ */
     body.black .section-header {
       background: linear-gradient(90deg, rgba(120,120,140,0.4), rgba(70,70,90,0.2));
       border-left: 4px solid #aaa;
       color: #f0f0f0;
       text-shadow: 0 0 3px rgba(0,0,0,0.5);
     }
+    
+    /* ========== СПРАВОЧНИК ========== */
+    .legend-col h3 {
+      font-size: 1.2rem;
+      margin-bottom: 12px;
+      font-weight: 700;
+    }
+    .legend-col {
+      line-height: 1.6;
+    }
+    
+    /* ========== КНОПКИ НАВИГАЦИИ (Таблица ППО, Поисковик, Конструктор) ========== */
+    .dropdown-list {
+      position: absolute;
+      right: 0;
+      top: 100%;
+      margin-top: 8px;
+      backdrop-filter: blur(12px);
+      border-radius: 28px;
+      min-width: 210px;
+      padding: 8px;
+      z-index: 101;
+    }
+    body.dark .dropdown-list {
+      background: rgba(20, 20, 40, 0.95);
+    }
+    body.light .dropdown-list {
+      background: rgba(240, 245, 240, 0.95);
+    }
+    body.pink .dropdown-list {
+      background: rgba(45, 25, 55, 0.95);
+    }
+    body.black .dropdown-list {
+      background: rgba(15, 15, 20, 0.95);
+    }
+    
+    .dropdown-list a {
+      display: block;
+      padding: 10px 16px;
+      border-radius: 30px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    body.dark .dropdown-list a {
+      color: #e2e8f0;
+    }
+    body.light .dropdown-list a {
+      color: #1a3a2a;
+    }
+    body.pink .dropdown-list a {
+      color: #ffe0f5;
+      text-shadow: 0 0 2px rgba(0,0,0,0.2);
+    }
+    body.black .dropdown-list a {
+      color: #d0d0d8;
+    }
+    .dropdown-list a:hover {
+      background: rgba(255,255,255,0.15);
+    }
+    .dropdown-list.show { display: block; }
     
     .badge {
       padding: 16px 24px;
@@ -584,29 +655,6 @@
     .hidden-section { display: none; }
     .dropdown { position: relative; display: inline-block; }
     .dropdown-btn { padding: 10px 24px; border-radius: 40px; font-size: 1rem; cursor: pointer; }
-    .dropdown-list {
-      display: none;
-      position: absolute;
-      right: 0;
-      top: 100%;
-      margin-top: 8px;
-      background: rgba(20, 20, 40, 0.95);
-      backdrop-filter: blur(12px);
-      border-radius: 28px;
-      min-width: 210px;
-      padding: 8px;
-      z-index: 101;
-    }
-    .dropdown-list.show { display: block; }
-    .dropdown-list a {
-      display: block;
-      padding: 10px 16px;
-      border-radius: 30px;
-      color: inherit;
-      text-decoration: none;
-      cursor: pointer;
-    }
-    .dropdown-list a:hover { background: rgba(255,255,255,0.15); }
     
     .search-result-item {
       background: rgba(255,255,255,0.08);
